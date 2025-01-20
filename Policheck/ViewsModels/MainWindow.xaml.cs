@@ -20,5 +20,19 @@ namespace Policheck
         {
             InitializeComponent();
         }
+        private void btnEntrar(object sender, RoutedEventArgs e)
+        {
+            string placa = txtPlaca.Text;
+            string pass = txtPass.Text;
+
+            if (string.IsNullOrWhiteSpace(placa) || string.IsNullOrWhiteSpace(pass))
+            {
+                MessageBox.Show("Por favor, complete ambos campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+        }
+
+      
+
     }
 }
