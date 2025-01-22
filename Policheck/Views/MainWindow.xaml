@@ -6,35 +6,57 @@
         xmlns:local="clr-namespace:Policheck"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="Beige">
-    <Grid Width="800" Height="450">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-      
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="30"
+
+    <DockPanel>
+        <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Visibility="Hidden" Height="25">
+            <MenuItem Header="DatosPersonales" FontSize="15">
+                <MenuItem Header="Mis Datos"></MenuItem>
+                <MenuItem Header="Alta Funcionario"></MenuItem>
+                <MenuItem Header="Modificar Funcionario"></MenuItem>
+                <MenuItem Header="Deshabilitar Funcionario"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ciudadano" FontSize="15"></MenuItem>
+            <MenuItem Header="Denuncia" FontSize="15"></MenuItem>
+            <MenuItem Header="Ver" FontSize="15"></MenuItem>
+        </Menu>
+
+
+
+
+        <Grid Width="800" Height="450" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28*"></RowDefinition>
+                <RowDefinition Height="85*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+                <RowDefinition Height="56*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Name="brdr_Login" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="10,10,10,10"
                 BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White" >
-            <StackPanel Margin="10" >
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="20"></Label>
-                <TextBox x:Name="txtPlaca" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"></TextBox>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Contraseña" FontSize="20"></Label>
-                <TextBox x:Name="txtPass" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"></TextBox>
-                <Button Click="btnEntrar" Content="Entrar" Width="150" Margin="10" Background="LightCoral"></Button>
-            </StackPanel>
-        </Border>
-    </Grid>
+                <StackPanel Margin="10" >
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29"></Label>
+                    <TextBox x:Name="txtPlaca" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"></TextBox>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Contraseña"  FontSize="28"></Label>
+                    <PasswordBox x:Name="txtPass" Height="20" Width="150" />
+                    <Button Name="btn_Entrar" Click="BtnEntrar" Content="Entrar" Width="150" Height="30" Margin="30" Background="LightCoral" FontSize="18" ></Button>
+                </StackPanel>
+            </Border>
+
+
+
+
+        </Grid>
+    </DockPanel>
 </Window>

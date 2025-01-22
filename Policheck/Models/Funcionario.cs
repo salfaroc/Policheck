@@ -8,7 +8,20 @@ namespace Policheck.Models
 {
     internal class Funcionario
     {
-        public int Placa { get; set; }
-        public int Pass { get; set; }
+
+        private static int NPlaca;
+        private string Pass;
+
+        public int Placa {
+
+            get { return NPlaca; }
+            set { NPlaca = value; }
+
+        }
+        public string Contrasenna
+        {
+            get { return Pass; }
+            set { Pass = value; }
+        }
     }
 }
