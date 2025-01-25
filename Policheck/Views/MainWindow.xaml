@@ -8,16 +8,28 @@
         Title="MainWindow" Height="450" Width="800" Background="Beige">
 
     <DockPanel>
-        <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Visibility="Hidden" Height="25">
+        <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Height="25" Visibility="Hidden">
             <MenuItem Header="DatosPersonales" FontSize="15">
-                <MenuItem Header="Mis Datos"></MenuItem>
+                <MenuItem Header="Mis Datos" Click="Btn_Perfil"></MenuItem>
                 <MenuItem Header="Alta Funcionario"></MenuItem>
                 <MenuItem Header="Modificar Funcionario"></MenuItem>
                 <MenuItem Header="Deshabilitar Funcionario"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Ciudadano" FontSize="15"></MenuItem>
-            <MenuItem Header="Denuncia" FontSize="15"></MenuItem>
-            <MenuItem Header="Ver" FontSize="15"></MenuItem>
+            <MenuItem Header="Ciudadano" FontSize="15">
+                <MenuItem Header="Alta ciudadano"></MenuItem>
+                <MenuItem Header="Modificar ciudadano"></MenuItem>
+                <MenuItem Header="Eliminar ciudadano"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Denuncia" FontSize="15">
+                <MenuItem Header="Nueva denuncia"></MenuItem>
+                <MenuItem Header="Modificar Denuncia"></MenuItem>
+                <MenuItem Header="Eliminar Denuncia"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ver" FontSize="15">
+                <MenuItem Header="Ver Ciudadanos"></MenuItem>
+                <MenuItem Header="Ver Denuncias"></MenuItem>
+
+            </MenuItem>
         </Menu>
 
 
@@ -25,10 +37,11 @@
 
         <Grid Width="800" Height="450" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="63*"></ColumnDefinition>
+                <ColumnDefinition Width="137*"/>
+                <ColumnDefinition Width="200*"></ColumnDefinition>
+                <ColumnDefinition Width="200*"></ColumnDefinition>
+                <ColumnDefinition Width="200*"></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -42,8 +55,8 @@
                 <RowDefinition Height="56*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Border Name="brdr_Login" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="10,10,10,10"
-                BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White" >
+            <Border Name="brdr_Login" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="10,10,10,10"
+                BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White" d:IsHidden="True" >
                 <StackPanel Margin="10" >
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29"></Label>
@@ -53,6 +66,38 @@
                     <Button Name="btn_Entrar" Click="BtnEntrar" Content="Entrar" Width="150" Height="30" Margin="30" Background="LightCoral" FontSize="18" ></Button>
                 </StackPanel>
             </Border>
+
+
+
+            <TextBox Name="txtbx_Telefono" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.RowSpan="2" Margin="0,46,0,0" Grid.ColumnSpan="2" Visibility="Hidden"/>
+            <TextBox Name="txtbx_Nombre" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden"/>
+            <TextBox Name="txtbx_Dni" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_FechNac" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_1Apell" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2" Grid.RowSpan="2" Visibility="Hidden"/>
+            <PasswordBox Name="pswd_contra" HorizontalAlignment="Center" Grid.Row="3"   VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden"/>
+            <TextBox  Name="txtbx_Rango" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_Turno" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_2Apellido" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden"/>
+            <TextBox Name="txtbx_Genero" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_Correo" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_NPlaca" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="4"  Grid.RowSpan="2" Visibility="Hidden" />
+            <TextBox Name="txtbx_Distrito" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2" Grid.RowSpan="2" Visibility="Hidden" />
+            <Image Name="img_Perfil" Grid.Column="4"  Height="131" Grid.Row="1" VerticalAlignment="Top" Grid.RowSpan="4" Source="/Views/fotoperfil.png" Margin="0,85,0,0" Visibility="Hidden"  />
+            <Label x:Name="lbl_NumeroPlaca" Grid.Column="4" Content="NºPlaca" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_SegundoApellido" Grid.Column="3" Content="Segundo Apellido" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Margin="0,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
+            <Label x:Name="lbl_PrimerApellido" Grid.Column="2" Content="Primer Apellido" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Margin="0,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
+            <Label x:Name="lbl_Nombre" Content="Nombre" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Margin="10,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
+            <Label x:Name="lbl_DNI" Content="DNI" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Margin="22,0,0,0" Visibility="Hidden"/>
+            <Label x:Name="lbl_Contrasena" Grid.Column="2" Content="Contraseña" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_Genero" Grid.Column="3" Content="Genero" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_FechaNacimiento" Content="Fecha Nacimiento" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Grid.ColumnSpan="2" Visibility="Hidden"/>
+            <Label x:Name="lbl_Rango" Grid.Column="2" Content="Rango" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_Correo" Grid.Column="3" Content="Correo" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_Telefono" Content="Telefono" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Grid.Column="1" Margin="9,0,0,0" Visibility="Hidden"/>
+            <Label x:Name="lbl_Distrito" Grid.Column="2" Content="Distrito" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_Turno" Grid.Column="3" Content="Turno" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="lbl_VerMisMeritos" Grid.Column="4" Content="Ver mis meritos" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Button Name="btn_Meritos" Grid.Column="4" Content="VER" HorizontalAlignment="Center"  Grid.Row="5" VerticalAlignment="Center" Grid.RowSpan="2" Width="72" Background="White" Visibility="Hidden"/>
 
 
 

@@ -21,14 +21,32 @@ namespace Policheck
         {
             try
             {
+               
                 _conn = new MySqlConnection(_cadena);
-                _cmd = new MySqlCommand();
+                _conn.Open(); 
+                Console.WriteLine("Conexión establecida con el puerto 3309.");
+                _conn.Close();
             }
-            catch
+            catch (MySqlException ex1)
             {
-                _conn = new MySqlConnection(_cadena2);
-                _cmd = new MySqlCommand();
-            }    
+                Console.WriteLine($"Error en la conexión con el puerto 3309: {ex1.Message}");
+
+                try
+                {
+                    
+                    _conn = new MySqlConnection(_cadena2);
+                    _conn.Open(); 
+                    Console.WriteLine("Conexión establecida con el puerto 3306.");
+                    _conn.Close();
+                }
+                catch (MySqlException ex2)
+                {
+
+                    Console.WriteLine($"Error en la conexión con el puerto 3306: {ex2.Message}");
+                    throw new Exception("No se pudo establecer la conexión con ninguna de las cadenas proporcionadas.");
+                }
+            }
+          
         }
 
         //public void List<Funcionario> ObtenerFuncionarios()
@@ -65,6 +83,7 @@ namespace Policheck
             {
                 _conn.Open();
                 _cmd = new MySqlCommand();
+                MainWindow mainWindow = new MainWindow(_cmd);
                 _cmd.Connection = _conn;
                 _cmd.CommandType = CommandType.StoredProcedure;
                 _cmd.CommandText = "InicioSesion";

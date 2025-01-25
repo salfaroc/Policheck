@@ -63,5 +63,47 @@ namespace Policheck
         }
 
 
+        private void Btn_Perfil(object sender, RoutedEventArgs e) {
+           Formulario_Perfil();
+        
+            
+        
+        
+        }
+
+        private void Formulario_Perfil()
+        {
+            lbl_NumeroPlaca.Visibility = Visibility.Visible;
+            lbl_SegundoApellido.Visibility = Visibility.Visible;
+            lbl_PrimerApellido.Visibility = Visibility.Visible;
+            lbl_Nombre.Visibility = Visibility.Visible;
+            lbl_DNI.Visibility = Visibility.Visible;
+            lbl_Contrasena.Visibility = Visibility.Visible;
+            lbl_Genero.Visibility = Visibility.Visible;
+            lbl_FechaNacimiento.Visibility = Visibility.Visible;
+            lbl_Rango.Visibility = Visibility.Visible;
+            lbl_Correo.Visibility = Visibility.Visible;
+            lbl_Telefono.Visibility = Visibility.Visible;
+            lbl_Distrito.Visibility = Visibility.Visible;
+            lbl_Turno.Visibility = Visibility.Visible;
+            lbl_VerMisMeritos.Visibility = Visibility.Visible;
+
+            txtbx_Telefono.Visibility = Visibility.Visible;
+            txtbx_Nombre.Visibility = Visibility.Visible;
+            txtbx_Dni.Visibility = Visibility.Visible;
+            txtbx_FechNac.Visibility = Visibility.Visible;
+            txtbx_1Apell.Visibility = Visibility.Visible;
+            pswd_contra.Visibility = Visibility.Visible;
+            txtbx_Rango.Visibility = Visibility.Visible;
+            txtbx_Turno.Visibility = Visibility.Visible;
+            txtbx_2Apellido.Visibility = Visibility.Visible;
+            txtbx_Genero.Visibility = Visibility.Visible;
+            txtbx_Correo.Visibility = Visibility.Visible;
+            txtbx_NPlaca.Visibility = Visibility.Visible;
+            txtbx_Distrito.Visibility = Visibility.Visible;
+            img_Perfil.Visibility = Visibility.Visible;
+            btn_Meritos.Visibility = Visibility.Visible;
+        }
+
     }
 }
