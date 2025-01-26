@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using Policheck.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace Policheck
 {
@@ -16,7 +20,8 @@ namespace Policheck
         private string _cadena2 = "server=127.0.0.1;uid=root;pwd=1234;database=policheck;port=3306";
         private MySqlConnection _conn;
         MySqlCommand _cmd;
-
+        private int valida = 0;
+        private string clave;
         public AcDatos()
         {
             try
@@ -26,10 +31,12 @@ namespace Policheck
                 _conn.Open(); 
                 Console.WriteLine("Conexión establecida con el puerto 3309.");
                 _conn.Close();
+                valida = 1;
             }
             catch (MySqlException ex1)
             {
                 Console.WriteLine($"Error en la conexión con el puerto 3309: {ex1.Message}");
+               
 
                 try
                 {
@@ -38,6 +45,7 @@ namespace Policheck
                     _conn.Open(); 
                     Console.WriteLine("Conexión establecida con el puerto 3306.");
                     _conn.Close();
+                    valida = 2;
                 }
                 catch (MySqlException ex2)
                 {
@@ -46,9 +54,32 @@ namespace Policheck
                     throw new Exception("No se pudo establecer la conexión con ninguna de las cadenas proporcionadas.");
                 }
             }
+            if (valida == 1)
+            {
+
+                clave = _cadena;
+
+
+            }
+            else if (valida == 2) { 
+
+                clave = _cadena2;
+            }
           
         }
 
+
+        
+
+
+        public string ClaveAcceso
+        {
+            get { return clave.ToString(); }
+            
+        }
+
+
+        
         //public void List<Funcionario> ObtenerFuncionarios()
         //{
         //    Funcionario aux;
@@ -72,7 +103,7 @@ namespace Policheck
         //    return funcionarios;
 
         //}
-    
+
 
         public int PA_InicioSesion(int nPlaca, string contrasenna)
         {
@@ -83,7 +114,6 @@ namespace Policheck
             {
                 _conn.Open();
                 _cmd = new MySqlCommand();
-                MainWindow mainWindow = new MainWindow(_cmd);
                 _cmd.Connection = _conn;
                 _cmd.CommandType = CommandType.StoredProcedure;
                 _cmd.CommandText = "InicioSesion";
@@ -118,6 +148,48 @@ namespace Policheck
         }
 
 
+        public void Perfil(int placa)
+        {
+            List<Funcionario> listaFuncionarios = new List<Funcionario>();
+
+            _conn.Open();
+            _cmd = new MySqlCommand();
+            _cmd.Connection = _conn;
+
+            string consulta = "SELECT NumeroPlaca, contra ,dni,nombre,prapellido,segapellido,genero,nacimiento,correo,telefono,turno,Rango,Distrito FROM VistaFuncionario where NumeroPlaca = @NumeroPlaca ";
+            _cmd.CommandText = consulta;
+
+            _cmd.Parameters.AddWithValue("@NumeroPlaca",placa);
+
+            MySqlDataReader reader = _cmd.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+
+                funcionario.Placa = Convert.ToInt32(reader["NumeroPlaca"]); 
+                funcionario.Contrasenna = reader["contra"].ToString(); 
+                funcionario.DNI = reader["dni"].ToString(); 
+                funcionario.Nombre = reader["nombre"].ToString(); 
+                funcionario.PrimerApellido = reader["prapellido"].ToString(); 
+                funcionario.SegundoApellido = reader["segapellido"].ToString(); 
+                funcionario.Genero = reader["genero"].ToString(); 
+                funcionario.FechaNacimiento = reader["nacimiento"].ToString(); 
+                funcionario.Correo = reader["correo"].ToString(); 
+                funcionario.Telefono = reader["telefono"].ToString(); 
+                funcionario.Turno = reader["turno"].ToString(); 
+                funcionario.Rango = reader["Rango"].ToString(); 
+                funcionario.Distrito = reader["Distrito"].ToString();
+
+
+
+                listaFuncionarios.Add(funcionario);
+            }
+
+            reader.Close();
+            _conn.Close();
+        }
 
 
 

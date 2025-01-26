@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Policheck.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +22,9 @@ namespace Policheck
 
         public void Inicio_Sesion(int nPlaca,string pass)
         {
+          
 
             int res = _ad.PA_InicioSesion(nPlaca, pass);
-
 
             if (res == -1) {
                 MessageBox.Show("Usuario o contraseña incorrectos", "Error!!!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -51,7 +53,7 @@ namespace Policheck
         }
 
 
-
+     
 
     }
 }

@@ -1,5 +1,7 @@
-﻿using Org.BouncyCastle.Utilities;
+﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Utilities;
 using Policheck.Models;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -23,11 +25,12 @@ namespace Policheck
         {
             InitializeComponent();
 
-            
-        }
-        DBManager _dbmanager = new DBManager();
 
-     
+        }
+        private DBManager _dbmanager = new DBManager();
+        private AcDatos acDatos = new AcDatos();
+        Funcionario funcionario = new Funcionario();
+
 
         private void BtnEntrar(object sender, RoutedEventArgs e)
         {
@@ -49,12 +52,7 @@ namespace Policheck
             {
                 int placa = Convert.ToInt32(placaSTR);
                 _dbmanager.Inicio_Sesion(placa, pass);
-
-
-                Funcionario funcionario = new Funcionario();
                 funcionario.Placa = placa;
-
-
                 brdr_Login.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
 
@@ -64,12 +62,44 @@ namespace Policheck
 
 
         private void Btn_Perfil(object sender, RoutedEventArgs e) {
-           Formulario_Perfil();
-        
-            
-        
-        
+            Formulario_Perfil();
+
+            AcDatos acDatos = new AcDatos();
+
+            MySqlConnection _conn = new MySqlConnection(acDatos.ClaveAcceso);
+            _conn.Open();
+
+            string consulta = "SELECT NumeroPlaca, contra ,dni, nombre, prapellido, segapellido, genero, nacimiento, correo, telefono, turno, Rango, Distrito " +
+                              "FROM VistaFuncionario WHERE NumeroPlaca = @NumeroPlaca";
+
+            MySqlCommand _cmd = new MySqlCommand(consulta, _conn);
+            _cmd.Parameters.AddWithValue("@NumeroPlaca", funcionario.Placa);
+
+            MySqlDataReader reader = _cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                // Asignamos los valores de la consulta a los controles de la interfaz
+                txtbx_Telefono.Text = reader["telefono"].ToString();
+                txtbx_Nombre.Text = reader["nombre"].ToString();
+                txtbx_Dni.Text = reader["dni"].ToString();
+                txtbx_FechNac.Text = reader["nacimiento"].ToString();
+                txtbx_1Apell.Text = reader["prapellido"].ToString();
+                pswd_contra.Password = reader["contra"].ToString();
+                txtbx_Rango.Text = reader["Rango"].ToString();
+                txtbx_Turno.Text = reader["turno"].ToString();
+                txtbx_2Apellido.Text = reader["segapellido"].ToString();
+                txtbx_Genero.Text = reader["genero"].ToString();
+                txtbx_Correo.Text = reader["correo"].ToString();
+                txtbx_NPlaca.Text = reader["NumeroPlaca"].ToString();
+                txtbx_Distrito.Text = reader["Distrito"].ToString();
+            }
+
+            _conn.Close();
         }
+
+    
+
 
         private void Formulario_Perfil()
         {
