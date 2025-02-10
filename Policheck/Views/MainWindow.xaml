@@ -10,7 +10,7 @@
     <DockPanel>
         <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Height="25" Visibility="Hidden">
             <MenuItem Header="DatosPersonales" FontSize="15">
-                <MenuItem Header="Mis Datos" Click="Btn_Perfil"></MenuItem>
+                <MenuItem Header="Mis Datos" Click="BtnPerfil" ></MenuItem>
                 <MenuItem Header="Alta Funcionario"></MenuItem>
                 <MenuItem Header="Modificar Funcionario"></MenuItem>
                 <MenuItem Header="Deshabilitar Funcionario"></MenuItem>
@@ -56,7 +56,7 @@
             </Grid.RowDefinitions>
 
             <Border Name="brdr_Login" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="10,10,10,10"
-                BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White" d:IsHidden="True" >
+                BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White"  >
                 <StackPanel Margin="10" >
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29"></Label>

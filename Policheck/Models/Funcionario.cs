@@ -15,7 +15,7 @@ namespace Policheck.Models
         private string primerApellido;
         private string segundoApellido;
         private string genero;
-        private string fechaNacimiento;
+        private string edad;
         private string correo;
         private string telefono;
         private string turno;
@@ -65,10 +65,10 @@ namespace Policheck.Models
             set { genero = value; }
         }
 
-        public string FechaNacimiento
+        public string Edad
         {
-            get { return fechaNacimiento; }
-            set { fechaNacimiento = value; }
+            get { return edad; }
+            set { edad = value; }
         }
 
         public string Correo
