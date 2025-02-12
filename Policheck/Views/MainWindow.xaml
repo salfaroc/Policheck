@@ -9,9 +9,10 @@
 
     <DockPanel>
         <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Height="25" Visibility="Hidden">
-            <MenuItem Header="DatosPersonales" FontSize="15">
+            <MenuItem Header="Funcionario" FontSize="15">
                 <MenuItem Header="Mis Datos" Click="BtnPerfil" ></MenuItem>
-                <MenuItem Header="Alta Funcionario"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Alta Funcionario" ></MenuItem>
                 <MenuItem Header="Modificar Funcionario"></MenuItem>
                 <MenuItem Header="Deshabilitar Funcionario"></MenuItem>
             </MenuItem>
