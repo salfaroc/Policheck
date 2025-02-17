@@ -56,7 +56,7 @@
                 <RowDefinition Height="56*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Border Name="brdr_Login" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="10,10,10,10"
+            <Border Name="brdr_Login" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6"
                 BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White"  >
                 <StackPanel Margin="10" >
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
@@ -71,22 +71,18 @@
 
 
             <TextBox Name="txtbx_Telefono"  HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.RowSpan="2" Margin="0,46,0,0" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_Nombre" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
+            <TextBox Name="txtbx_Nombre" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="160"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_Dni" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_FechNac" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_1Apell" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2" Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True" />
             <PasswordBox Name="pswd_contra" HorizontalAlignment="Center" Grid.Row="3"   VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden" IsEnabled="False"  />
             <TextBox  Name="txtbx_Rango" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True" />
             <TextBox Name="txtbx_Turno" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_2Apellido" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_Genero" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_Correo" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="180" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_NPlaca" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="4"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_Distrito" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2" Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <Image Name="img_Perfil" Grid.Column="4"  Height="131" Grid.Row="1" VerticalAlignment="Center" Grid.RowSpan="4" Source="/Views/fotoperfil.png"  Visibility="Hidden"  />
             <Label x:Name="lbl_NumeroPlaca" Grid.Column="4" Content="NºPlaca" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden" />
-            <Label x:Name="lbl_SegundoApellido" Grid.Column="3" Content="Segundo Apellido" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Margin="0,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
-            <Label x:Name="lbl_PrimerApellido" Grid.Column="2" Content="Primer Apellido" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Margin="0,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
             <Label x:Name="lbl_Nombre" Content="Nombre" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Margin="10,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
             <Label x:Name="lbl_DNI" Content="DNI" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Margin="22,0,0,0" Visibility="Hidden"/>
             <Label x:Name="lbl_Contrasena" Grid.Column="2" Content="Contraseña" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Visibility="Hidden"/>

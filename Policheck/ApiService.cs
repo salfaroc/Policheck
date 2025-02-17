@@ -1,11 +1,14 @@
-﻿using Policheck.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows;
+using Newtonsoft.Json;
+using Policheck.Models;
 
 public class ApiService
 {
@@ -24,7 +27,7 @@ public class ApiService
             };
 
             
-            string jsonContent = JsonSerializer.Serialize(loginData);
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(loginData);
 
            
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -60,48 +63,27 @@ public class ApiService
         }
     }
 
-    internal async Task<List<Funcionario>> ObtenerDatosFuncionarioAsync(int numPlaca)
+    public async Task<List<Funcionario>> ObtenerDatosFuncionarioAsync(string placa)
     {
         try
         {
-            // Realizar la solicitud HTTP GET
-            HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/verFuncionario/{numPlaca}");
+            string url = $"{_url}/verFuncionarioPlaca/{placa}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
-                // Leer el contenido de la respuesta como una cadena JSON
                 string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
 
-                // Parsear el JSON de la respuesta
-                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                if (jsonResponse == null || jsonResponse.funcionarios == null)
+                    throw new Exception("Respuesta de la API no válida.");
 
-                // Extraer la lista de funcionarios del JSON
-                var funcionariosJson = jsonResponse["funcionarios"].AsArray();
-
-                // Deserializar el JSON en una lista de objetos Funcionario
-                List<Funcionario> funcionarios = funcionariosJson.Select(funcionario => new Funcionario
-                {
-                    Placa = funcionario["Numero_Placa"].GetValue<int>(),
-                    Contrasenna = funcionario["Contrasena"].ToString(),
-                    DNI = funcionario["DNI"].ToString(),
-                    Nombre = funcionario["Nombre_Completo"].ToString(),
-                    PrimerApellido = funcionario["Primer_Apellido"].ToString(),
-                    SegundoApellido = funcionario["Segundo_Apellido"].ToString(),
-                    Genero = funcionario["Genero"].ToString(),
-                    Edad = funcionario["Edad_Actual"].ToString(),
-                    Correo = funcionario["Correo"].ToString(),
-                    Telefono = funcionario["Telefono"].ToString(),
-                    Turno = funcionario["Turno"].ToString(),
-                    Rango = funcionario["Rango"].ToString(),
-                    Distrito = funcionario["Distrito"].ToString()
-                    
-                }).ToList();
-
+                List<Funcionario> funcionarios = jsonResponse.funcionarios.ToObject<List<Funcionario>>();
                 return funcionarios;
             }
             else
             {
-                throw new Exception($"Error al obtener los datos del funcionario. Código de estado: {response.StatusCode}");
+                throw new Exception($"Error al obtener funcionarios. Código de estado: {response.StatusCode}");
             }
         }
         catch (Exception ex)
@@ -111,8 +93,10 @@ public class ApiService
         }
     }
 
-
-
-
-
 }
+
+
+
+
+
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,99 +7,40 @@ using System.Threading.Tasks;
 
 namespace Policheck.Models
 {
-    internal class Funcionario
+    public class Funcionario
     {
-        private static int nPlaca; // Número de Placa (estático, compartido entre todos los funcionarios)
-        private string pass; // Contraseña
-        private string dni;
-        private string nombre;
-        private string primerApellido;
-        private string segundoApellido;
-        private string genero;
-        private string edad;
-        private string correo;
-        private string telefono;
-        private string turno;
-        private string rango;
-        private string distrito;
+        [JsonProperty("Numero_Placa")]
+        public string NumeroPlaca { get; set; }
 
-        // Métodos para acceder a las variables (Getters y Setters)
-        public int Placa
-        {
-            get { return nPlaca; }
-            set { nPlaca = value; }
-        }
+        [JsonProperty("Contrasena")]
+        public string Contrasena { get; set; }
 
-        public string Contrasenna
-        {
-            get { return pass; }
-            set { pass = value; }
-        }
+        [JsonProperty("DNI")]
+        public string DNI { get; set; }
 
-        public string DNI
-        {
-            get { return dni; }
-            set { dni = value; }
-        }
+        [JsonProperty("Genero")]
+        public string Genero { get; set; }
 
-        public string Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
+        [JsonProperty("Nombre_Completo")]
+        public string NombreCompleto { get; set; }
 
-        public string PrimerApellido
-        {
-            get { return primerApellido; }
-            set { primerApellido = value; }
-        }
+        [JsonProperty("Edad_Actual")]
+        public int EdadActual { get; set; }
 
-        public string SegundoApellido
-        {
-            get { return segundoApellido; }
-            set { segundoApellido = value; }
-        }
+        [JsonProperty("Correo")]
+        public string Correo { get; set; }
 
-        public string Genero
-        {
-            get { return genero; }
-            set { genero = value; }
-        }
+        [JsonProperty("Telefono")]
+        public string Telefono { get; set; }
 
-        public string Edad
-        {
-            get { return edad; }
-            set { edad = value; }
-        }
+        [JsonProperty("Turno")]
+        public string Turno { get; set; }
 
-        public string Correo
-        {
-            get { return correo; }
-            set { correo = value; }
-        }
+        [JsonProperty("Rango")]
+        public string Rango { get; set; }
 
-        public string Telefono
-        {
-            get { return telefono; }
-            set { telefono = value; }
-        }
-
-        public string Turno
-        {
-            get { return turno; }
-            set { turno = value; }
-        }
-
-        public string Rango
-        {
-            get { return rango; }
-            set { rango = value; }
-        }
-
-        public string Distrito
-        {
-            get { return distrito; }
-            set { distrito = value; }
-        }
+        [JsonProperty("Distrito")]
+        public string Distrito { get; set; }
     }
+
 }

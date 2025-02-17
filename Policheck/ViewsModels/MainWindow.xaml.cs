@@ -24,7 +24,7 @@ namespace Policheck
     public partial class MainWindow : Window
     {
 
-       private ApiService _apiService = new ApiService();
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +33,7 @@ namespace Policheck
         }
     
         Funcionario funcionario = new Funcionario();
+        ApiService _apiService = new ApiService();
 
         private void BtnEntrar(object sender, RoutedEventArgs e)
         {
@@ -63,8 +64,8 @@ namespace Policheck
 
             if (res == 1)
             {
-                MessageBox.Show("Bienvenido agente ", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                funcionario.Placa = placa;
+                MessageBox.Show("Bienvenido agente " + $"{placa}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                funcionario.NumeroPlaca = placa.ToString();
                 brdr_Login.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
 
@@ -72,7 +73,7 @@ namespace Policheck
             else if (res == 0) 
             {
                 MessageBox.Show("Bienvenido agente", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
-                funcionario.Placa = placa;
+                funcionario.NumeroPlaca = placa.ToString();
                 brdr_Login.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
             }
@@ -96,29 +97,30 @@ namespace Policheck
         }
 
 
-
         private async void RellenarDatos()
         {
+
+            txtbx_NPlaca.Text = funcionario.NumeroPlaca.ToString();
             // Espera a que la tarea termine y obtén los funcionarios
-            var funcionarios = await _apiService.ObtenerDatosFuncionarioAsync(funcionario.Placa);
+            var funcionarios = await _apiService.ObtenerDatosFuncionarioAsync(funcionario.NumeroPlaca);
 
             if (funcionarios != null && funcionarios.Count > 0)
             {
                 var funcionario = funcionarios.First(); // Tomar el primer funcionario (o el único en este caso)
 
                 // Ahora que tienes los datos del funcionario, rellena los campos
-                txtbx_NPlaca.Text = funcionario.Placa.ToString();
-                txtbx_Nombre.Text = funcionario.Nombre;
-                pswd_contra.Password = funcionario.Contrasenna;
-                txtbx_1Apell.Text = funcionario.PrimerApellido;
-                txtbx_2Apellido.Text = funcionario.SegundoApellido;
-                txtbx_Genero.Text = funcionario.Genero;
-                txtbx_FechNac.Text = funcionario.Edad; // Aquí si Edad es un string, lo estás colocando correctamente
-                txtbx_Correo.Text = funcionario.Correo;
-                txtbx_Telefono.Text = funcionario.Telefono;
-                txtbx_Turno.Text = funcionario.Turno;
-                txtbx_Rango.Text = funcionario.Rango;
+               // Cambié NumeroPlaca por Numero_Placa
+                txtbx_Nombre.Text = funcionario.NombreCompleto; // Cambié NombreCompleto por Nombre_Completo
+                pswd_contra.Password = funcionario.Contrasena;
+                txtbx_Dni.Text = funcionario.DNI;// Mantiene el nombre igual
+                txtbx_Genero.Text = funcionario.Genero; // Cambié Genero a la propiedad correcta
+                txtbx_FechNac.Text = funcionario.EdadActual.ToString(); // Cambié EdadActual por Edad_Actual
+                txtbx_Correo.Text = funcionario.Correo; // Igual
+                txtbx_Telefono.Text = funcionario.Telefono.ToString(); // Telefono como int en JSON, convertimos a string
+                txtbx_Turno.Text = funcionario.Turno; // Igual
+                txtbx_Rango.Text = funcionario.Rango; // Igual
                 txtbx_Distrito.Text = funcionario.Distrito;
+                txtbx_Nombre.Text = funcionario.NombreCompleto;// Igual
             }
             else
             {
@@ -126,11 +128,10 @@ namespace Policheck
             }
         }
 
+
         private void Formulario_Perfil()
         {
             lbl_NumeroPlaca.Visibility = Visibility.Visible;
-            lbl_SegundoApellido.Visibility = Visibility.Visible;
-            lbl_PrimerApellido.Visibility = Visibility.Visible;
             lbl_Nombre.Visibility = Visibility.Visible;
             lbl_DNI.Visibility = Visibility.Visible;
             lbl_Contrasena.Visibility = Visibility.Visible;
@@ -142,16 +143,13 @@ namespace Policheck
             lbl_Distrito.Visibility = Visibility.Visible;
             lbl_Turno.Visibility = Visibility.Visible;
             lbl_VerMisMeritos.Visibility = Visibility.Visible;
-
             txtbx_Telefono.Visibility = Visibility.Visible;
             txtbx_Nombre.Visibility = Visibility.Visible;
             txtbx_Dni.Visibility = Visibility.Visible;
             txtbx_FechNac.Visibility = Visibility.Visible;
-            txtbx_1Apell.Visibility = Visibility.Visible;
             pswd_contra.Visibility = Visibility.Visible;
             txtbx_Rango.Visibility = Visibility.Visible;
             txtbx_Turno.Visibility = Visibility.Visible;
-            txtbx_2Apellido.Visibility = Visibility.Visible;
             txtbx_Genero.Visibility = Visibility.Visible;
             txtbx_Correo.Visibility = Visibility.Visible;
             txtbx_NPlaca.Visibility = Visibility.Visible;
