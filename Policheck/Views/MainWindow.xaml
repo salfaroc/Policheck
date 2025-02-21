@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Policheck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="Beige">
+        Title="MainWindow" Height="450" Width="800" Background="White">
 
     <DockPanel>
         <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Height="25" Visibility="Hidden">
@@ -56,15 +56,18 @@
                 <RowDefinition Height="56*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Border Name="brdr_Login" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="6"
-                BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="White"  >
+            <Image Source="/Imagenes/LogoPolicheck.png" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" MaxWidth="500" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Margin="0,-16,0,35" Width="134" />
+
+            <Border Name="brdr_Login" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="5"
+                BorderBrush="DarkGray" BorderThickness="2" CornerRadius="10" Background="LightGray"   >
+
                 <StackPanel Margin="10" >
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36"></Label>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29"></Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36" FontWeight="Bold"></Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29" FontWeight="Bold"></Label>
                     <TextBox x:Name="txtPlaca" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"></TextBox>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Contraseña"  FontSize="28"></Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Contraseña"  FontSize="28" FontWeight="Bold"></Label>
                     <PasswordBox x:Name="txtPass" Height="20" Width="150" />
-                    <Button Name="btn_Entrar" Click="BtnEntrar" Content="Entrar" Width="150" Height="30" Margin="30" Background="LightCoral" FontSize="18" ></Button>
+                    <Button Name="btn_Entrar" Click="BtnEntrar" Content="Entrar" Width="150" Height="30" Margin="30" Background="SlateGray" FontSize="18" FontWeight="Bold" Foreground="White" ></Button>
                 </StackPanel>
             </Border>
 
