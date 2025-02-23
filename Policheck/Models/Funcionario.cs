@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Policheck.Models
 {
-    public class Funcionario
+    public  class Funcionario
     {
         [JsonProperty("Numero_Placa")]
-        public string NumeroPlaca { get; set; }
+        public  string NumeroPlaca { get; set; }
 
         [JsonProperty("Contrasena")]
         public string Contrasena { get; set; }

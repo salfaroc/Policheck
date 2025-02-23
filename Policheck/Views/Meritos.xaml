@@ -1,0 +1,23 @@
+﻿<Window x:Class="Policheck.Views.Meritos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Policheck.Views"
+        mc:Ignorable="d"
+        Title="Meritos" Height="320" Width="300" MaxHeight="320" MaxWidth="300" MinHeight="320" MinWidth="300">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition/>
+            
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="DataGridMeritos" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="300" AutoGenerateColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Puntos" Binding="{Binding Puntos}" Width="100"/>
+            </DataGrid.Columns>
+         </DataGrid>
+    </Grid>
+</Window>

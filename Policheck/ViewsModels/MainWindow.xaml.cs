@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities;
 using Policheck.Models;
+using Policheck.Views;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -157,8 +158,12 @@ namespace Policheck
             img_Perfil.Visibility = Visibility.Visible;
             btn_Meritos.Visibility = Visibility.Visible;
         }
+        private void Btn_Meritos(object sender, RoutedEventArgs e)
+        {
+            Meritos meritos = new Meritos(funcionario);
+            meritos.Show();
+        }
 
-       
 
     }
 }

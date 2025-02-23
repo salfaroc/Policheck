@@ -56,10 +56,10 @@
                 <RowDefinition Height="56*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Image Source="/Imagenes/LogoPolicheck.png" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" MaxWidth="500" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Margin="0,-16,0,35" Width="134" />
+            <Image Source="/Imagenes/LogoPolicheck.png" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" MaxWidth="500" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Margin="0,-16,0,35" Width="134" d:IsHidden="True" />
 
             <Border Name="brdr_Login" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="5"
-                BorderBrush="DarkGray" BorderThickness="2" CornerRadius="10" Background="LightGray"   >
+                BorderBrush="DarkGray" BorderThickness="2" CornerRadius="10" Background="LightGray" d:IsHidden="True"   >
 
                 <StackPanel Margin="10" >
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36" FontWeight="Bold"></Label>
@@ -73,7 +73,7 @@
 
 
 
-            <TextBox Name="txtbx_Telefono"  HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.RowSpan="2" Margin="0,46,0,0" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
+            <TextBox Name="txtbx_Telefono"  HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.RowSpan="2" Margin="0,46,0,0" Grid.ColumnSpan="2" IsReadOnly="True" Visibility="Hidden"/>
             <TextBox Name="txtbx_Nombre" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="160"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_Dni" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
             <TextBox Name="txtbx_FechNac" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
@@ -97,7 +97,7 @@
             <Label x:Name="lbl_Distrito" Grid.Column="2" Content="Distrito" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
             <Label x:Name="lbl_Turno" Grid.Column="3" Content="Turno" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
             <Label x:Name="lbl_VerMisMeritos" Grid.Column="4" Content="Ver mis meritos" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Button Name="btn_Meritos" Grid.Column="4" Content="VER" HorizontalAlignment="Center"  Grid.Row="5" VerticalAlignment="Center" Grid.RowSpan="2" Width="72" Background="White" Visibility="Hidden"/>
+            <Button Name="btn_Meritos" Grid.Column="4" Content="VER" HorizontalAlignment="Center"  Grid.Row="5" VerticalAlignment="Center" Grid.RowSpan="2" Width="72" Background="White" Visibility="Hidden" Click="Btn_Meritos"/>
 
 
 

@@ -93,6 +93,33 @@ public class ApiService
         }
     }
 
+    public async Task<List<Merito>> ObtenerMeritosAsync(string placa)
+    {
+        try
+        {
+            string url = $"{_url}/verMeritosPlaca/{placa}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.meritos == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Merito> meritos = jsonResponse.meritos.ToObject<List<Merito>>();
+                return meritos;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener méritos. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
 }
 
 
