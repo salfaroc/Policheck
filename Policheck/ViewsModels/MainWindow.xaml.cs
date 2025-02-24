@@ -29,7 +29,7 @@ namespace Policheck
         public MainWindow()
         {
             InitializeComponent();
-            
+            ToggleBackground(true);
 
         }
     
@@ -51,7 +51,7 @@ namespace Policheck
         {
             string placaSTR = txtPlaca.Text;
 
-            string pass = txtPass.Password;
+            string pass = pwdContraseña.Password;
 
             if (string.IsNullOrWhiteSpace(placaSTR) || string.IsNullOrWhiteSpace(pass))
             {
@@ -67,7 +67,7 @@ namespace Policheck
             {
                 MessageBox.Show("Bienvenido agente " + $"{placa}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 funcionario.NumeroPlaca = placa.ToString();
-                brdr_Login.Visibility = Visibility.Hidden;
+                Vbx_InicioSesion.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
 
             }
@@ -75,7 +75,7 @@ namespace Policheck
             {
                 MessageBox.Show("Bienvenido agente", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                 funcionario.NumeroPlaca = placa.ToString();
-                brdr_Login.Visibility = Visibility.Hidden;
+                Vbx_InicioSesion.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
             }
             else if (res == -1)
@@ -132,36 +132,41 @@ namespace Policheck
 
         private void Formulario_Perfil()
         {
-            lbl_NumeroPlaca.Visibility = Visibility.Visible;
-            lbl_Nombre.Visibility = Visibility.Visible;
-            lbl_DNI.Visibility = Visibility.Visible;
-            lbl_Contrasena.Visibility = Visibility.Visible;
-            lbl_Genero.Visibility = Visibility.Visible;
-            lbl_FechaNacimiento.Visibility = Visibility.Visible;
-            lbl_Rango.Visibility = Visibility.Visible;
-            lbl_Correo.Visibility = Visibility.Visible;
-            lbl_Telefono.Visibility = Visibility.Visible;
-            lbl_Distrito.Visibility = Visibility.Visible;
-            lbl_Turno.Visibility = Visibility.Visible;
-            lbl_VerMisMeritos.Visibility = Visibility.Visible;
-            txtbx_Telefono.Visibility = Visibility.Visible;
-            txtbx_Nombre.Visibility = Visibility.Visible;
-            txtbx_Dni.Visibility = Visibility.Visible;
-            txtbx_FechNac.Visibility = Visibility.Visible;
-            pswd_contra.Visibility = Visibility.Visible;
-            txtbx_Rango.Visibility = Visibility.Visible;
-            txtbx_Turno.Visibility = Visibility.Visible;
-            txtbx_Genero.Visibility = Visibility.Visible;
-            txtbx_Correo.Visibility = Visibility.Visible;
-            txtbx_NPlaca.Visibility = Visibility.Visible;
-            txtbx_Distrito.Visibility = Visibility.Visible;
-            img_Perfil.Visibility = Visibility.Visible;
-            btn_Meritos.Visibility = Visibility.Visible;
+
+            Vbx_Perfil.Visibility = Visibility.Visible;
         }
         private void Btn_Meritos(object sender, RoutedEventArgs e)
         {
             Meritos meritos = new Meritos(funcionario);
             meritos.Show();
+        }
+
+
+        private void ToggleBackground(bool mostrar)
+        {
+            if (mostrar)
+            {
+
+
+                // Asignar el fondo de imagen
+                ImageBrush brushFondo = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("pack://application:,,,/Imagenes/imagenfondo2.png")),
+                    Stretch = Stretch.Fill // Ajustar el fondo al tamaño del Grid
+                };
+
+                // Condición para mostrar logo o fondo de imagen
+                if (mostrar)
+                {
+                    MainGrid.Background = brushFondo; // Asigna el fondo de imagen al Grid
+                }
+
+            }
+            else
+            {
+                // Si 'mostrar' es falso, asignar un fondo blanco
+                MainGrid.Background = Brushes.White; // Mantiene el fondo blanco cuando se oculta la imagen
+            }
         }
 
 

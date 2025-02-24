@@ -5,28 +5,101 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Policheck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="White">
+        Title="MainWindow" Height="450" Width="800" Background="White" WindowState="Maximized" ShowInTaskbar="False">
 
-    <DockPanel>
-        <Menu Name="mnu_Inicial" DockPanel.Dock="Top" Height="25" Visibility="Hidden">
-            <MenuItem Header="Funcionario" FontSize="15">
-                <MenuItem Header="Mis Datos" Click="BtnPerfil" ></MenuItem>
+   
+
+        <Grid x:Name="MainGrid" >
+            <!-- Definir Columnas y Filas -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Menú -->
+                <RowDefinition/>
+                <RowDefinition Height="Auto"></RowDefinition >
+                <RowDefinition Height="Auto"></RowDefinition>
+
+                <!-- Contenido principal -->
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  />
+                <!-- Izquierda (TextBox) -->
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <!-- Derecha (DataGrid) -->
+            </Grid.ColumnDefinitions>
+
+            <Viewbox x:Name="Vbx_InicioSesion" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="4" Visibility="Visible">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- Logo -->
+                    <Image Source="/Imagenes/LogoPolicheck.png" Height="150" MaxWidth="500" Stretch="Uniform"/>
+
+                    <!-- Panel de Fondo con Efecto Glassmorphism -->
+                    <Border Background="#AA1E1E1E" CornerRadius="15" Padding="25" Margin="10"
+                        BorderBrush="White" BorderThickness="1" >
+
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label Content="Numero Placa" FontSize="16" FontWeight="Bold" Foreground="White" Margin="5" HorizontalAlignment="Center"/>
+                            <TextBox x:Name="txtPlaca" MinHeight="30" Width="220" Background="#CC333333"
+                            Foreground="White" BorderBrush="White" FontSize="14" Margin="5"/>
+
+                            <Label Content="Contraseña" FontSize="16" FontWeight="Bold" Foreground="White" Margin="5" HorizontalAlignment="Center"/>
+                            <PasswordBox x:Name="pwdContraseña" MinHeight="30" Width="220" Background="#CC333333"
+                      Foreground="White" BorderBrush="White" FontSize="14" Margin="5"/>
+
+                            <Button Content="Iniciar Sesión" Margin="15" MinHeight="40" Width="220"
+                 Background="#007ACC" Foreground="White" FontWeight="Bold" FontSize="16"
+                 BorderThickness="0" Cursor="Hand" Click="BtnEntrar"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Viewbox>
+
+
+
+        <Menu Name="mnu_Inicial"  Grid.Row="0" Grid.ColumnSpan="2" 
+        FontSize="25" Foreground="White" Background="{x:Null}" Visibility="Hidden">
+            <Menu.Resources>
+                <!-- Estilo para los elementos del menú -->
+                <Style TargetType="MenuItem">
+                    <Setter Property="Padding" Value="5"/>
+                    <!-- Espaciado interno -->
+                    <Setter Property="Margin" Value="5"/>
+                    <!-- Espaciado externo -->
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Foreground" Value="Black"/>
+
+                    <!-- Efecto Hover -->
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="LightGray"/>
+                            <!-- Color al pasar el mouse -->
+                            <Setter Property="FontSize" Value="27"/>
+                            <!-- Aumenta tamaño en hover -->
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Resources>
+
+            <MenuItem Header="Funcionario" FontSize="15" Background="#AAD4D1D1">
+                <MenuItem Header="Mis Datos" Click="BtnPerfil" Icon="👮‍" ></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Alta Funcionario" ></MenuItem>
                 <MenuItem Header="Modificar Funcionario"></MenuItem>
                 <MenuItem Header="Deshabilitar Funcionario"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Ciudadano" FontSize="15">
+            <MenuItem Header="Ciudadano" FontSize="15" Background="#AAD4D1D1">
                 <MenuItem Header="Alta ciudadano"></MenuItem>
                 <MenuItem Header="Modificar ciudadano"></MenuItem>
                 <MenuItem Header="Eliminar ciudadano"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Denuncia" FontSize="15">
+            <MenuItem Header="Denuncia" FontSize="15 " Background="#AAD4D1D1">
                 <MenuItem Header="Nueva denuncia"></MenuItem>
                 <MenuItem Header="Modificar Denuncia"></MenuItem>
                 <MenuItem Header="Eliminar Denuncia"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Ver" FontSize="15">
+            <MenuItem Header="Ver" FontSize="15" Background="#AAD4D1D1">
                 <MenuItem Header="Ver Ciudadanos"></MenuItem>
                 <MenuItem Header="Ver Denuncias"></MenuItem>
 
@@ -35,73 +108,59 @@
 
 
 
+        <Viewbox x:Name="Vbx_Perfil" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Visibility="Hidden">
+                <Border  Background="#AA1E1E1E" BorderThickness="2" BorderBrush="White" Grid.Row="1" Grid.ColumnSpan="3" CornerRadius="5" Padding="10" Margin="133,26,118,26"  >
+                <StackPanel>
+                    <Label Content="Datos de Perfil"  FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" Foreground="White"  />
+                    <Grid Height="269">
+                        <!-- Definir filas y columnas -->
+                        <Grid.RowDefinitions>
 
-        <Grid Width="800" Height="450" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="63*"></ColumnDefinition>
-                <ColumnDefinition Width="137*"/>
-                <ColumnDefinition Width="200*"></ColumnDefinition>
-                <ColumnDefinition Width="200*"></ColumnDefinition>
-                <ColumnDefinition Width="200*"></ColumnDefinition>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
 
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="28*"></RowDefinition>
-                <RowDefinition Height="85*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-                <RowDefinition Height="56*"></RowDefinition>
-            </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  />
+                            <ColumnDefinition  />
 
-            <Image Source="/Imagenes/LogoPolicheck.png" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" MaxWidth="500" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Margin="0,-16,0,35" Width="134" d:IsHidden="True" />
 
-            <Border Name="brdr_Login" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="5"
-                BorderBrush="DarkGray" BorderThickness="2" CornerRadius="10" Background="LightGray" d:IsHidden="True"   >
+                        </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="10" >
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inicio sesión" FontSize="36" FontWeight="Bold"></Label>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nº Placa" FontSize="29" FontWeight="Bold"></Label>
-                    <TextBox x:Name="txtPlaca" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"></TextBox>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Contraseña"  FontSize="28" FontWeight="Bold"></Label>
-                    <PasswordBox x:Name="txtPass" Height="20" Width="150" />
-                    <Button Name="btn_Entrar" Click="BtnEntrar" Content="Entrar" Width="150" Height="30" Margin="30" Background="SlateGray" FontSize="18" FontWeight="Bold" Foreground="White" ></Button>
+                        <!-- Controles de perfil (sin etiquetas) -->
+                            <TextBox Name="txtbx_Nombre" Margin="5" Grid.Row="1" Grid.ColumnSpan="1" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"   />
+                            <TextBox Name="txtbx_Dni" Margin="5" Grid.Row="2" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
+                            <TextBox Name="txtbx_FechNac" Margin="5" Grid.Row="3" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
+                            <PasswordBox Name="pswd_contra" Margin="5" Grid.Row="4" Grid.Column="0" Width="170" Visibility="Visible" IsEnabled="False" />
+                            <TextBox Name="txtbx_Rango" Margin="5" Grid.Row="7" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                            <TextBox Name="txtbx_Telefono" Margin="5" Grid.Row="5" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
+                            <TextBox Name="txtbx_Genero" Margin="5" Grid.Row="6" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                            <TextBox Name="txtbx_Correo" Margin="5" Grid.Row="6" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                            <TextBox Name="txtbx_Turno"  Margin="5" Grid.Row="8" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                            <TextBox Name="txtbx_Distrito" Margin="5" Grid.Row="8" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                            <TextBox Name="txtbx_NPlaca"  Margin="5" Grid.Row="7" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
+
+                        <!-- Imagen de perfil -->
+                        <Image Name="img_Perfil" Grid.Row="1" Grid.RowSpan="3" Grid.Column="4" Height="131" VerticalAlignment="Center" Source="/Views/fotoperfil.png" Visibility="Visible" />
+
+                        <!-- Botón Ver Méritos -->
+                        <Button Name="btn_Meritos" Grid.Row="4" Grid.Column="1" Content="VER" Width="72" Background="White" Visibility="Visible" Click="Btn_Meritos" Margin="92,15,92,15" Grid.RowSpan="2" />
+                    </Grid>
                 </StackPanel>
+          
             </Border>
-
-
-
-            <TextBox Name="txtbx_Telefono"  HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.RowSpan="2" Margin="0,46,0,0" Grid.ColumnSpan="2" IsReadOnly="True" Visibility="Hidden"/>
-            <TextBox Name="txtbx_Nombre" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="160"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_Dni" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_FechNac" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"  Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <PasswordBox Name="pswd_contra" HorizontalAlignment="Center" Grid.Row="3"   VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden" IsEnabled="False"  />
-            <TextBox  Name="txtbx_Rango" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True" />
-            <TextBox Name="txtbx_Turno" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_Genero" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_Correo" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="180" Grid.Column="3"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_NPlaca" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="4"  Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <TextBox Name="txtbx_Distrito" HorizontalAlignment="Center" Grid.Row="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="2" Grid.RowSpan="2" Visibility="Hidden" IsReadOnly="True"/>
-            <Image Name="img_Perfil" Grid.Column="4"  Height="131" Grid.Row="1" VerticalAlignment="Center" Grid.RowSpan="4" Source="/Views/fotoperfil.png"  Visibility="Hidden"  />
-            <Label x:Name="lbl_NumeroPlaca" Grid.Column="4" Content="NºPlaca" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden" />
-            <Label x:Name="lbl_Nombre" Content="Nombre" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Margin="10,85,0,0" Grid.RowSpan="2" Visibility="Hidden"/>
-            <Label x:Name="lbl_DNI" Content="DNI" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Margin="22,0,0,0" Visibility="Hidden"/>
-            <Label x:Name="lbl_Contrasena" Grid.Column="2" Content="Contraseña" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_Genero" Grid.Column="3" Content="Genero" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_FechaNacimiento" Content="Fecha Nacimiento" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Grid.ColumnSpan="2" Visibility="Hidden"/>
-            <Label x:Name="lbl_Rango" Grid.Column="2" Content="Rango" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_Correo" Grid.Column="3" Content="Correo" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_Telefono" Content="Telefono" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Grid.Column="1" Margin="9,0,0,0" Visibility="Hidden"/>
-            <Label x:Name="lbl_Distrito" Grid.Column="2" Content="Distrito" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_Turno" Grid.Column="3" Content="Turno" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="lbl_VerMisMeritos" Grid.Column="4" Content="Ver mis meritos" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Button Name="btn_Meritos" Grid.Column="4" Content="VER" HorizontalAlignment="Center"  Grid.Row="5" VerticalAlignment="Center" Grid.RowSpan="2" Width="72" Background="White" Visibility="Hidden" Click="Btn_Meritos"/>
+           </Viewbox>
 
 
 
 
         </Grid>
-    </DockPanel>
+   
 </Window>
