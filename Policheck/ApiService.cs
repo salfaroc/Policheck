@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Policheck.Models;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 public class ApiService
 {
@@ -97,7 +98,7 @@ public class ApiService
     {
         try
         {
-            string url = $"{_url}/verMeritosPlaca/{placa}";
+            string url = $"{_url}/verMeritos/{placa}";
             HttpResponseMessage response = await _httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
@@ -118,6 +119,81 @@ public class ApiService
             Console.WriteLine($"Error: {ex.Message}");
             return null;
         }
+    }
+
+    public async Task<List<Rango>> GetRangoAsync()
+    {
+        try
+        {
+
+            string url = "";
+
+            url = $"{_url}/cargarRangos";
+
+
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.rango == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Rango> rango = jsonResponse.rango.ToObject<List<Rango>>();
+                return rango;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener funcionarios. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<List<Distrito>> GetDistritosAsync()
+    {
+
+        try
+        {
+
+            string url = "";
+
+            url = $"{_url}/cargarDistritos";
+
+
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.distrito == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Distrito> distrito = jsonResponse.distrito.ToObject<List<Distrito>>();
+                return distrito;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener funcionarios. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+
+
     }
 
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Policheck.Models
 {
-   public class Merito
+    public class Rango
     {
-
-        [JsonProperty("Merito")]
-        public static string NombreMerito { get; set; }
+        [JsonProperty("Nombre")]
+        public string Nombre { get; set; }
     }
 }

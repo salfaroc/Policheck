@@ -25,7 +25,7 @@ namespace Policheck
     public partial class MainWindow : Window
     {
 
-        
+        int pagina = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -170,5 +170,93 @@ namespace Policheck
         }
 
 
+        private void BtnAltaFuncionario(object sender, RoutedEventArgs e)
+        {
+            pagina = 1;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Vbx_Funcionario.Visibility = Visibility.Visible;
+            Vbx_Acciones.Visibility = Visibility.Visible;
+            CargarDistritos();
+            CargarRangos();
+
+
+        }
+
+        private void BtnCrearFuncionario(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void GeneradorDePlacas(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            int placa = random.Next(100000, 999999);
+            txtNumeroPlaca.Text = placa.ToString();
+        }
+
+        private async void CargarRangos()
+        {
+            try
+            {
+                var rangos = await _apiService.GetRangoAsync();
+                cmbx_Rango.ItemsSource = rangos;
+                cmbx_Rango.DisplayMemberPath = "Nombre";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private async void CargarDistritos()
+        {
+            try
+            {
+                var distritos = await _apiService.GetDistritosAsync();
+                cmbx_Distrito.ItemsSource = distritos;
+                cmbx_Distrito.DisplayMemberPath = "Nombre";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void SeleccionRango(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (cmbx_Rango.SelectedItem is Rango rangoseleccionado)
+            {
+                txtRango.Text = rangoseleccionado.Nombre;
+            }
+
+
+        }
+
+        private void SeleccionDistrito(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (cmbx_Distrito.SelectedItem is Distrito distritoseleccionado)
+            {
+                txtDistrito.Text = distritoseleccionado.Nombre;
+            }
+        }
+
+        private void Btn_Volver(object sender, RoutedEventArgs e)
+        {
+
+          
+             if (pagina == 1)
+            {
+               
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_Funcionario.Visibility = Visibility.Hidden;
+                Vbx_Acciones.Visibility = Visibility.Hidden;
+                ToggleBackground(true);
+            }
+
+
+
+        }
     }
 }

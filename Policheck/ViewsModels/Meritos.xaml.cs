@@ -36,7 +36,6 @@ namespace Policheck.Views
 
         private async void CargarMeritos()
         {
-            Merito merito = new Merito();
             try
             {
                 if (funcionario == null || string.IsNullOrEmpty(funcionario.NumeroPlaca))
@@ -45,13 +44,16 @@ namespace Policheck.Views
                     return;
                 }
 
-                List<Merito> meritos = await _apiService.ObtenerMeritosAsync(funcionario.NumeroPlaca);
-                if (meritos.Count == 0)
+                // Obtener la lista de méritos de la API
+                var meritos = await _apiService.ObtenerMeritosAsync(funcionario.NumeroPlaca);
+
+                // Verificar si la lista es null o vacía
+                if (meritos == null || meritos.Count == 0)
                 {
                     MessageBox.Show("No se encontraron méritos.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
-
+                // Asignar la lista de méritos al DataGrid
                 DataGridMeritos.ItemsSource = meritos;
             }
             catch (Exception ex)
@@ -59,6 +61,8 @@ namespace Policheck.Views
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
     }
 
 }
