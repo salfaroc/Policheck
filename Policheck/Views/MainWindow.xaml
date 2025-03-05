@@ -192,7 +192,7 @@
                     <TextBox Name="txtTelefono" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Fecha Nacimiento" Foreground="White"  HorizontalAlignment="Center"/>
-                    <DatePicker Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"></DatePicker>
+                    <DatePicker Name="datpick_FechaNacimiento" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"></DatePicker>
                     <Label Content="Turno" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtTurno" Margin="5" Width="180"  Foreground="Black" BorderBrush= "#BDBDBD" BorderThickness="1"/>
                     <ComboBox Name="cmbx_Turno" Width="180" IsReadOnly="True" Visibility="Visible"  >

@@ -188,17 +188,18 @@ namespace Policheck
 
 
             funcionario.NumeroPlaca = txtNumeroPlaca.Text;
-            funcionario.Contrasena =pswd_contra.Password;
+            funcionario.Contrasena = pswd_contra.Password;
             funcionario.DNI = txtDNI.Text;
             funcionario.Genero = txtGenero.Text;
             funcionario.NombreCompleto = txtbx_Nombre.Text;
-            funcionario.EdadActual = ;
+            string Fecha = datpick_FechaNacimiento.SelectedDate.Value.ToString("yyyy-MM-dd");
             funcionario.Correo = txtCorreo.Text;
             funcionario.Telefono = txtTelefono.Text;
             funcionario.Turno = txtTurno.Text;
             funcionario.Rango = txtRango.Text;
             funcionario.Distrito = txtDistrito.Text;
-            int resultado = await _apiService.CrearFuncionarioAsync();
+
+           // int resultado = await _apiService.CrearFuncionarioAsync();
 
         }
 
