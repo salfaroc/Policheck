@@ -110,18 +110,17 @@ namespace Policheck
                 var funcionario = funcionarios.First(); // Tomar el primer funcionario (o el único en este caso)
 
                 // Ahora que tienes los datos del funcionario, rellena los campos
-               // Cambié NumeroPlaca por Numero_Placa
-                txtbx_Nombre.Text = funcionario.NombreCompleto; // Cambié NombreCompleto por Nombre_Completo
+                txtbx_Nombre.Text = funcionario.NombreCompleto; 
                 pswd_contra.Password = funcionario.Contrasena;
-                txtbx_Dni.Text = funcionario.DNI;// Mantiene el nombre igual
-                txtbx_Genero.Text = funcionario.Genero; // Cambié Genero a la propiedad correcta
-                txtbx_FechNac.Text = funcionario.EdadActual.ToString(); // Cambié EdadActual por Edad_Actual
-                txtbx_Correo.Text = funcionario.Correo; // Igual
+                txtbx_Dni.Text = funcionario.DNI;
+                txtbx_Genero.Text = funcionario.Genero; 
+                txtbx_FechNac.Text = funcionario.EdadActual.ToString(); 
+                txtbx_Correo.Text = funcionario.Correo; 
                 txtbx_Telefono.Text = funcionario.Telefono.ToString(); // Telefono como int en JSON, convertimos a string
-                txtbx_Turno.Text = funcionario.Turno; // Igual
-                txtbx_Rango.Text = funcionario.Rango; // Igual
+                txtbx_Turno.Text = funcionario.Turno; 
+                txtbx_Rango.Text = funcionario.Rango; 
                 txtbx_Distrito.Text = funcionario.Distrito;
-                txtbx_Nombre.Text = funcionario.NombreCompleto;// Igual
+                txtbx_Nombre.Text = funcionario.NombreCompleto;
             }
             else
             {
@@ -186,21 +185,32 @@ namespace Policheck
         private async void BtnCrearFuncionario(object sender, RoutedEventArgs e)
         {
 
+            Funcionario funcionario = new Funcionario();
 
             funcionario.NumeroPlaca = txtNumeroPlaca.Text;
-            funcionario.Contrasena = pswd_contra.Password;
+            funcionario.Contrasena = passFuncionario.Password;
             funcionario.DNI = txtDNI.Text;
             funcionario.Genero = txtGenero.Text;
-            funcionario.NombreCompleto = txtbx_Nombre.Text;
+            funcionario.NombreCompleto = txtNombreFunc.Text;
             string Fecha = datpick_FechaNacimiento.SelectedDate.Value.ToString("yyyy-MM-dd");
             funcionario.Correo = txtCorreo.Text;
             funcionario.Telefono = txtTelefono.Text;
             funcionario.Turno = txtTurno.Text;
             funcionario.Rango = txtRango.Text;
             funcionario.Distrito = txtDistrito.Text;
+            funcionario.PrimerApellido = txtPrimerApell.Text;
+            funcionario.SegundoApellido = txtSegunApell.Text;
 
-           // int resultado = await _apiService.CrearFuncionarioAsync();
+           int resultado = await _apiService.CrearFuncionario(funcionario.NumeroPlaca, funcionario.Contrasena, funcionario.DNI, funcionario.Genero, funcionario.NombreCompleto, 
+              Fecha, funcionario.Correo, funcionario.Telefono, funcionario.Turno, funcionario.Rango, funcionario.Distrito, funcionario.PrimerApellido, funcionario.SegundoApellido);
 
+
+            if (resultado == 0)
+            {
+                MessageBox.Show("Funciona perfe.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+        
         }
 
         private void GeneradorDePlacas(object sender, RoutedEventArgs e)
@@ -235,6 +245,14 @@ namespace Policheck
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+        private void SeleccionTurno(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbx_Turno.SelectedItem is ComboBoxItem comboBoxItem)
+            {
+                string turno = comboBoxItem.Content.ToString();
+                txtTurno.Text = turno;
             }
         }
 
@@ -273,8 +291,6 @@ namespace Policheck
                 Vbx_Acciones.Visibility = Visibility.Hidden;
                 ToggleBackground(true);
             }
-
-
 
         }
     }

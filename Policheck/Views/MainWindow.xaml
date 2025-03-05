@@ -173,6 +173,9 @@
                     <Label Content="Nombre" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtNombreFunc" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
+                    <Label Content="Contraseña" Foreground="White"  HorizontalAlignment="Center"/>
+                    <PasswordBox Name="passFuncionario" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
                     <Label Content="1ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtPrimerApell" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
                     
@@ -181,9 +184,6 @@
 
                     <Label Content="Género" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtGenero" Margin="5" Width="180" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
-
-                    <Label Content="Edad Actual" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtEdadActual" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Correo" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtCorreo" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
@@ -195,7 +195,7 @@
                     <DatePicker Name="datpick_FechaNacimiento" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"></DatePicker>
                     <Label Content="Turno" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtTurno" Margin="5" Width="180"  Foreground="Black" BorderBrush= "#BDBDBD" BorderThickness="1"/>
-                    <ComboBox Name="cmbx_Turno" Width="180" IsReadOnly="True" Visibility="Visible"  >
+                    <ComboBox Name="cmbx_Turno" Width="180" IsReadOnly="True" Visibility="Visible" SelectionChanged="SeleccionTurno" >
                         <ComboBoxItem Content="Mañana" />
                         <ComboBoxItem Content="Tarde" />
                         <ComboBoxItem Content="Noche" />
@@ -218,8 +218,8 @@
                  BorderBrush="White"  BorderThickness="1">
                 <StackPanel Width="160" Name="Stkpnl_Acciones" Background="#1E1E1E" >
                     <Button Content="🛡️ Generar NPlaca" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1"  Click="GeneradorDePlacas"/>
-                    <Button Content="👮 Añadir" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" />
-                    <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <Button Content="👮 Añadir" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="BtnCrearFuncionario"/>
+                    <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Volver"/>
                 </StackPanel>
             </Border>
         </Viewbox>
