@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Policheck.Models;
 using static Org.BouncyCastle.Asn1.Cmp.Challenge;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class ApiService
 {
@@ -168,7 +169,6 @@ public class ApiService
             url = $"{_url}/cargarDistritos";
 
 
-
             HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -192,6 +192,73 @@ public class ApiService
             Console.WriteLine($"Error: {ex.Message}");
             return null;
         }
+
+
+    }
+
+    public async Task<int> CrearFuncionario(string numeroPlaca, string contrasena, string dni, string genero, string nombre,
+                                    string fechaNacimiento, string correo, string telefono, string turno, string rango,
+                                    string distrito, string primerApellido, string segundoApellido)
+    {
+        try
+        {
+
+            var registroData = new
+            {
+
+                    numPlaca = numeroPlaca,
+                    dni= dni,
+                    nombre = nombre,
+                    apellido1 = primerApellido,
+                    apellido2 = segundoApellido,
+                    genero = genero,
+                    fechaNacimiento = fechaNacimiento,
+                    rango = rango,
+                    correo = correo,
+                    telefono = telefono,
+                    distrito = distrito,
+                    turno = turno
+
+
+            };
+
+
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(registroData);
+
+
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaFuncionario", content);
+
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+
+
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+
+                return resultado;
+
+            }
+            else
+            {
+
+                throw new Exception($"Error de autenticación. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+
+
 
 
     }

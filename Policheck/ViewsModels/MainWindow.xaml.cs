@@ -132,8 +132,9 @@ namespace Policheck
 
         private void Formulario_Perfil()
         {
-
+            pagina = 1;
             Vbx_Perfil.Visibility = Visibility.Visible;
+            mnu_Inicial.Visibility = Visibility.Hidden; 
         }
         private void Btn_Meritos(object sender, RoutedEventArgs e)
         {
@@ -172,7 +173,7 @@ namespace Policheck
 
         private void BtnAltaFuncionario(object sender, RoutedEventArgs e)
         {
-            pagina = 1;
+            pagina = 2;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Vbx_Funcionario.Visibility = Visibility.Visible;
             Vbx_Acciones.Visibility = Visibility.Visible;
@@ -182,9 +183,23 @@ namespace Policheck
 
         }
 
-        private void BtnCrearFuncionario(object sender, RoutedEventArgs e)
+        private async void BtnCrearFuncionario(object sender, RoutedEventArgs e)
         {
-            
+
+
+            funcionario.NumeroPlaca = txtNumeroPlaca.Text;
+            funcionario.Contrasena =pswd_contra.Password;
+            funcionario.DNI = txtDNI.Text;
+            funcionario.Genero = txtGenero.Text;
+            funcionario.NombreCompleto = txtbx_Nombre.Text;
+            funcionario.EdadActual = ;
+            funcionario.Correo = txtCorreo.Text;
+            funcionario.Telefono = txtTelefono.Text;
+            funcionario.Turno = txtTurno.Text;
+            funcionario.Rango = txtRango.Text;
+            funcionario.Distrito = txtDistrito.Text;
+            int resultado = await _apiService.CrearFuncionarioAsync();
+
         }
 
         private void GeneradorDePlacas(object sender, RoutedEventArgs e)
@@ -244,11 +259,14 @@ namespace Policheck
 
         private void Btn_Volver(object sender, RoutedEventArgs e)
         {
-
-          
-             if (pagina == 1)
+            if (pagina == 1)
             {
-               
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_Perfil.Visibility = Visibility.Hidden;
+                ToggleBackground(true);
+            }
+            else if (pagina == 2)
+            {
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Funcionario.Visibility = Visibility.Hidden;
                 Vbx_Acciones.Visibility = Visibility.Hidden;

@@ -41,6 +41,11 @@ namespace Policheck.Models
 
         [JsonProperty("Distrito")]
         public string Distrito { get; set; }
+
+
+        public string PrimerApellido { get; set; }
+
+        public string SegundoApellido { get; set; }
     }
 
 }
