@@ -190,7 +190,7 @@ namespace Policheck
             funcionario.NumeroPlaca = txtNumeroPlaca.Text;
             funcionario.Contrasena = passFuncionario.Password;
             funcionario.DNI = txtDNI.Text;
-            funcionario.Genero = txtGenero.Text;
+            funcionario.Genero = cmbxGenero.Text;
             funcionario.NombreCompleto = txtNombreFunc.Text;
             string Fecha = datpick_FechaNacimiento.SelectedDate.Value.ToString("yyyy-MM-dd");
             funcionario.Correo = txtCorreo.Text;
@@ -207,11 +207,77 @@ namespace Policheck
 
             if (resultado == 0)
             {
-                MessageBox.Show("Funciona perfe.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Funcionario creado exitosamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            else
+            {
+                if (resultado == -1)
+                {
+                    MessageBox.Show("El DNI ya existe.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -2)
+                {
+                    MessageBox.Show("El DNI no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -3)
+                {
+                    MessageBox.Show("El nombre no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -4)
+                {
+                    MessageBox.Show("El primer apellido no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -5)
+                {
+                    MessageBox.Show("El segundo apellido no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -6)
+                {
+                    MessageBox.Show("El género es obligatorio y debe ser 'M' o 'F'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -7)
+                {
+                    MessageBox.Show("La fecha de nacimiento es obligatoria.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -8)
+                {
+                    MessageBox.Show("El rango no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -9)
+                {
+                    MessageBox.Show("El correo electrónico no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -10)
+                {
+                    MessageBox.Show("El teléfono no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -11)
+                {
+                    MessageBox.Show("El distrito no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -12)
+                {
+                    MessageBox.Show("El turno debe ser 'Mañana', 'Tarde' o 'Noche'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -13)
+                {
+                    MessageBox.Show("El número de placa no puede ser nulo o vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -14)
+                {
+                    MessageBox.Show("El distrito no fue encontrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (resultado == -15)
+                {
+                    MessageBox.Show("El rango no fue encontrado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error desconocido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
-        
-        }
+                }
+            }
 
         private void GeneradorDePlacas(object sender, RoutedEventArgs e)
         {
