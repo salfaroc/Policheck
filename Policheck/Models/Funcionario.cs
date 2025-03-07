@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Policheck.Models
 {
@@ -46,6 +47,15 @@ namespace Policheck.Models
         public string PrimerApellido { get; set; }
 
         public string SegundoApellido { get; set; }
+
+        public string GeneradorDePlacas()
+        {
+            Random random = new Random();
+            int placa = random.Next(100000, 999999);
+            return placa.ToString();
+        }
+
+
     }
 
 }

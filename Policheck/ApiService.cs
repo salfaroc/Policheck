@@ -213,13 +213,8 @@ public class ApiService
 
                 
                     numPlaca = numeroPlaca,
-<<<<<<< HEAD
                     contras = passHash,
                     dni = dni,
-=======
-                    contras = contrasena,
-                    dni= dni,
->>>>>>> e4f05cd115f10053d0465920b087c048859ba1eb
                     nombre = nombre,
                     apellido1 = primerApellido,
                     apellido2 = segundoApellido,
@@ -273,6 +268,44 @@ public class ApiService
 
 
 
+    }
+
+
+    public async Task<int> CrearIncienciaAsync(string numeroPlaca, string titulo, string descripcion, string tipo)
+    {
+        try
+        {
+            var incidenciaData = new
+            {
+                numPlaca = numeroPlaca,
+                titulo = titulo,
+                descripcion = descripcion,
+                tipo = tipo
+            };
+
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(incidenciaData);
+
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/crearIncidencia", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al crear incidencia. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
     }
 
 
