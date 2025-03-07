@@ -213,8 +213,13 @@ public class ApiService
 
                 
                     numPlaca = numeroPlaca,
+<<<<<<< HEAD
                     contras = passHash,
                     dni = dni,
+=======
+                    contras = contrasena,
+                    dni= dni,
+>>>>>>> e4f05cd115f10053d0465920b087c048859ba1eb
                     nombre = nombre,
                     apellido1 = primerApellido,
                     apellido2 = segundoApellido,
