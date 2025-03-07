@@ -21,11 +21,13 @@ public class ApiService
     {
         try
         {
-           
+
+            string passHash = Encriptar(password);
+
             var loginData = new
             {
                 numPlaca = numPlaca,
-                pass = password
+                pass = passHash
             };
 
             
@@ -203,11 +205,16 @@ public class ApiService
         try
         {
 
+            string passHash = Encriptar(contrasena);
+
+
             var registroData = new
             {
 
+                
                     numPlaca = numeroPlaca,
-                    dni= dni,
+                    contras = passHash,
+                    dni = dni,
                     nombre = nombre,
                     apellido1 = primerApellido,
                     apellido2 = segundoApellido,
@@ -262,6 +269,16 @@ public class ApiService
 
 
     }
+
+
+    public string Encriptar(string _cadenaAencriptar)
+    {
+        string result = string.Empty;
+        byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+        result = Convert.ToBase64String(encryted);
+        return result;
+    }
+
 
 }
 

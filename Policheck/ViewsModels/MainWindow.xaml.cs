@@ -77,6 +77,9 @@ namespace Policheck
                 funcionario.NumeroPlaca = placa.ToString();
                 Vbx_InicioSesion.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
+                MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
+                SeparatorFunc.Visibility = Visibility.Collapsed;
+
             }
             else if (res == -1)
             {
