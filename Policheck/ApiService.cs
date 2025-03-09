@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Policheck.Models;
 using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Mysqlx.Crud.Order.Types;
+using System.Net;
 
 public class ApiService
 {
@@ -307,6 +309,188 @@ public class ApiService
             return -1;
         }
     }
+
+
+    public async Task<List<EstadoJudicial>>GetEstadoJudicialAsync()
+    {
+        try
+        {
+            string url = $"{_url}/cargarEstadoJudicial";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.estadoJudicial == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<EstadoJudicial> estadoJudicial = jsonResponse.estadoJudicial.ToObject<List<EstadoJudicial>>();
+                return estadoJudicial;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener estado judicial. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<int> AltaCiudadanoAsync(string num_placa, string dni, string nombre, string apellido1, string apellido2,
+                                           string correo, string genero, string fecha_nacimiento, string telefono,
+                                           string direccion, string estado_judicial)
+    {
+        try
+        {
+            var ciudadanoData = new
+            {
+                    numPlaca= num_placa,
+                    dni = dni,
+                    nombre = nombre,
+                    apellido1 = apellido1,
+                    apellido2 = apellido2,
+                    genero = genero,
+                    fechaNacimiento = fecha_nacimiento,
+                    correo = correo,
+                    telefono = telefono,
+                    direccion = direccion,
+                    estadoJudicial = estado_judicial
+            };
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaCiudadano", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+
+
+    public async Task<List<Datos>> GetCategoriaDenunciaAsync()
+    {
+        try
+        {
+            string url = $"{_url}/cargarCategoriaDenuncia";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.categoriaDenuncia == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Datos> categoriaDenuncia = jsonResponse.categoriaDenuncia.ToObject<List<Datos>>();
+                return categoriaDenuncia;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener categoría de denuncia. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+
+    public async Task<int> CrearDenunciaAsync(string direccion,string cp,string distrito,string titulo, string descripcion,string categoria_denuncia, string dni_ciudadano)
+    {
+        try
+        {
+            var ciudadanoData = new
+            {
+                    direccion = direccion,
+                    cp = cp,
+                    distrito = distrito,
+                    titulo = titulo,
+                    descripcion = descripcion,
+                    categoria_denuncia = categoria_denuncia,
+                    dni_ciudadano = dni_ciudadano
+            };
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaDenuncia", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+
+
+
+    public async Task<List<Funcionario>> GetFuncionarioAsync(string Nplaca)
+    {
+        try
+        {
+            string url = "";
+
+            if (Nplaca != null)
+            {
+                url = $"{_url}/verFuncionarioPlaca/{Nplaca}";
+            }
+            else
+            {
+                url = $"{_url}/verFuncionarioGeneral";
+            }
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.funcionarios == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Funcionario> funcionarios = jsonResponse.funcionarios.ToObject<List<Funcionario>>();
+                return funcionarios;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener funcionarios. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+
+
+
+
+    }
+
 
 
     public string Encriptar(string _cadenaAencriptar)

@@ -125,11 +125,33 @@ namespace Policheck
 
         }
 
+        private void BtnAltaCiudadano(object sender, RoutedEventArgs e)
+        {
+            pagina = 4;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Vbx_Ciudadano.Visibility = Visibility.Visible;
+            Vbx_AccionesCiudadano.Visibility = Visibility.Visible;
+            txtNumeroPlacaCiu.Text = funcionario.NumeroPlaca;
+
+            CargarEstadosJudiciales();
+        }
+
+        private void BtnDenuncia(object sender, RoutedEventArgs e)
+        {
+            pagina = 5;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Vbx_Denuncia.Visibility = Visibility.Visible;
+            Vbx_AccionesDenuncia.Visibility = Visibility.Visible;
+            CargarCategoriaDenuncia();
+            CargarDistritos();
+        }
         private void Btn_Meritos(object sender, RoutedEventArgs e)
         {
             Meritos meritos = new Meritos(funcionario);
             meritos.Show();
         }
+
+
 
         //---------------Botones de creacion----------------
   
@@ -307,6 +329,151 @@ namespace Policheck
         }
 
 
+            //-----------------Apartado de creacion de ciudadanos----------------
+
+            private async void BtnCrearCiudadano(object sender, RoutedEventArgs e)
+            {
+                Ciudadano ciudadano = new Ciudadano();
+
+                ciudadano.DNI = txtDNICiu.Text;
+                ciudadano.NombreCompleto = txtNombreCiu.Text;
+                ciudadano.PrimerApellido = txtPrimerApellCiu.Text;
+                ciudadano.SegundoApellido = txtSegunApellCiu.Text;
+                ciudadano.Correo = txtCorreoCiu.Text;
+                ciudadano.Telefono = txtTelefonoCiu.Text;
+                ciudadano.EstadoJudcial = cmbx_EstadoJudicial.Text;
+                ciudadano.Genero = cmbxGeneroCiu.Text;
+                string Fecha = datpick_FechaNacimientoCiu.SelectedDate.Value.ToString("yyyy-MM-dd");
+                ciudadano.Direccion = txtDireccionCiu.Text;
+
+                int resultado = await _apiService.AltaCiudadanoAsync(funcionario.NumeroPlaca, ciudadano.DNI, ciudadano.NombreCompleto, ciudadano.PrimerApellido, ciudadano.SegundoApellido, ciudadano.Correo, ciudadano.Genero, Fecha, ciudadano.Telefono, ciudadano.Direccion, ciudadano.EstadoJudcial);
+                  
+                if (resultado == 0)
+                {
+                MessageBox.Show("Ciudadano creado exitosamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+
+                txtDNICiu.Text = "";
+                cmbxGeneroCiu.Text = "";
+                txtNombreCiu.Text = "";
+                datpick_FechaNacimientoCiu.SelectedDate = null;
+                txtCorreoCiu.Text = "";
+                txtTelefonoCiu.Text = "";
+                txtPrimerApellCiu.Text = "";
+                txtSegunApellCiu.Text = "";
+                cmbxGeneroCiu.SelectedIndex = -1;
+                cmbx_EstadoJudicial.SelectedIndex = -1;
+                }
+
+                else if (resultado == -1)
+                    MessageBox.Show("El ciudadano ya existe.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -2)
+                    MessageBox.Show("El DNI no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -3)
+                    MessageBox.Show("El nombre no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -4)
+                    MessageBox.Show("El primer apellido no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -5)
+                    MessageBox.Show("El segundo apellido no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -6)
+                    MessageBox.Show("El género no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -7)
+                    MessageBox.Show("La fecha de nacimiento no puede estar vacía.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -8)
+                    MessageBox.Show("El correo no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -9)
+                    MessageBox.Show("El teléfono no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -10)
+                    MessageBox.Show("La dirección no puede estar vacía.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -11)
+                    MessageBox.Show("El estado judicial no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -12)
+                    MessageBox.Show("El correo debe contener '@'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (resultado == -13)
+                    MessageBox.Show("El estado judicial no existe ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                    MessageBox.Show("Error desconocido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+        }
+
+            //-----------------Apartado de creacion de denuncias----------------
+            private async void BtnCrearDenuncia(object sender, EventArgs e)
+            {
+                
+                Denuncia denuncia = new Denuncia();
+
+                denuncia.Direccion = txtDireccionDen.Text;
+                denuncia.CP = txtCPDen.Text;
+                denuncia.Distrito = cmbx_DistritoDen.Text;
+                denuncia.Titulo = txtTituloDen.Text;
+                denuncia.Descripcion = txtDescripcionDen.Text;
+                denuncia.CategoriaDenuncia = cmbxCategoriaDen.Text;
+                denuncia.DNICiudadano = txtDniDenuncia.Text;
+                
+                int resultado = await _apiService.CrearDenunciaAsync(denuncia.Direccion, denuncia.CP, denuncia.Distrito, denuncia.Titulo, denuncia.Descripcion, denuncia.CategoriaDenuncia, denuncia.DNICiudadano);
+
+
+
+
+            if (resultado == 0)
+            {
+                MessageBox.Show("Denuncia creada exitosamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+                txtDireccionDen.Text = "";
+                txtCPDen.Text = "";
+                txtDniDenuncia.Text = "";
+                cmbx_DistritoDen.SelectedIndex = -1;
+                txtTituloDen.Text = "";
+                txtDescripcionDen.Text = "";
+                cmbxCategoriaDen.SelectedIndex = -1;
+
+            }
+            else if (resultado == -1)
+            {
+                MessageBox.Show("Error: La dirección no puede estar vacía.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -2)
+            {
+                MessageBox.Show("Error: El código postal no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -3)
+            {
+                MessageBox.Show("Error: El distrito no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -4)
+            {
+                MessageBox.Show("Error: El título no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -5)
+            {
+                MessageBox.Show("Error: La descripción no puede estar vacía.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -6)
+            {
+                MessageBox.Show("Error: La categoría de denuncia no es válida.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -7)
+            {
+                MessageBox.Show("Error: El DNI del ciudadano no puede estar vacío.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -8)
+            {
+                MessageBox.Show("Error: El distrito ingresado no es válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (resultado == -9)
+            {
+                MessageBox.Show("Error: El ciudadano no existe en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                MessageBox.Show("Denuncia creada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+        }
+
         //---------------------------Boton Volver--------------------------------------------
         private void Btn_Volver(object sender, RoutedEventArgs e)
         {
@@ -330,6 +497,21 @@ namespace Policheck
                 Vbx_AccionesIncidencia.Visibility = Visibility.Hidden;
                 ToggleBackground(true);
             }
+            else if (pagina == 4)
+            {
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_Ciudadano.Visibility = Visibility.Hidden;
+                Vbx_AccionesCiudadano.Visibility = Visibility.Hidden;
+                ToggleBackground(true);
+            }
+            else if (pagina == 5)
+            {
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_Denuncia.Visibility = Visibility.Hidden;
+                Vbx_AccionesDenuncia.Visibility = Visibility.Hidden;
+                ToggleBackground(true);
+            }
+           
 
         }
 
@@ -356,12 +538,43 @@ namespace Policheck
                 var distritos = await _apiService.GetDistritosAsync();
                 cmbx_Distrito.ItemsSource = distritos;
                 cmbx_Distrito.DisplayMemberPath = "Nombre";
+                cmbx_DistritoDen.ItemsSource = distritos;
+                cmbx_DistritoDen.DisplayMemberPath = "Nombre";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
+
+        private async void CargarEstadosJudiciales()
+        {
+            try
+            {
+                var estados = await _apiService.GetEstadoJudicialAsync();
+                cmbx_EstadoJudicial.ItemsSource = estados;
+                cmbx_EstadoJudicial.DisplayMemberPath = "Nombre";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private async void CargarCategoriaDenuncia()
+        {
+            try
+            {
+                var categorias = await _apiService.GetCategoriaDenunciaAsync();
+                cmbxCategoriaDen.ItemsSource = categorias;
+                cmbxCategoriaDen.DisplayMemberPath = "Nombre";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
         private void SeleccionTurno(object sender, SelectionChangedEventArgs e)
         {
             if (cmbx_Turno.SelectedItem is ComboBoxItem comboBoxItem)

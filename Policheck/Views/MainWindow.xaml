@@ -90,10 +90,10 @@
             
             </MenuItem>
             <MenuItem Header="Ciudadano" FontSize="15" >
-                <MenuItem Header="Alta ciudadano"  Background="Black" ></MenuItem>
+                <MenuItem Header="Alta ciudadano"  Background="Black" Click="BtnAltaCiudadano" ></MenuItem>
             </MenuItem>
             <MenuItem Header="Denuncia" FontSize="15" >
-                <MenuItem Header="Nueva denuncia"  Background="Black"></MenuItem>
+                <MenuItem Header="Nueva denuncia"  Background="Black" Click="BtnDenuncia"></MenuItem>
             </MenuItem>
             <MenuItem Header="Ver" FontSize="15">
                 <MenuItem Header="Ver Ciudadanos"  Background="Black"></MenuItem>
@@ -101,6 +101,8 @@
                 <MenuItem Header="Ver Funcionarios"  Background="Black"></MenuItem>
 
             </MenuItem>
+            <MenuItem Header="Cerrar Sesión" FontSize="15" Click="BtnCerrarSesion" Background="Black"></MenuItem>
+
         </Menu>
 
 
@@ -258,6 +260,101 @@
             </Border>
         </Viewbox>
 
+        <Viewbox Name="Vbx_Ciudadano" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="700" Visibility="Hidden">
+
+            <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" BorderBrush="White" BorderThickness="1" Width="250" >
+                <StackPanel Width="220">
+                    <Label Content="Nº Placa" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtNumeroPlacaCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
+
+                    <Label Content="DNI" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDNICiu" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Nombre" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtNombreCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    
+                    <Label Content="1ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtPrimerApellCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="2ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtSegunApellCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Género" Foreground="White"  HorizontalAlignment="Center"/>
+                    <ComboBox Name="cmbxGeneroCiu" Margin="5" Width="180" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsEditable="False">
+                        <ComboBoxItem Content="M" />
+                        <ComboBoxItem Content="F" />
+                    </ComboBox>
+
+                    <Label Content="Correo" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtCorreoCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Teléfono" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtTelefonoCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Fecha Nacimiento" Foreground="White"  HorizontalAlignment="Center"/>
+                    <DatePicker Name="datpick_FechaNacimientoCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"></DatePicker>
+                 
+                    <Label Content="Direccion" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDireccionCiu" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Estado Judicial" Foreground="White"  HorizontalAlignment="Center"/>
+                    <ComboBox Name="cmbx_EstadoJudicial" Width="180" Visibility="Visible" IsReadOnly="True"  ></ComboBox>
+
+                </StackPanel>
+            </Border>
+        </Viewbox>
+
+        <Viewbox Name="Vbx_AccionesCiudadano" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="150" Visibility="Hidden" >
+
+            <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
+            BorderBrush="White"  BorderThickness="1">
+                <StackPanel Width="160" Background="#1E1E1E" >
+                    <Button Content="🙍 Añadir" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" BorderBrush="#BDBDBD" BorderThickness="1" Click="BtnCrearCiudadano"/>
+                    <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Volver"/>
+                </StackPanel>
+            </Border>
+        </Viewbox>
+
+        <Viewbox Name="Vbx_Denuncia" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="700" Visibility="Hidden">
+            <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" BorderBrush="White" BorderThickness="1" Width="250"  >
+                <StackPanel Width="220">
+                    <Label Content="Dni" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDniDenuncia" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" />
+                    
+                    <Label Content="Titulo" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtTituloDen"  Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    
+                    <Label Content="Descripcion" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDescripcionDen"  Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" Height="66"/>
+                    
+                    <Label Content="Direccion" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDireccionDen"  Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" />
+
+
+                    <Label Content="Codigo Postal" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtCPDen"  Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" />
+
+                    <Label Content="Distrito" Foreground="White"  HorizontalAlignment="Center"/>
+                    <ComboBox Name="cmbx_DistritoDen" Width="180" Visibility="Visible" IsReadOnly="True"></ComboBox>
+
+
+                    <Label Content="Categoria" Foreground="White"  HorizontalAlignment="Center"/>
+                    <ComboBox Name="cmbxCategoriaDen"  Margin="5" Width="180"  IsEditable="False"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                </StackPanel>
+            </Border>
+        </Viewbox>
+
+        <Viewbox Name="Vbx_AccionesDenuncia" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="150" Visibility="Hidden" >
+
+            <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
+                BorderBrush="White"  BorderThickness="1" >
+                <StackPanel Width="160" Background="#1E1E1E" >
+                    <Button Content="📄 Crear" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" BorderBrush="#BDBDBD" BorderThickness="1" Click="BtnCrearDenuncia"/>
+                    <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Volver"/>
+                </StackPanel>
+            </Border>
+        </Viewbox>
 
     </Grid>
 
