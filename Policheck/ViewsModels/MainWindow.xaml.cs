@@ -151,14 +151,27 @@ namespace Policheck
             meritos.Show();
         }
 
+        private void Btn_CerrarSesion(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("¿Esta seguro de que quiere cerrrar sesion? ", "Cerrar Sesion", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.No)
+            {
+                Vbx_InicioSesion.Visibility = Visibility.Visible;
+                ToggleBackground(true);
+                mnu_Inicial.Visibility = Visibility.Hidden;
+                txtPlaca.Text = "";
+                pwdContraseña.Password = "";
+            }
+        }
 
 
         //---------------Botones de creacion----------------
-  
 
 
-            //---------------Apartado de creacion de funcionarios----------------
-            private async void BtnCrearFuncionario(object sender, RoutedEventArgs e)
+
+        //---------------Apartado de creacion de funcionarios----------------
+        private async void BtnCrearFuncionario(object sender, RoutedEventArgs e)
             {
 
                 Funcionario funcionario = new Funcionario();
