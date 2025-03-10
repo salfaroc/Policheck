@@ -7,28 +7,40 @@ using System.Threading.Tasks;
 
 namespace Policheck.Models
 {
-    class Ciudadano
+    public class Ciudadano
     {
 
         [JsonProperty("DNI")]
         public string DNI { get; set; }
 
-        [JsonProperty("Genero")]
-        public string Genero { get; set; }
-
         [JsonProperty("Nombre_Completo")]
         public string NombreCompleto { get; set; }
+
+        [JsonProperty("Genero")]
+        public string Genero { get; set; }
 
         [JsonProperty("Edad_Actual")]
         public int EdadActual { get; set; }
 
-        [JsonProperty("Correo")]
+        [JsonProperty("Direccion_Ciudadano")]
+        public string Direccion { get; set; }
+
+        [JsonProperty("Nombre_Delito")]
+        public string NombreDelito { get; set; }
+
+        [JsonProperty("Cantidad_Delitos")]
+        public int CantidadDelitos { get; set; }
+
+        [JsonProperty("Multa_Economica")]
+        public int Multa_Economica { get; set; }
+
+        [JsonProperty("Tipo_Delito")]
+        public string Tipo_Delito { get; set; }
+
+
         public string Correo { get; set; }
 
-        [JsonProperty("Telefono")]
         public string Telefono { get; set; }
-
-        public string Direccion { get; set; }
 
         public string EstadoJudcial { get; set; }
         public string PrimerApellido { get; set; }

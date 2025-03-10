@@ -493,7 +493,63 @@ public class ApiService
 
 
 
-    public string Encriptar(string _cadenaAencriptar)
+    public async Task<List<Ciudadano>>GetCiudadanosAsync()
+    {
+        try
+        {
+            string url = $"{_url}/verCiudadanos";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.ciudadanos == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Ciudadano> ciudadanos = jsonResponse.ciudadanos.ToObject<List<Ciudadano>>();
+                return ciudadanos;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener ciudadanos. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+
+    public async Task<List<Denuncia>> GetDenunciaAsync()
+    {
+        try
+        {
+            string url = $"{_url}/verDenuncias";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.denuncias == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
+                return denuncias;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener denuncias. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+
+    }
+
+        public string Encriptar(string _cadenaAencriptar)
     {
         string result = string.Empty;
         byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);

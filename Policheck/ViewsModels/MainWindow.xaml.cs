@@ -64,6 +64,7 @@ namespace Policheck
                 funcionario.NumeroPlaca = placa.ToString();
                 Vbx_InicioSesion.Visibility = Visibility.Hidden;
                 mnu_Inicial.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
 
             }
             else if (res == 0)
@@ -74,6 +75,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
                 SeparatorFunc.Visibility = Visibility.Collapsed;
+                SeparatorVer.Visibility = Visibility.Collapsed;
+                MnuItm_VerFunc.Visibility = Visibility.Collapsed;
+                Img_Menu.Visibility = Visibility.Visible;
 
             }
             else if (res == -1)
@@ -100,7 +104,7 @@ namespace Policheck
         private void BtnPerfil(object sender, RoutedEventArgs e)
         {
             Formulario_Perfil();
-            
+            Img_Menu.Visibility = Visibility.Collapsed;
             RellenarDatos();
         }
         private void BtnAltaFuncionario(object sender, RoutedEventArgs e)
@@ -111,6 +115,7 @@ namespace Policheck
             Vbx_Acciones.Visibility = Visibility.Visible;
             CargarDistritos();
             CargarRangos();
+            Img_Menu.Visibility = Visibility.Collapsed;
 
 
         }
@@ -122,7 +127,7 @@ namespace Policheck
             Vbx_Incidencias.Visibility = Visibility.Visible;
             Vbx_AccionesIncidencia.Visibility = Visibility.Visible;
             txtNumeroPlacaInc.Text = funcionario.NumeroPlaca;
-
+            Img_Menu.Visibility = Visibility.Collapsed;
         }
 
         private void BtnAltaCiudadano(object sender, RoutedEventArgs e)
@@ -132,7 +137,7 @@ namespace Policheck
             Vbx_Ciudadano.Visibility = Visibility.Visible;
             Vbx_AccionesCiudadano.Visibility = Visibility.Visible;
             txtNumeroPlacaCiu.Text = funcionario.NumeroPlaca;
-
+            Img_Menu.Visibility = Visibility.Collapsed;
             CargarEstadosJudiciales();
         }
 
@@ -144,11 +149,13 @@ namespace Policheck
             Vbx_AccionesDenuncia.Visibility = Visibility.Visible;
             CargarCategoriaDenuncia();
             CargarDistritos();
+            Img_Menu.Visibility = Visibility.Collapsed;
         }
         private void Btn_Meritos(object sender, RoutedEventArgs e)
         {
             Meritos meritos = new Meritos(funcionario);
             meritos.Show();
+
         }
 
         private void Btn_CerrarSesion(object sender, RoutedEventArgs e)
@@ -162,9 +169,41 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Hidden;
                 txtPlaca.Text = "";
                 pwdContraseña.Password = "";
+                Img_Menu.Visibility = Visibility.Collapsed;
             }
         }
 
+
+        private void Btn_VerCiudadanos(object sender, RoutedEventArgs e)
+        {
+            pagina = 6;
+            CargarCiudadanos();
+            Vbx_Datos.Visibility = Visibility.Visible;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Vbx_AccionesDatos.Visibility = Visibility.Visible;
+            btn_MasDetalles.Visibility = Visibility.Collapsed;
+            Img_Menu.Visibility = Visibility.Collapsed;
+        }
+
+        private void Btn_VerFuncionarios(object sender, RoutedEventArgs e)
+        {
+            pagina = 7;
+            CargarFuncionarios();
+            Vbx_Datos.Visibility = Visibility.Visible;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Vbx_AccionesDatos.Visibility = Visibility.Visible;
+            btn_MasDetalles.Visibility = Visibility.Collapsed;
+            Img_Menu.Visibility = Visibility.Collapsed;
+        }
+
+        private void Btn_VerDenuncias(object sender, RoutedEventArgs e)
+        {
+            pagina = 8;
+            Vbx_Datos.Visibility = Visibility.Visible;
+            mnu_Inicial.Visibility = Visibility.Hidden;
+            Img_Menu.Visibility = Visibility.Collapsed;
+            CargarDenuncias();
+        }
 
         //---------------Botones de creacion----------------
 
@@ -524,13 +563,90 @@ namespace Policheck
                 Vbx_AccionesDenuncia.Visibility = Visibility.Hidden;
                 ToggleBackground(true);
             }
-           
+            else if (pagina == 6)
+            {
+                Vbx_Datos.Visibility = Visibility.Collapsed;
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
+                ToggleBackground(true);
+            }
+            else if (pagina == 7)
+            {
+                Vbx_Datos.Visibility = Visibility.Collapsed;
+                mnu_Inicial.Visibility = Visibility.Collapsed;
+                Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
+                ToggleBackground(true);
+            }
+            else if (pagina == 8)
+            {
+                Vbx_Datos.Visibility = Visibility.Collapsed;
+                mnu_Inicial.Visibility = Visibility.Visible;
+                Vbx_AccionesDatos.Visibility = Visibility.Visible;
+
+            }
 
         }
 
 
         //-----------------Apartado Carga y Seleccion de datos----------------
-        private async void CargarRangos()
+        
+        
+        private async void CargarFuncionarios()
+        {
+            try
+            {
+                string placa = null;
+
+                var funcionarios = await _apiService.GetFuncionarioAsync(placa);
+
+                // Filtrar solo las propiedades necesarias
+                var funcionariosFiltrados = funcionarios.Select(f => new
+                {
+                    f.NumeroPlaca,
+                    f.NombreCompleto,
+                    f.DNI,
+                    f.Genero,
+                    f.EdadActual,
+                    f.Correo,
+                    f.Telefono,
+                    f.Turno,
+                    f.Rango,
+                    f.Distrito
+              
+                }).ToList();
+
+                DtGrd_Datos.ItemsSource = funcionariosFiltrados;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private async void CargarDenuncias()
+        {
+            try
+            {
+                var denuncias = await _apiService.GetDenunciaAsync();
+
+                // Filtrar solo las propiedades necesarias
+                var denunciasFiltradas = denuncias.Select(d => new
+                {
+                    d.DNICiudadano,
+                    d.NombreCiudadano,
+                    d.CategoriaDenuncia,
+                    d.Titulo,
+                    d.Descripcion
+                }).ToList();
+
+                DtGrd_Datos.ItemsSource = denunciasFiltradas;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+            private async void CargarRangos()
         {
             try
             {
@@ -587,6 +703,35 @@ namespace Policheck
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
+
+        private async void CargarCiudadanos()
+        {
+            try
+            {
+                var ciudadanos = await _apiService.GetCiudadanosAsync();
+
+                // Filtrar solo las propiedades necesarias
+                var ciudadanosFiltrados = ciudadanos.Select(c => new
+                {
+                    c.DNI,
+                    c.NombreCompleto,
+                    c.Genero,
+                    c.EdadActual,
+                    c.Direccion,
+                    c.NombreDelito,
+                    c.CantidadDelitos,
+                    c.Multa_Economica,
+                    c.Tipo_Delito
+                }).ToList();
+
+                DtGrd_Datos.ItemsSource = ciudadanosFiltrados;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
 
         private void SeleccionTurno(object sender, SelectionChangedEventArgs e)
         {
@@ -648,6 +793,7 @@ namespace Policheck
         }
 
 
+       
 
         //---------------Funciones de diseño y Formularios----------------
         private void ToggleBackground(bool mostrar)
