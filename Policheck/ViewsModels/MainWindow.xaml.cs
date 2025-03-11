@@ -187,8 +187,10 @@ namespace Policheck
 
         private void Btn_VerFuncionarios(object sender, RoutedEventArgs e)
         {
+            string placa = null;
+
             pagina = 7;
-            CargarFuncionarios();
+            CargarFuncionarios(placa);
             Vbx_Datos.Visibility = Visibility.Visible;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
@@ -206,8 +208,6 @@ namespace Policheck
         }
 
         //---------------Botones de creacion----------------
-
-
 
         //---------------Apartado de creacion de funcionarios----------------
         private async void BtnCrearFuncionario(object sender, RoutedEventArgs e)
@@ -573,7 +573,7 @@ namespace Policheck
             else if (pagina == 7)
             {
                 Vbx_Datos.Visibility = Visibility.Collapsed;
-                mnu_Inicial.Visibility = Visibility.Collapsed;
+                mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
                 ToggleBackground(true);
             }
@@ -591,11 +591,11 @@ namespace Policheck
         //-----------------Apartado Carga y Seleccion de datos----------------
         
         
-        private async void CargarFuncionarios()
+        private async void CargarFuncionarios(string placa)
         {
             try
             {
-                string placa = null;
+               
 
                 var funcionarios = await _apiService.GetFuncionarioAsync(placa);
 
@@ -829,6 +829,17 @@ namespace Policheck
             Vbx_Perfil.Visibility = Visibility.Visible;
             mnu_Inicial.Visibility = Visibility.Hidden;
         }
+
+
+        // ----------------- Pestañana Ver -----------------------
+
+        private void FiltrarPorPlaca(object sender, RoutedEventArgs e)
+        {
+            string placa = txtbx_NumPlaca.Text;
+            CargarFuncionarios(placa);
+        }
+
+
 
     }
 }

@@ -73,7 +73,17 @@ public class ApiService
     {
         try
         {
-            string url = $"{_url}/verFuncionarioPlaca/{placa}";
+            string url = "";
+
+            if (placa != null)
+            {
+                url = $"{_url}/verFuncionarioPlaca/{placa}";
+            }
+            else
+            {
+                url = $"{_url}/verFuncionarioGeneral";
+            }
+
             HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
