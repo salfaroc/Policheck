@@ -176,7 +176,7 @@ namespace Policheck
 
         private void Btn_VerCiudadanos(object sender, RoutedEventArgs e)
         {
-            string dni = txtbx_Dni.Text;
+            string dni = null;
             pagina = 6;
             CargarCiudadanos(dni);
             Vbx_Datos.Visibility = Visibility.Visible;
@@ -712,7 +712,7 @@ namespace Policheck
         {
             try
             {
-                var ciudadanos = await _apiService.GetCiudadanosAsync();
+                var ciudadanos = await _apiService.GetCiudadanosAsync(dni);
 
                 // Filtrar solo las propiedades necesarias
                 var ciudadanosFiltrados = ciudadanos.Select(c => new
@@ -839,14 +839,14 @@ namespace Policheck
 
         private void FiltrarPorPlaca(object sender, RoutedEventArgs e)
         {
-            string placa = txtbx_NumPlaca.Text;
+            string placa = txtbx_buscar.Text;
             CargarFuncionarios(placa);
         }
 
         private async void Btn_Restablecer(object sender, RoutedEventArgs e)
         {
             string placa = null;
-            txtbx_NumPlaca.Text = "";
+            txtbx_buscar.Text = "";
             CargarFuncionarios(placa);
         }
 
@@ -975,14 +975,22 @@ namespace Policheck
         
         private void FiltrarPorDni(object sender, RoutedEventArgs e)
         {
-            string dni = txtbx_Dni.Text;
+           
+
+            if (pagina == 6)
+            {
+            string dni = txtbx_buscar.Text;
             CargarCiudadanos(dni);
+            }
+
+
+
         }
 
         private async void Btn_RestablecerCiu(object sender, RoutedEventArgs e)
         {
             string dni = null;
-            txtbx_NumPlaca.Text = "";
+            txtbx_buscar.Text = "";
             CargarCiudadanos(dni);
         }
 

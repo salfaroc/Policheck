@@ -388,11 +388,22 @@ public class ApiService
     }
     
     // ------------------------ CIUDADANOS ----------------
-    public async Task<List<Ciudadano>>GetCiudadanosAsync()
+    public async Task<List<Ciudadano>>GetCiudadanosAsync(string dni)
     {
         try
         {
-            string url = $"{_url}/verCiudadanos";
+            string url = "";
+            if (dni != null)
+            {
+                url = $"{_url}/verCiudadanosDni/{dni}";
+            }
+            else
+            {
+                url = $"{_url}/verCiudadanos";
+            }
+
+
+           
             HttpResponseMessage response = await _httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
@@ -415,35 +426,7 @@ public class ApiService
         }
     }
 
-    public async Task<List<Ciudadano>> GetCiudadanoPorDniAsync(string dni)
-    {
-        try
-        {
-            string url = $"{_url}/verCiudadanosDni/{dni}";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
-
-                if (jsonResponse == null || jsonResponse.ciudadanosDni == null)
-                    throw new Exception("Respuesta de la API no válida.");
-
-                List<Ciudadano> ciudadanos = jsonResponse.ciudadanosDni.ToObject<List<Ciudadano>>();
-                return ciudadanos;
-            }
-            else
-            {
-                throw new Exception($"Error al obtener ciudadanos por DNI. Código: {response.StatusCode}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return null;
-        }
-    }
+   
 
     public async Task<int> AltaCiudadanoAsync(string num_placa, string dni, string nombre, string apellido1, string apellido2,
                                            string correo, string genero, string fecha_nacimiento, string telefono,
