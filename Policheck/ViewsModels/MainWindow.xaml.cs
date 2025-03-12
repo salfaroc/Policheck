@@ -32,7 +32,7 @@ namespace Policheck
             ToggleBackground(true);
 
         }
-    
+        
         Funcionario funcionario = new Funcionario();
         ApiService _apiService = new ApiService();
 
@@ -176,8 +176,9 @@ namespace Policheck
 
         private void Btn_VerCiudadanos(object sender, RoutedEventArgs e)
         {
+            string dni = txtbx_Dni.Text;
             pagina = 6;
-            CargarCiudadanos();
+            CargarCiudadanos(dni);
             Vbx_Datos.Visibility = Visibility.Visible;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
@@ -202,8 +203,10 @@ namespace Policheck
         {
             pagina = 8;
             Vbx_Datos.Visibility = Visibility.Visible;
+            Vbx_FormularioDenuncia.Visibility = Visibility.Visible;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Img_Menu.Visibility = Visibility.Collapsed;
+            Vbx_AccionesDatos.Visibility = Visibility.Visible;
             CargarDenuncias();
         }
 
@@ -581,7 +584,8 @@ namespace Policheck
             {
                 Vbx_Datos.Visibility = Visibility.Collapsed;
                 mnu_Inicial.Visibility = Visibility.Visible;
-                Vbx_AccionesDatos.Visibility = Visibility.Visible;
+                Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
+                Vbx_FormularioDenuncia.Visibility = Visibility.Collapsed;
 
             }
 
@@ -704,7 +708,7 @@ namespace Policheck
             }
         }
 
-        private async void CargarCiudadanos()
+        private async void CargarCiudadanos(string dni)
         {
             try
             {
@@ -831,7 +835,7 @@ namespace Policheck
         }
 
 
-        // ----------------- Pestañana Ver -----------------------
+        // ----------------- Pestañana Ver Funcionarios ------------------
 
         private void FiltrarPorPlaca(object sender, RoutedEventArgs e)
         {
@@ -839,7 +843,203 @@ namespace Policheck
             CargarFuncionarios(placa);
         }
 
+        private async void Btn_Restablecer(object sender, RoutedEventArgs e)
+        {
+            string placa = null;
+            txtbx_NumPlaca.Text = "";
+            CargarFuncionarios(placa);
+        }
+
+        private void Btn_Modificar(object sender, RoutedEventArgs e)
+        {
+            cmbx_Distrito.Visibility = Visibility.Visible;
+            cmbx_Rango.Visibility = Visibility.Visible;
+            cmbx_Turno.Visibility = Visibility.Visible;
+            txtCorreo.IsReadOnly = false;
+            txtTelefono.IsReadOnly = false;
+            CargarRangos();
+            CargarDistritos();
+
+            // Encuentra el StackPanel donde están los botones
+            StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
+
+            if (stackPanel != null)
+            {
+                // Verifica si el botón ya existe
+                var existingButton = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
+
+                if (existingButton == null)
+                {
+                    // Crea un nuevo botón
+                    Button btnGuardar = new Button
+                    {
+                        Content = "✔ Confirmar",
+                        Height = 50,
+                        Margin = new Thickness(5),
+                        Background = new SolidColorBrush(Color.FromRgb(0, 122, 204)),
+                        Foreground = Brushes.White,
+                        FontWeight = FontWeights.Bold,
+                        BorderBrush = new SolidColorBrush(Color.FromRgb(189, 189, 189)),
+                        BorderThickness = new Thickness(1)
+                    };
+
+                    // Agregar evento si es necesario
+                    btnGuardar.Click += Btn_Confirmar;
+
+                    // Agregar el botón al StackPanel
+                    stackPanel.Children.Add(btnGuardar);
+                }
+                else
+                {
+                    // Si el botón ya existe pero está oculto, se vuelve a mostrar
+                    existingButton.Visibility = Visibility.Visible;
+                }
+            }
 
 
+
+        }
+        private async void Btn_Confirmar(object sender, RoutedEventArgs e)
+        {
+            string placa = txtNumeroPlaca.Text;
+            string Rango = txtRango.Text;
+            string Distrito = txtDistrito.Text;
+            string Turno = txtTurno.Text;
+            string Correo = txtCorreo.Text;
+            string Telefono = txtTelefono.Text;
+
+
+
+            try
+            {
+                int resultado = await _apiService.ActualizarFuncionarioAsync(placa, Distrito, Turno, Rango, Correo, Telefono);
+
+                if (resultado == 0)
+                {
+                    placa = null;
+                    MessageBox.Show("Datos actualizados correctamente", "Actualización exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CargarFuncionarios(placa);
+
+                    // Encuentra el StackPanel
+                    StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
+                    if (stackPanel != null)
+                    {
+                        // Encuentra el botón de Confirmar y lo oculta
+
+                        var btnGuardar = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
+                        if (btnGuardar != null)
+                        {
+                            btnGuardar.Visibility = Visibility.Collapsed;
+                        }
+                    }
+
+                    // Oculta los ComboBox
+                    cmbx_Distrito.SelectedIndex = -1;
+                    cmbx_Rango.SelectedIndex = -1;
+                    cmbx_Turno.SelectedIndex = -1;
+                    cmbx_Distrito.Visibility = Visibility.Collapsed;
+                    cmbx_Rango.Visibility = Visibility.Collapsed;
+                    cmbx_Turno.Visibility = Visibility.Collapsed;
+
+                    VaciarCamposFuncionario();
+                    // Opcional: hacer los TextBox de solo lectura nuevamente
+                    txtCorreo.IsReadOnly = true;
+                    txtTelefono.IsReadOnly = true;
+                    txtRango.IsReadOnly = true;
+                    txtDistrito.IsReadOnly = true;
+                    txtTurno.IsReadOnly = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void VaciarCamposFuncionario()
+        {
+            txtNombreFunc.Text = "";
+            txtNumeroPlaca.Text = "";
+            txtDNI.Text = "";
+            txtbx_Genero.Text = "";
+            txtbx_FechNac.Text = "";
+            txtCorreo.Text = "";
+            txtTelefono.Text = "";
+            txtTurno.Text = "";
+            txtRango.Text = "";
+            txtDistrito.Text = "";
+        }
+        // ----------------- Pestaña Ver Cuidadanos ------------------------
+
+        
+        private void FiltrarPorDni(object sender, RoutedEventArgs e)
+        {
+            string dni = txtbx_Dni.Text;
+            CargarCiudadanos(dni);
+        }
+
+        private async void Btn_RestablecerCiu(object sender, RoutedEventArgs e)
+        {
+            string dni = null;
+            txtbx_NumPlaca.Text = "";
+            CargarCiudadanos(dni);
+        }
+
+        private void Btn_ModificarCiu(object sender, RoutedEventArgs e)
+        {
+            txtNombreCiu.IsReadOnly = false;
+            txtPrimerApellCiu.IsReadOnly = false;
+            txtSegunApellCiu.IsReadOnly = false;
+            txtbx_Genero.IsReadOnly = false;
+            txtCorreo.IsReadOnly = false;
+            txtTelefono.IsReadOnly = false;
+            txtDireccionCiu.IsReadOnly = false;
+            //txtEstadoJudicial.IsReadOnly = false;
+
+
+            // Encuentra el StackPanel donde están los botones
+            StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
+
+            if (stackPanel != null)
+            {
+                // Verifica si el botón ya existe
+                var existingButton = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
+
+                if (existingButton == null)
+                {
+                    // Crea un nuevo botón
+                    Button btnGuardar = new Button
+                    {
+                        Content = "✔ Confirmar",
+                        Height = 50,
+                        Margin = new Thickness(5),
+                        Background = new SolidColorBrush(Color.FromRgb(0, 122, 204)),
+                        Foreground = Brushes.White,
+                        FontWeight = FontWeights.Bold,
+                        BorderBrush = new SolidColorBrush(Color.FromRgb(189, 189, 189)),
+                        BorderThickness = new Thickness(1)
+                    };
+
+                    // Agregar evento si es necesario
+                    btnGuardar.Click += Btn_Confirmar;
+
+                    // Agregar el botón al StackPanel
+                    stackPanel.Children.Add(btnGuardar);
+                }
+                else
+                {
+                    // Si el botón ya existe pero está oculto, se vuelve a mostrar
+                    existingButton.Visibility = Visibility.Visible;
+                }
+            }
+
+
+
+        }
+
+
+        // ----------------- Pestaña Ver Denuncias -----------------------
+        
     }
 }

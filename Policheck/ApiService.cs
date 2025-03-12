@@ -34,8 +34,7 @@ public class ApiService
 
             
             string jsonContent = System.Text.Json.JsonSerializer.Serialize(loginData);
-
-           
+                       
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
            
@@ -68,7 +67,6 @@ public class ApiService
             return -1; 
         }
     }
-
     public async Task<List<Funcionario>> ObtenerDatosFuncionarioAsync(string placa)
     {
         try
@@ -108,7 +106,6 @@ public class ApiService
             return null;
         }
     }
-
     public async Task<List<Merito>> ObtenerMeritosAsync(string placa)
     {
         try
@@ -135,7 +132,6 @@ public class ApiService
             return null;
         }
     }
-
     public async Task<List<Rango>> GetRangoAsync()
     {
         try
@@ -171,7 +167,6 @@ public class ApiService
             return null;
         }
     }
-
     public async Task<List<Distrito>> GetDistritosAsync()
     {
 
@@ -209,7 +204,6 @@ public class ApiService
 
 
     }
-
     public async Task<int> CrearFuncionario(string numeroPlaca, string contrasena, string dni, string genero, string nombre,
                                     string fechaNacimiento, string correo, string telefono, string turno, string rango,
                                     string distrito, string primerApellido, string segundoApellido)
@@ -282,7 +276,6 @@ public class ApiService
 
     }
 
-
     public async Task<int> CrearIncienciaAsync(string numeroPlaca, string titulo, string descripcion, string tipo)
     {
         try
@@ -320,7 +313,6 @@ public class ApiService
         }
     }
 
-
     public async Task<List<EstadoJudicial>>GetEstadoJudicialAsync()
     {
         try
@@ -347,116 +339,10 @@ public class ApiService
             return null;
         }
     }
+    
 
-    public async Task<int> AltaCiudadanoAsync(string num_placa, string dni, string nombre, string apellido1, string apellido2,
-                                           string correo, string genero, string fecha_nacimiento, string telefono,
-                                           string direccion, string estado_judicial)
-    {
-        try
-        {
-            var ciudadanoData = new
-            {
-                    numPlaca= num_placa,
-                    dni = dni,
-                    nombre = nombre,
-                    apellido1 = apellido1,
-                    apellido2 = apellido2,
-                    genero = genero,
-                    fechaNacimiento = fecha_nacimiento,
-                    correo = correo,
-                    telefono = telefono,
-                    direccion = direccion,
-                    estadoJudicial = estado_judicial
-            };
-            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaCiudadano", content);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                JsonNode jsonResponse = JsonNode.Parse(responseBody);
-                int resultado = jsonResponse["resultado"].GetValue<int>();
-                return resultado;
-            }
-            else
-            {
-                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return -1;
-        }
-    }
-
-
-    public async Task<List<Datos>> GetCategoriaDenunciaAsync()
-    {
-        try
-        {
-            string url = $"{_url}/cargarCategoriaDenuncia";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
-                if (jsonResponse == null || jsonResponse.categoriaDenuncia == null)
-                    throw new Exception("Respuesta de la API no válida.");
-                List<Datos> categoriaDenuncia = jsonResponse.categoriaDenuncia.ToObject<List<Datos>>();
-                return categoriaDenuncia;
-            }
-            else
-            {
-                throw new Exception($"Error al obtener categoría de denuncia. Código de estado: {response.StatusCode}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return null;
-        }
-    }
-
-
-    public async Task<int> CrearDenunciaAsync(string direccion,string cp,string distrito,string titulo, string descripcion,string categoria_denuncia, string dni_ciudadano)
-    {
-        try
-        {
-            var ciudadanoData = new
-            {
-                    direccion = direccion,
-                    cp = cp,
-                    distrito = distrito,
-                    titulo = titulo,
-                    descripcion = descripcion,
-                    categoria_denuncia = categoria_denuncia,
-                    dni_ciudadano = dni_ciudadano
-            };
-            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaDenuncia", content);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                JsonNode jsonResponse = JsonNode.Parse(responseBody);
-                int resultado = jsonResponse["resultado"].GetValue<int>();
-                return resultado;
-            }
-            else
-            {
-                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return -1;
-        }
-    }
-
-
-
+    
+   
     public async Task<List<Funcionario>> GetFuncionarioAsync(string Nplaca)
     {
         try
@@ -500,9 +386,8 @@ public class ApiService
 
 
     }
-
-
-
+    
+    // ------------------------ CIUDADANOS ----------------
     public async Task<List<Ciudadano>>GetCiudadanosAsync()
     {
         try
@@ -530,7 +415,80 @@ public class ApiService
         }
     }
 
+    public async Task<List<Ciudadano>> GetCiudadanoPorDniAsync(string dni)
+    {
+        try
+        {
+            string url = $"{_url}/verCiudadanosDni/{dni}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
 
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.ciudadanosDni == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Ciudadano> ciudadanos = jsonResponse.ciudadanosDni.ToObject<List<Ciudadano>>();
+                return ciudadanos;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener ciudadanos por DNI. Código: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<int> AltaCiudadanoAsync(string num_placa, string dni, string nombre, string apellido1, string apellido2,
+                                           string correo, string genero, string fecha_nacimiento, string telefono,
+                                           string direccion, string estado_judicial)
+    {
+        try
+        {
+            var ciudadanoData = new
+            {
+                numPlaca = num_placa,
+                dni = dni,
+                nombre = nombre,
+                apellido1 = apellido1,
+                apellido2 = apellido2,
+                genero = genero,
+                fechaNacimiento = fecha_nacimiento,
+                correo = correo,
+                telefono = telefono,
+                direccion = direccion,
+                estadoJudicial = estado_judicial
+            };
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaCiudadano", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+
+
+    // ------------------------ DENUNCIAS ----------------
     public async Task<List<Denuncia>> GetDenunciaAsync()
     {
         try
@@ -559,7 +517,177 @@ public class ApiService
 
     }
 
-        public string Encriptar(string _cadenaAencriptar)
+    public async Task<List<Denuncia>> GetDenunciaPorDniAsync(string dni)
+    {
+        try
+        {
+            string url = $"{_url}/verDenunciasDni/{dni}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.denunciasDni == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Denuncia> denuncias = jsonResponse.denunciasDni.ToObject<List<Denuncia>>();
+                return denuncias;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener denuncias por DNI. Código: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<int> CrearDenunciaAsync(string direccion, string cp, string distrito, string titulo, string descripcion, string categoria_denuncia, string dni_ciudadano)
+    {
+        try
+        {
+            var ciudadanoData = new
+            {
+                direccion = direccion,
+                cp = cp,
+                distrito = distrito,
+                titulo = titulo,
+                descripcion = descripcion,
+                categoria_denuncia = categoria_denuncia,
+                dni_ciudadano = dni_ciudadano
+            };
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(ciudadanoData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/altaDenuncia", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode jsonResponse = JsonNode.Parse(responseBody);
+                int resultado = jsonResponse["resultado"].GetValue<int>();
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al dar de alta ciudadano. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+    // para el buscador
+    public async Task<List<Denuncia>> GetDenunciaPorCategoriaAsync(string categoria)
+    {
+        try
+        {
+            string url = $"{_url}/verDenunciasCategoria/{categoria}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                if (jsonResponse == null || jsonResponse.denuncias == null)
+                    throw new Exception("Respuesta de la API no válida.");
+
+                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
+                return denuncias;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener denuncias por categoría. Código: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+    // para crear nueva denuncia
+    public async Task<List<Datos>> GetCategoriaDenunciaAsync()
+    {
+        try
+        {
+            string url = $"{_url}/cargarCategoriaDenuncia";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.categoriaDenuncia == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Datos> categoriaDenuncia = jsonResponse.categoriaDenuncia.ToObject<List<Datos>>();
+                return categoriaDenuncia;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener categoría de denuncia. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+
+    // -----------------------------------------------------
+    public async Task<int> ActualizarFuncionarioAsync(string placa, string distrito, string turno, string rango, string correo, string telefono)
+    {
+        try
+        {
+            string url = $"{_url}/actualizarDatos";
+
+
+            var funcionarioData = new
+            {
+                numPlaca = placa,
+                distrito = distrito,
+                turno = turno,
+                rango = rango,
+                correo = correo,
+                telefono = telefono,
+
+
+            };
+
+
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(funcionarioData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+
+                int resultado = jsonResponse?.resultado;
+
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al actualizar funcionario. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+
+    public string Encriptar(string _cadenaAencriptar)
     {
         string result = string.Empty;
         byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
