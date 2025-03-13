@@ -13,17 +13,17 @@ using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Mysqlx.Crud.Order.Types;
 using System.Net;
+using Policheck;
 
 public class ApiService
 {
     private HttpClient _httpClient = new HttpClient();
     private string _url = "http://127.0.0.1:5000"; // URL de la API Flask
 
-    public async Task<int> LoginAsync(int numPlaca, string password)
+    public async Task<ResultadoLogin> LoginAsync(int numPlaca, string password)
     {
         try
         {
-
             string passHash = Encriptar(password);
 
             var loginData = new
@@ -32,39 +32,45 @@ public class ApiService
                 pass = passHash
             };
 
-            
             string jsonContent = System.Text.Json.JsonSerializer.Serialize(loginData);
-                       
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-           
             HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/inicio-sesion", content);
 
-       
             if (response.IsSuccessStatusCode)
             {
-         
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 JsonNode jsonResponse = JsonNode.Parse(responseBody);
 
-               
+                // Extraer el resultado como int
                 int resultado = jsonResponse["resultado"].GetValue<int>();
 
-                return resultado;
+                // Extraer el token como string (si existe)
+                string? token = null;
+                if (jsonResponse["token"] != null)
+                {
+                    token = jsonResponse["token"].GetValue<string>();
+                }
 
+                return new ResultadoLogin
+                {
+                    Resultado = resultado,
+                    Token = token
+                };
             }
             else
             {
-                
                 throw new Exception($"Error de autenticación. Código de estado: {response.StatusCode}");
             }
         }
         catch (Exception ex)
         {
-           
             Console.WriteLine($"Error: {ex.Message}");
-            return -1; 
+            return new ResultadoLogin
+            {
+                Resultado = -1, // Valor por defecto en caso de error
+                Token = null
+            };
         }
     }
     public async Task<List<Funcionario>> ObtenerDatosFuncionarioAsync(string placa)

@@ -55,45 +55,56 @@ namespace Policheck
             }
 
             int placa = Convert.ToInt32(placaSTR);
-            int res = await _apiService.LoginAsync(placa, pass);
-
-
-            if (res == 1)
+            var response = await _apiService.LoginAsync(placa, pass); // Asumiendo que placa es int y password es string
+            switch (response.Resultado)
             {
-                MessageBox.Show("Bienvenido agente " + $"{placa}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                funcionario.NumeroPlaca = placa.ToString();
-                Vbx_InicioSesion.Visibility = Visibility.Hidden;
-                mnu_Inicial.Visibility = Visibility.Visible;
-                Img_Menu.Visibility = Visibility.Visible;
+                case 1: // Éxito para usuario normal con rango autorizado
+                    MessageBox.Show($"Bienvenido agente {placa}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    funcionario.NumeroPlaca = placa.ToString();
+                    Vbx_InicioSesion.Visibility = Visibility.Hidden;
+                    mnu_Inicial.Visibility = Visibility.Visible;
+                    Img_Menu.Visibility = Visibility.Visible;
+                    // Guardar el token si lo necesitas
+                    if (response.Token != null)
+                    {
+                        // Por ejemplo, almacenar el token en una variable global o propiedad
+                        funcionario.Token = response.Token; // Asumiendo que tienes una clase App con una propiedad estática
+                    }
+                    break;
 
-            }
-            else if (res == 0)
-            {
-                MessageBox.Show("Bienvenido agente", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
-                funcionario.NumeroPlaca = placa.ToString();
-                Vbx_InicioSesion.Visibility = Visibility.Hidden;
-                mnu_Inicial.Visibility = Visibility.Visible;
-                MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
-                SeparatorFunc.Visibility = Visibility.Collapsed;
-                SeparatorVer.Visibility = Visibility.Collapsed;
-                MnuItm_VerFunc.Visibility = Visibility.Collapsed;
-                Img_Menu.Visibility = Visibility.Visible;
+                case 0: // Éxito para admin o usuario sin rango
+                    MessageBox.Show("Bienvenido agente", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    funcionario.NumeroPlaca = placa.ToString();
+                    Vbx_InicioSesion.Visibility = Visibility.Hidden;
+                    mnu_Inicial.Visibility = Visibility.Visible;
+                    MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
+                    SeparatorFunc.Visibility = Visibility.Collapsed;
+                    SeparatorVer.Visibility = Visibility.Collapsed;
+                    MnuItm_VerFunc.Visibility = Visibility.Collapsed;
+                    Img_Menu.Visibility = Visibility.Visible;
+                    // Guardar el token si es un admin (resultado 0 con token)
+                    if (response.Token != null)
+                    {
+                        funcionario.Token = response.Token; // Almacenar el token
+                    }
+                    break;
 
-            }
-            else if (res == -1)
-            {
-                MessageBox.Show("Usuario o contraseña incorrecta", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (res == -2)
-            {
-                MessageBox.Show("Campo placa vacio", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+                case -1: // Usuario no existe o admin inactivo
+                    MessageBox.Show("Usuario o contraseña incorrecta", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
 
-            else if (res == -3)
-            {
-                MessageBox.Show("Campo placa vacio", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+                case -2: // Placa vacía o credenciales incorrectas (admin)
+                    MessageBox.Show("Campo placa vacío", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
 
+                case -3: // Contraseña vacía
+                    MessageBox.Show("Campo contraseña vacío", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+
+                default: // Resultado inesperado
+                    MessageBox.Show("Error desconocido al iniciar sesión", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
 
 
 

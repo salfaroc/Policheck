@@ -48,6 +48,8 @@ namespace Policheck.Models
 
         public string SegundoApellido { get; set; }
 
+        public string? Token { get; set; }
+
         public string GeneradorDePlacas()
         {
             Random random = new Random();
