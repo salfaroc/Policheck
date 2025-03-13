@@ -837,19 +837,9 @@ namespace Policheck
 
         // ----------------- Pestañana Ver Funcionarios ------------------
 
-        private void FiltrarPorPlaca(object sender, RoutedEventArgs e)
-        {
-            string placa = txtbx_buscar.Text;
-            CargarFuncionarios(placa);
-        }
 
-        private async void Btn_Restablecer(object sender, RoutedEventArgs e)
-        {
-            string placa = null;
-            txtbx_buscar.Text = "";
-            CargarFuncionarios(placa);
-        }
 
+        
         private void Btn_Modificar(object sender, RoutedEventArgs e)
         {
             cmbx_Distrito.Visibility = Visibility.Visible;
@@ -973,7 +963,7 @@ namespace Policheck
         // ----------------- Pestaña Ver Cuidadanos ------------------------
 
         
-        private void FiltrarPorDni(object sender, RoutedEventArgs e)
+        private void FiltroGeneral(object sender, RoutedEventArgs e)
         {
            
 
@@ -982,16 +972,47 @@ namespace Policheck
             string dni = txtbx_buscar.Text;
             CargarCiudadanos(dni);
             }
+            else if (pagina == 7)
+            {
+                string placa = txtbx_buscar.Text;
+                CargarFuncionarios(placa);
+
+            }
+            else if (pagina == 8)
+            {
+                string dni = txtbx_buscar.Text;
+                CargarDenuncias();  //Denuncias hay q hacer dentro de la misma funcion 2 llamadas
+
+            }
 
 
 
         }
 
-        private async void Btn_RestablecerCiu(object sender, RoutedEventArgs e)
+        private async void Btn_Restablecer(object sender, RoutedEventArgs e)
         {
-            string dni = null;
-            txtbx_buscar.Text = "";
-            CargarCiudadanos(dni);
+
+            if (pagina == 7)
+            {
+                string placa = null;
+                txtbx_buscar.Text = "";
+                CargarFuncionarios(placa);
+            }
+            else if (pagina == 8)
+            {
+                string dni = null;
+
+                txtbx_buscar.Text = "";
+                CargarDenuncias();  //Denuncias hay q hacer dentro de la misma funcion 2 llamadas
+
+            }
+            else if (pagina == 6)
+            {
+                string dni = null;
+                txtbx_buscar.Text = "";
+                CargarCiudadanos(dni);
+
+            }
         }
 
         private void Btn_ModificarCiu(object sender, RoutedEventArgs e)
