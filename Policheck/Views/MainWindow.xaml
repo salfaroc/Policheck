@@ -157,7 +157,7 @@
 
                         <!-- Botón Ver Méritos -->
                         <Button Name="btn_Meritos" Grid.Row="4" Grid.Column="1" Content="VER" Width="72" Background="White" Visibility="Visible" Click="Btn_Meritos" Margin="92,15,92,15" Grid.RowSpan="2" />
-                        <Button Name="btn_Volver" Grid.Column="1" Content="Vovler" Width="72" HorizontalAlignment="Right" Background="White" Visibility="Visible" Click="Btn_Volver"  />
+                        <Button Name="btn_Volver" Grid.Column="1" Content="Volver" Width="72" HorizontalAlignment="Right" Background="White" Visibility="Visible" Click="Btn_Volver"  />
                     </Grid>
                 </StackPanel>
 
@@ -219,7 +219,7 @@
             </Border>
         </Viewbox>
 
-        <Viewbox Name="Vbx_Acciones" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="150" Visibility="Hidden" >
+        <Viewbox Name="Vbx_AccionesFuncionario" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="150" Visibility="Hidden" >
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
                  BorderBrush="White"  BorderThickness="1">
@@ -421,7 +421,7 @@
                 <StackPanel Width="160"  Background="#1E1E1E" >
                     <TextBox Name="txtbx_buscar" Height="30"  Padding="5" Background="White" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" />
                     <Separator Opacity="0"></Separator>
-                    <Button Content="🔍 Buscar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="FiltrarPorDni" />
+                    <Button Content="🔍 Buscar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="FiltroGeneral" />
                     <Button Content="🔄 Restaurar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Restablecer"/>
                     <Button Content="✏️ Modificar" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Modificar"/>
                     <Button Name="btn_MasDetalles" Content="ℹ️ Mas Detalles" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" />

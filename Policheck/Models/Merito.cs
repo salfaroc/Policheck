@@ -11,6 +11,6 @@ namespace Policheck.Models
     {
 
         [JsonProperty("Merito")]
-        public static string NombreMerito { get; set; }
+        public string NombreMerito { get; set; }
     }
 }

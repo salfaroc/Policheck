@@ -112,7 +112,7 @@ namespace Policheck
             pagina = 2;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Vbx_Funcionario.Visibility = Visibility.Visible;
-            Vbx_Acciones.Visibility = Visibility.Visible;
+            Vbx_AccionesFuncionario.Visibility = Visibility.Visible;
             CargarDistritos();
             CargarRangos();
             Img_Menu.Visibility = Visibility.Collapsed;
@@ -542,7 +542,7 @@ namespace Policheck
             {
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Funcionario.Visibility = Visibility.Hidden;
-                Vbx_Acciones.Visibility = Visibility.Hidden;
+                Vbx_AccionesFuncionario.Visibility = Visibility.Hidden;
                 ToggleBackground(true);
             }
             else if (pagina == 3)

@@ -51,6 +51,7 @@ namespace Policheck.Views
                 if (meritos == null || meritos.Count == 0)
                 {
                     MessageBox.Show("No se encontraron méritos.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); 
                     return;
                 }
                 // Asignar la lista de méritos al DataGrid
