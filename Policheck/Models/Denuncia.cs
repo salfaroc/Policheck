@@ -9,6 +9,8 @@ namespace Policheck.Models
 {
     public class Denuncia
     {
+        [JsonProperty("IdDenuncia")]
+        public int Id_Denuncia { get; set; }
         [JsonProperty("DNI")]
         public string DNICiudadano { get; set; }
         [JsonProperty("Nombre_Completo")]

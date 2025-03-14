@@ -478,50 +478,36 @@ public class ApiService
 
 
     // ------------------------ DENUNCIAS ----------------
-    public async Task<List<Denuncia>> GetDenunciaAsync()
+  
+    public async Task<List<Denuncia>> GetDenunciaAsync(string dni, string categoria)
     {
+        string url = " ";
         try
         {
-            string url = $"{_url}/verDenuncias";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            if (dni != null)
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
-                if (jsonResponse == null || jsonResponse.denuncias == null)
-                    throw new Exception("Respuesta de la API no válida.");
-                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
-                return denuncias;
+                 url = $"{_url}/verDenunciasDni/{dni}";
+            }
+            else if (categoria != null)
+            {
+                url = $"{_url}/verDenunciasCategoria/{categoria}";
             }
             else
             {
-                throw new Exception($"Error al obtener denuncias. Código de estado: {response.StatusCode}");
+                url = $"{_url}/verDenuncias";
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return null;
-        }
 
-    }
-
-    public async Task<List<Denuncia>> GetDenunciaPorDniAsync(string dni)
-    {
-        try
-        {
-            string url = $"{_url}/verDenunciasDni/{dni}";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
 
-                if (jsonResponse == null || jsonResponse.denunciasDni == null)
+                if (jsonResponse == null || jsonResponse.denuncias == null)
                     throw new Exception("Respuesta de la API no válida.");
 
-                List<Denuncia> denuncias = jsonResponse.denunciasDni.ToObject<List<Denuncia>>();
+                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
                 return denuncias;
             }
             else
@@ -572,35 +558,7 @@ public class ApiService
         }
     }
     // para el buscador
-    public async Task<List<Denuncia>> GetDenunciaPorCategoriaAsync(string categoria)
-    {
-        try
-        {
-            string url = $"{_url}/verDenunciasCategoria/{categoria}";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
-
-                if (jsonResponse == null || jsonResponse.denuncias == null)
-                    throw new Exception("Respuesta de la API no válida.");
-
-                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
-                return denuncias;
-            }
-            else
-            {
-                throw new Exception($"Error al obtener denuncias por categoría. Código: {response.StatusCode}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return null;
-        }
-    }
+  
     // para crear nueva denuncia
     public async Task<List<Datos>> GetCategoriaDenunciaAsync()
     {

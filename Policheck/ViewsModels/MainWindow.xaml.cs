@@ -195,6 +195,7 @@ namespace Policheck
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
             btn_MasDetalles.Visibility = Visibility.Collapsed;
             Img_Menu.Visibility = Visibility.Collapsed;
+            Vbx_FormularioCiudadano.Visibility = Visibility.Visible;
         }
 
         private void Btn_VerFuncionarios(object sender, RoutedEventArgs e)
@@ -208,17 +209,22 @@ namespace Policheck
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
             btn_MasDetalles.Visibility = Visibility.Collapsed;
             Img_Menu.Visibility = Visibility.Collapsed;
+            Vbx_FormularioFuncionario.Visibility = Visibility.Visible;
         }
 
         private void Btn_VerDenuncias(object sender, RoutedEventArgs e)
         {
+
+            string dni = null;
+            string categoria = null;
             pagina = 8;
             Vbx_Datos.Visibility = Visibility.Visible;
             Vbx_FormularioDenuncia.Visibility = Visibility.Visible;
             mnu_Inicial.Visibility = Visibility.Hidden;
             Img_Menu.Visibility = Visibility.Collapsed;
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
-            CargarDenuncias();
+            CargarDenuncias(dni, categoria);
+            CargarCategoriaDenuncia();
         }
 
         //---------------Botones de creacion----------------
@@ -582,6 +588,9 @@ namespace Policheck
                 Vbx_Datos.Visibility = Visibility.Collapsed;
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
+                Vbx_FormularioCiudadano.Visibility = Visibility.Collapsed;
+                Img_Menu.Visibility = Visibility.Visible;
+
                 ToggleBackground(true);
             }
             else if (pagina == 7)
@@ -589,6 +598,9 @@ namespace Policheck
                 Vbx_Datos.Visibility = Visibility.Collapsed;
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
+                Vbx_FormularioFuncionario.Visibility = Visibility.Collapsed;
+                Img_Menu.Visibility = Visibility.Visible;
+
                 ToggleBackground(true);
             }
             else if (pagina == 8)
@@ -597,7 +609,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
                 Vbx_FormularioDenuncia.Visibility = Visibility.Collapsed;
+                Img_Menu.Visibility = Visibility.Visible;
 
+                ToggleBackground(true);
             }
 
         }
@@ -638,15 +652,15 @@ namespace Policheck
             }
         }
 
-        private async void CargarDenuncias()
+        private async void CargarDenuncias(string dni, string categoria)
         {
             try
             {
-                var denuncias = await _apiService.GetDenunciaAsync();
+                var denuncias = await _apiService.GetDenunciaAsync(dni, categoria);
 
                 // Filtrar solo las propiedades necesarias
                 var denunciasFiltradas = denuncias.Select(d => new
-                {
+                {   d.Id_Denuncia,
                     d.DNICiudadano,
                     d.NombreCiudadano,
                     d.CategoriaDenuncia,
@@ -712,6 +726,8 @@ namespace Policheck
                 var categorias = await _apiService.GetCategoriaDenunciaAsync();
                 cmbxCategoriaDen.ItemsSource = categorias;
                 cmbxCategoriaDen.DisplayMemberPath = "Nombre";
+                cmbxCategoriaDatoDen.ItemsSource = categorias;
+                cmbxCategoriaDatoDen.DisplayMemberPath = "Nombre";
             }
             catch (Exception ex)
             {
@@ -847,9 +863,6 @@ namespace Policheck
 
 
         // ----------------- Pestañana Ver Funcionarios ------------------
-
-
-
         
         private void Btn_Modificar(object sender, RoutedEventArgs e)
         {
@@ -896,10 +909,9 @@ namespace Policheck
                     existingButton.Visibility = Visibility.Visible;
                 }
             }
-
-
-
         }
+        
+        // ---------------------------------------------------------------------------------
         private async void Btn_Confirmar(object sender, RoutedEventArgs e)
         {
             string placa = txtNumeroPlaca.Text;
@@ -992,11 +1004,19 @@ namespace Policheck
             else if (pagina == 8)
             {
                 string dni = txtbx_buscar.Text;
-                CargarDenuncias();  //Denuncias hay q hacer dentro de la misma funcion 2 llamadas
-
+                string categoria = cmbxCategoriaDatoDen.Text;
+                if (String.IsNullOrEmpty(categoria))
+                {
+                    categoria = null;
+                    CargarDenuncias(dni,categoria);
+                }
+                else
+                {
+                    dni = null;
+                    CargarDenuncias(dni,categoria);
+                }
+               
             }
-
-
 
         }
 
@@ -1012,11 +1032,9 @@ namespace Policheck
             else if (pagina == 8)
             {
                 string dni = null;
-
+                string categoria = null;
                 txtbx_buscar.Text = "";
-                CargarDenuncias();  //Denuncias hay q hacer dentro de la misma funcion 2 llamadas
-
-            }
+                CargarDenuncias(dni, categoria);              }
             else if (pagina == 6)
             {
                 string dni = null;
