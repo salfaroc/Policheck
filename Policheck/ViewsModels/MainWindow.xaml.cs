@@ -685,7 +685,7 @@ namespace Policheck
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-            private async void CargarRangos()
+        private async void CargarRangos()
         {
             try
             {
@@ -876,49 +876,18 @@ namespace Policheck
         
         private void Btn_Modificar(object sender, RoutedEventArgs e)
         {
-            cmbx_Distrito.Visibility = Visibility.Visible;
-            cmbx_Rango.Visibility = Visibility.Visible;
-            cmbx_Turno.Visibility = Visibility.Visible;
-            txtCorreo.IsReadOnly = false;
-            txtTelefono.IsReadOnly = false;
-            CargarRangos();
-            CargarDistritos();
 
-            // Encuentra el StackPanel donde están los botones
-            StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
-
-            if (stackPanel != null)
+            if (pagina == 7)
             {
-                // Verifica si el botón ya existe
-                var existingButton = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
-
-                if (existingButton == null)
-                {
-                    // Crea un nuevo botón
-                    Button btnGuardar = new Button
-                    {
-                        Content = "✔ Confirmar",
-                        Height = 50,
-                        Margin = new Thickness(5),
-                        Background = new SolidColorBrush(Color.FromRgb(0, 122, 204)),
-                        Foreground = Brushes.White,
-                        FontWeight = FontWeights.Bold,
-                        BorderBrush = new SolidColorBrush(Color.FromRgb(189, 189, 189)),
-                        BorderThickness = new Thickness(1)
-                    };
-
-                    // Agregar evento si es necesario
-                    btnGuardar.Click += Btn_Confirmar;
-
-                    // Agregar el botón al StackPanel
-                    stackPanel.Children.Add(btnGuardar);
-                }
-                else
-                {
-                    // Si el botón ya existe pero está oculto, se vuelve a mostrar
-                    existingButton.Visibility = Visibility.Visible;
-                }
+                
             }
+            else if (pagina == 8)
+            {
+                
+            }
+            
+         
+            
         }
         
         // ---------------------------------------------------------------------------------

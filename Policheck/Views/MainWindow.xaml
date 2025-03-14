@@ -508,37 +508,33 @@
                     <TextBox Name="txtNumPlacaFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
                     <Label Content="DNI" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtDNIFun" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtDNIFun" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
                     <Label Content="Nombre" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtNomFunc" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtNomFunc" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
-                    <Label Content="Contraseña" Foreground="White"  HorizontalAlignment="Center"/>
-                    <PasswordBox Name="passFun" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="1ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtPrimerApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtPrimerApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True" />
 
                     <Label Content="2ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtSegunApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtSegunApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
                     <Label Content="Género" Foreground="White"  HorizontalAlignment="Center"/>
-                    <ComboBox Name="cmbxGeneroFun" Margin="5" Width="180" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsEditable="False">
-                        <ComboBoxItem Content="M" />
-                        <ComboBoxItem Content="F" />
-                    </ComboBox>
+                    <TextBox Name="txtGeneroFuncionario" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
-                    <Label Content="Correo" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtCorreoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <Label Content="Correo" Foreground="White"  HorizontalAlignment="Center" />
+                    <TextBox Name="txtCorreoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
                     <Label Content="Teléfono" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtTelefonoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtTelefonoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
-                    <Label Content="Fecha Nacimiento" Foreground="White"  HorizontalAlignment="Center"/>
-                    <DatePicker Name="datpick_FechaNacimientoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"></DatePicker>
+                    <Label Content="Edad" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtEdadFuncionario" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
+
                     <Label Content="Turno" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtTurnoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush= "#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
-                    <ComboBox Name="cmbx_TurnoFun" Width="180" IsReadOnly="True" Visibility="Visible" SelectionChanged="SeleccionTurno" >
+                    <ComboBox Name="cmbx_TurnoFun" Width="180" IsReadOnly="True" Visibility="Collapsed" SelectionChanged="SeleccionTurno" >
                         <ComboBoxItem Content="Mañana" />
                         <ComboBoxItem Content="Tarde" />
                         <ComboBoxItem Content="Noche" />
@@ -546,11 +542,10 @@
 
                     <Label Content="Rango" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtRangoFun" Margin="5" Width="180" IsReadOnly="True"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
-                    <ComboBox Name="cmbx_RangoFun" Width="180" Visibility="Visible" IsReadOnly="True" SelectionChanged="SeleccionRango" />
+          
 
                     <Label Content="Distrito" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtDistritoFun" Margin="5" Width="180" IsReadOnly="True" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
-                    <ComboBox Name="cmbx_DistritoFun" Width="180" Visibility="Visible" IsReadOnly="True" SelectionChanged ="SeleccionDistrito"></ComboBox>
                 </StackPanel>
             </Border>
         </Viewbox>

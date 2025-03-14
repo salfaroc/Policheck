@@ -1,0 +1,28 @@
+﻿<Window x:Class="Policheck.VentanaDatosDetallados"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Policheck"
+        mc:Ignorable="d"
+        Title="VentanaDatosDetallados" Height="450" Width="800">
+    <Grid>
+
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="780" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="200"/>
+                <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" Width="200"/>
+                <DataGridTextColumn Header="Edad" Binding="{Binding Edad}" Width="50"/>
+                <DataGridTextColumn Header="Sexo" Binding="{Binding Sexo}" Width="50"/>
+                <DataGridTextColumn Header="Fecha de Nacimiento" Binding="{Binding FechaNacimiento}" Width="150"/>
+                <DataGridTextColumn Header="Domicilio" Binding="{Binding Domicilio}" Width="200"/>
+                <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="100"/>
+                <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="200"/>
+                <DataGridTextColumn Header="Fecha de Registro" Binding="{Binding FechaRegistro}" Width="150"/>
+                <DataGridTextColumn Header="Fecha de Modificacion" Binding="{Binding FechaModificacion}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
