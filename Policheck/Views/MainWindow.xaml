@@ -414,7 +414,7 @@
         </Viewbox>
 
 
-        <Viewbox Name="Vbx_AccionesDatos" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="500" Visibility="Collapsed" >
+        <Viewbox Name="Vbx_AccionesDatos" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="400" Visibility="Collapsed" >
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
             BorderBrush="White"  BorderThickness="1">
@@ -422,10 +422,10 @@
                     <TextBox Name="txtbx_buscar" Height="30"  Padding="5" Background="White" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" />
                     <Separator Opacity="0"></Separator>
                     <Button Content="🔍 Buscar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="FiltroGeneral" />
-                    <Label Content="🎡 Categoria"  Foreground="White" FontSize="12" Width="150" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Background="#1976D2" Cursor=""   />
+                    <Label Name ="lblcategoria" Content="🎡 Categoria"  Foreground="White" FontSize="12" Width="150" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Background="#1976D2" Cursor=""   />
                     <ComboBox Name="cmbxCategoriaDatoDen"   Margin="5" Width="180" IsEditable="False"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
                     <Button Content="🔄 Restaurar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Restablecer"/>
-                    <Button Content="✏️ Modificar" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Modificar"/>
+                    <Button Name ="btnModificardatos" Content="✏️ Modificar" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Modificar"/>
                     <Button Name="btn_MasDetalles" Content="ℹ️ Mas Detalles" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" />
                     <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" Click="Btn_Volver" BorderBrush="#BDBDBD" BorderThickness="1"/>
                 </StackPanel>

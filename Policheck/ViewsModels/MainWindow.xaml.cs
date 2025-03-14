@@ -149,6 +149,7 @@ namespace Policheck
             Vbx_AccionesCiudadano.Visibility = Visibility.Visible;
             txtNumeroPlacaCiu.Text = funcionario.NumeroPlaca;
             Img_Menu.Visibility = Visibility.Collapsed;
+           
             CargarEstadosJudiciales();
         }
 
@@ -196,6 +197,9 @@ namespace Policheck
             btn_MasDetalles.Visibility = Visibility.Collapsed;
             Img_Menu.Visibility = Visibility.Collapsed;
             Vbx_FormularioCiudadano.Visibility = Visibility.Visible;
+            cmbxCategoriaDatoDen.Visibility = Visibility.Collapsed;
+            lblcategoria.Visibility = Visibility.Collapsed;
+            btnModificardatos.Visibility = Visibility.Collapsed;
         }
 
         private void Btn_VerFuncionarios(object sender, RoutedEventArgs e)
@@ -210,6 +214,9 @@ namespace Policheck
             btn_MasDetalles.Visibility = Visibility.Collapsed;
             Img_Menu.Visibility = Visibility.Collapsed;
             Vbx_FormularioFuncionario.Visibility = Visibility.Visible;
+            cmbxCategoriaDatoDen.Visibility = Visibility.Collapsed;
+            lblcategoria.Visibility = Visibility.Collapsed;
+            btnModificardatos.Visibility = Visibility.Visible;
         }
 
         private void Btn_VerDenuncias(object sender, RoutedEventArgs e)
@@ -225,6 +232,9 @@ namespace Policheck
             Vbx_AccionesDatos.Visibility = Visibility.Visible;
             CargarDenuncias(dni, categoria);
             CargarCategoriaDenuncia();
+            cmbxCategoriaDatoDen.Visibility = Visibility.Visible;
+            lblcategoria.Visibility = Visibility.Visible;
+            btnModificardatos.Visibility = Visibility.Visible;
         }
 
         //---------------Botones de creacion----------------

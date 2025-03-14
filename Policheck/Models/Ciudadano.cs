@@ -39,12 +39,9 @@ namespace Policheck.Models
 
 
         public string Correo { get; set; }
-
         public string Telefono { get; set; }
-
         public string EstadoJudcial { get; set; }
         public string PrimerApellido { get; set; }
-
         public string SegundoApellido { get; set; }
 
 
