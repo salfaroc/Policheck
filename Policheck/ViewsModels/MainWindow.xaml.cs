@@ -49,15 +49,22 @@ namespace Policheck
             string placaSTR = txtPlaca.Text;
             lbl_MiNumeroPlaca.Content = placaSTR;
             string pass = pwdContraseña.Password;
-           
 
+            // Validación para asegurarse que ambos campos no estén vacíos
             if (string.IsNullOrWhiteSpace(placaSTR) || string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Por favor, complete ambos campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            int placa = Convert.ToInt32(placaSTR);
+            // Validación para asegurarse de que la placa sea un número válido
+            if (!int.TryParse(placaSTR, out int placa))
+            {
+                MessageBox.Show("Debe introducir un número de placa válido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Llamada al servicio con los valores válidos de placa y contraseña
             var response = await _apiService.LoginAsync(placa, pass); // Asumiendo que placa es int y password es string
             switch (response.Resultado) // usuarioTipo puede ser un valor que defines según el tipo de usuario
             {
@@ -66,7 +73,7 @@ namespace Policheck
                     funcionario.NumeroPlaca = placa.ToString();
 
                     // Llamar a la función para establecer la visibilidad para un usuario normal
-                    SetVisibilityForUserType(false); // En este caso, es un usuario sin rango de admin
+                    VisibilidaSegunRango(false); // En este caso, es un usuario sin rango de admin
                     PlayLoginSound(true);
                     // Guardar el token si lo necesitas
                     if (response.Token != null)
@@ -80,11 +87,8 @@ namespace Policheck
                     funcionario.NumeroPlaca = placa.ToString();
                     PlayLoginSound(true);
                     // Llamar a la función para establecer la visibilidad para un admin
-                    SetVisibilityForUserType(true); // En este caso, es un administrador
-
+                    VisibilidaSegunRango(true); // En este caso, es un administrador
                     break;
-            
-
 
                 case -1: // Usuario no existe o admin inactivo
                     MessageBox.Show("Usuario o contraseña incorrecta", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -102,12 +106,10 @@ namespace Policheck
                     MessageBox.Show("Error desconocido al iniciar sesión", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
-
-
-
         }
 
-        private void SetVisibilityForUserType(bool isAdmin)
+
+        private void VisibilidaSegunRango(bool isAdmin)
         {
             // Ocultar o mostrar elementos comunes
             Vbx_InicioSesion.Visibility = Visibility.Hidden;
@@ -291,6 +293,7 @@ namespace Policheck
             btnModificardatos.Visibility = Visibility.Visible;
             grdMiPlaca.Visibility = Visibility.Collapsed;
             Vbx_MenuBotones.Visibility = Visibility.Collapsed;
+            btn_MasDetalles.Visibility = Visibility.Visible;
         }
 
         //---------------Botones de creacion----------------
@@ -1064,6 +1067,13 @@ namespace Policheck
                         txtDistritoFun.IsReadOnly = true;
                         txtTurnoFun.IsReadOnly = true;
                         btnModificardatos.IsEnabled = true;
+
+                        txtNumeroPlaca.Text = "";
+                        txtRangoFun.Text = "";
+                        txtDistritoFun.Text = "";
+                        txtTurnoFun.Text = "";
+                        txtCorreoFun.Text = "";
+                        txtTelefonoFun.Text = "";
                     }
 
                 }
@@ -1091,6 +1101,13 @@ namespace Policheck
                         CargarDenuncias(null, null);
                         btn_Confirmar.Visibility = Visibility.Collapsed;
                         btnModificardatos.IsEnabled = true;
+
+                        txtNumeroDenuncia.Text = "";  
+                        txtDireccionDenuncia.Text = "";
+                        txtCpDenuncia.Text = "";
+                        txttituloDenuncia.Text = "";
+                        txtdescripcionDenuncia.Text = "";
+
 
                     }
                 }
@@ -1129,8 +1146,6 @@ namespace Policheck
                 }
                 else if (pagina == 8)
                 {
-
-                    
                     txtNumeroDenuncia.Text = row.GetType().GetProperty("Id_Denuncia")?.GetValue(row, null)?.ToString() ?? "";
                     txtdniDenenuncia.Text = row.GetType().GetProperty("DNICiudadano")?.GetValue(row, null)?.ToString() ?? "";
                     txtNombreDenuncia.Text = row.GetType().GetProperty("NombreCiudadano")?.GetValue(row, null)?.ToString() ?? "";
@@ -1140,11 +1155,21 @@ namespace Policheck
                     txtDireccionDenuncia.Text = row.GetType().GetProperty("Direccion")?.GetValue(row, null)?.ToString() ?? "";
                     txtCpDenuncia.Text = row.GetType().GetProperty("CP")?.GetValue(row, null)?.ToString() ?? "";
                 }
+                else if (pagina == 6)
+                {
+                    txtDNIC.Text = row.GetType().GetProperty("DNI")?.GetValue(row, null)?.ToString() ?? "";
+                    txtNombreC.Text = row.GetType().GetProperty("NombreCompleto")?.GetValue(row, null)?.ToString() ?? "";
+                    txtGeneroC.Text = row.GetType().GetProperty("Genero")?.GetValue(row, null)?.ToString() ?? "";
+                    txtEdadC.Text = row.GetType().GetProperty("EdadActual")?.GetValue(row, null)?.ToString() ?? "";
+                    txtDireccionC.Text = row.GetType().GetProperty("Direccion")?.GetValue(row, null)?.ToString() ?? "";
+                    txtNombreDelitoC.Text = row.GetType().GetProperty("NombreDelito")?.GetValue(row, null)?.ToString() ?? "";
+                    txtCantidadDelitosC.Text = row.GetType().GetProperty("CantidadDelitos")?.GetValue(row, null)?.ToString() ?? "";
+                    txtMultaEconomicaC.Text = row.GetType().GetProperty("Multa_Economica")?.GetValue(row, null)?.ToString() ?? "";
+                    txtCodigoPostalC.Text = row.GetType().GetProperty("Tipo_Delito")?.GetValue(row, null)?.ToString() ?? "";
+
+                }
             }
         }
-
-
-
 
         private void VaciarCamposFuncionario()
         {
@@ -1161,7 +1186,6 @@ namespace Policheck
             txtDistrito.Text = "";
         }
     
-
         
         private void FiltroGeneral(object sender, RoutedEventArgs e)
         {
@@ -1205,13 +1229,33 @@ namespace Policheck
                 string placa = null;
                 txtbx_buscar.Text = "";
                 CargarFuncionarios(placa);
+
+                txtNumeroPlaca.Text = "";
+                txtRangoFun.Text = "";
+                txtDistritoFun.Text = "";
+                txtTurnoFun.Text = "";
+                txtCorreoFun.Text = "";
+                txtTelefonoFun.Text = "";
             }
             else if (pagina == 8)
             {
                 string dni = null;
                 string categoria = null;
                 txtbx_buscar.Text = "";
-                CargarDenuncias(dni, categoria);     
+                CargarDenuncias(dni, categoria);
+
+                txtNumeroDenuncia.Text = "";
+                txtDireccionDenuncia.Text = "";
+                txtCpDenuncia.Text = "";
+                txttituloDenuncia.Text = "";
+                txtdescripcionDenuncia.Text = "";
+                txtdniDenenuncia.Text = "";
+                txtNombreDenuncia.Text = "";
+                txtcategoriaDen.Text = "";
+                
+
+
+
             }
             else if (pagina == 6)
             {
@@ -1221,8 +1265,6 @@ namespace Policheck
 
             }
         }
-
-
 
         private void Btn_MasDetalles(object sender, RoutedEventArgs e)
         {
@@ -1263,10 +1305,11 @@ namespace Policheck
 
 
 
+
+
+
+
+
+
     }
-
-
-
-
-
 }

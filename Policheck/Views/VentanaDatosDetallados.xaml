@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Policheck"
         mc:Ignorable="d"
         Title="VentanaDatosDetallados" Height="450" Width="800">
-    <Grid>
+    
+    <Grid x:Name="DatosDetallados">
         <!-- Definir Columnas y Filas -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

@@ -27,6 +27,7 @@ namespace Policheck
             InitializeComponent();
             this.idDenuncia = idDenuncia;
             CargarDatosDenuncia(idDenuncia);
+            ToggleBackground(true);
         }
 
         ApiService _apiService = new ApiService();
@@ -69,7 +70,32 @@ namespace Policheck
 
         }
 
+        private void ToggleBackground(bool mostrar)
+        {
+            if (mostrar)
+            {
 
+
+                // Asignar el fondo de imagen
+                ImageBrush brushFondo = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("pack://application:,,,/Imagenes/imagenfondo2.png")),
+                    Stretch = Stretch.Fill // Ajustar el fondo al tamaño del Grid
+                };
+
+                // Condición para mostrar logo o fondo de imagen
+                if (mostrar)
+                {
+                    DatosDetallados.Background = brushFondo; // Asigna el fondo de imagen al Grid
+                }
+
+            }
+            else
+            {
+                // Si 'mostrar' es falso, asignar un fondo blanco
+                DatosDetallados.Background = Brushes.White; // Mantiene el fondo blanco cuando se oculta la imagen
+            }
+        }
 
 
     }
