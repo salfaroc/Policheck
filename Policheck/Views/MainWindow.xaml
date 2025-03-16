@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Policheck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="White" WindowState="Maximized" ShowInTaskbar="False">
+        Title="MainWindow" Height="450" Width="800" Background="White" WindowState="Maximized" ShowInTaskbar="False" WindowStyle="None">
 
 
 
@@ -113,6 +113,55 @@
 
         </Image>
 
+        <Grid Name="grdMiPlaca"  Grid.Column="1" Grid.Row="0" Visibility="Collapsed">
+            <!-- Imagen -->
+            <Image Name="Img_Placa" Source="/Imagenes/placa.png" Height="150" MaxWidth="400" Visibility="Visible" />
+
+            <!-- Label encima de la imagen -->
+            <Label Name="lbl_MiNumeroPlaca"  HorizontalAlignment="Center"  VerticalAlignment="Top" Foreground="Black" FontSize="11" Margin="0,94,0,0" Height="27" Width="48" />
+        </Grid>
+
+
+        <Button x:Name="CloseButton"
+        Content="✖"
+        Grid.Column="2"
+        Width="40" Height="40"
+        FontSize="20"
+        FontWeight="Bold"
+        Foreground="White"
+        Background="Black"
+        Opacity="0.7"
+        Cursor="Hand"
+        BorderThickness="0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="10"
+        Click="CloseButton_Click"/>
+
+
+        <Viewbox Name="Vbx_MenuBotones" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" MaxHeight="530" Visibility="Collapsed">
+            <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
+    BorderBrush="White" BorderThickness="1">
+                <StackPanel Width="200" Background="#1E1E1E">
+                    <Button Content="Alta Ciudadano" Height="50" Margin="5" Background="#1976D2" Foreground="White" 
+            FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1"  Click="BtnAltaCiudadano"/>
+                    <Button Content="Crear Denuncia" Height="50" Margin="5" Background="#1976D2" Foreground="White" 
+             FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="BtnDenuncia" />
+                    <Button Content="Crear Incidencia" Height="50" Margin="5" Background="#1976D2" Foreground="White"
+            FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="BtnCrearInciencia" />
+                    <Button Content="Ver Ciudadanos" Height="50" Margin="5" Background="#1976D2" Foreground="White" 
+            FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_VerCiudadanos" />
+                    <Button Content="Ver Denuncias" Height="50" Margin="5" Background="#1976D2" Foreground="White"
+            FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_VerDenuncias"/>
+                    <Button Content="Cerrar Sesión" Height="50" Margin="5" Background="#1976D2" Foreground="White"
+            FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_CerrarSesion"
+                    />
+
+                    
+                </StackPanel>
+            </Border>
+        </Viewbox>
+
         <Viewbox x:Name="Vbx_Perfil" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Visibility="Hidden">
             <Border  Background="#AA1E1E1E" BorderThickness="2" BorderBrush="White" Grid.Row="1" Grid.ColumnSpan="3" CornerRadius="5" Padding="10" Margin="133,26,118,26"  >
                 <StackPanel>
@@ -143,13 +192,12 @@
                         <TextBox Name="txtbx_Nombre" Margin="5" Grid.Row="1" Grid.ColumnSpan="1" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"   />
                         <TextBox Name="txtbx_Dni" Margin="5" Grid.Row="2" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
                         <TextBox Name="txtbx_FechNac" Margin="5" Grid.Row="3" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
-                        <PasswordBox Name="pswd_contra" Margin="5" Grid.Row="4" Grid.Column="0" Width="170" Visibility="Visible" IsEnabled="False" />
-                        <TextBox Name="txtbx_Rango" Margin="5" Grid.Row="7" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
-                        <TextBox Name="txtbx_Telefono" Margin="5" Grid.Row="5" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
+                        <TextBox Name="txtbx_Rango" Margin="5" Grid.Row="6" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                        <TextBox Name="txtbx_Telefono" Margin="5" Grid.Row="4" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
                         <TextBox Name="txtbx_Genero" Margin="5" Grid.Row="6" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
-                        <TextBox Name="txtbx_Correo" Margin="5" Grid.Row="6" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
-                        <TextBox Name="txtbx_Turno"  Margin="5" Grid.Row="8" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
-                        <TextBox Name="txtbx_Distrito" Margin="5" Grid.Row="8" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                        <TextBox Name="txtbx_Correo" Margin="5" Grid.Row="5" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                        <TextBox Name="txtbx_Turno"  Margin="5" Grid.Row="8" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
+                        <TextBox Name="txtbx_Distrito" Margin="5" Grid.Row="7" Grid.Column="0" Text="" Width="170" IsReadOnly="True" Visibility="Visible"  />
                         <TextBox Name="txtbx_NPlaca"  Margin="5" Grid.Row="7" Grid.Column="1" Text="" Width="170" IsReadOnly="True" Visibility="Visible" />
 
                         <!-- Imagen de perfil -->
@@ -164,7 +212,7 @@
             </Border>
         </Viewbox>
 
-        <Viewbox Name="Vbx_Funcionario" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="700" Visibility="Hidden">
+        <Viewbox Name="Vbx_Funcionario" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="800" Visibility="Hidden">
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" BorderBrush="White" BorderThickness="1" Width="250" >
                 <StackPanel Width="220">
@@ -219,7 +267,7 @@
             </Border>
         </Viewbox>
 
-        <Viewbox Name="Vbx_AccionesFuncionario" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="150" Visibility="Hidden" >
+        <Viewbox Name="Vbx_AccionesFuncionario" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="250" Visibility="Hidden" >
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
                  BorderBrush="White"  BorderThickness="1">
@@ -367,14 +415,14 @@
 
                 <!-- Panel con efecto Glassmorphism -->
                 <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
-         BorderBrush="White" BorderThickness="1" >
+                     BorderBrush="White" BorderThickness="1" >
 
                     <DataGrid x:Name="DtGrd_Datos" AutoGenerateColumns="True"
                Background="Transparent" 
                RowHeight="30"
                ColumnHeaderHeight="35"
                IsReadOnly="True"
-
+               SelectionChanged="Dgv_SeleccionarDatos"
                Width="450" Height="450"
                BorderBrush="Transparent"
                GridLinesVisibility="None">
@@ -414,7 +462,7 @@
         </Viewbox>
 
 
-        <Viewbox Name="Vbx_AccionesDatos" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="400" Visibility="Collapsed" >
+        <Viewbox Name="Vbx_AccionesDatos" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="2"  MaxHeight="400" Visibility="Hidden" >
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
             BorderBrush="White"  BorderThickness="1">
@@ -426,31 +474,42 @@
                     <ComboBox Name="cmbxCategoriaDatoDen"   Margin="5" Width="180" IsEditable="False"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
                     <Button Content="🔄 Restaurar" Height="50" Margin="5" Background="#1976D2" Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Restablecer"/>
                     <Button Name ="btnModificardatos" Content="✏️ Modificar" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_Modificar"/>
-                    <Button Name="btn_MasDetalles" Content="ℹ️ Mas Detalles" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" />
+                    <Button Name="btn_MasDetalles" Content="ℹ️ Mas Detalles" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" BorderBrush="#BDBDBD" BorderThickness="1" Click="Btn_MasDetalles"/>
                     <Button Content="⏪ Volver" Height="50" Margin="5" Background="#007ACC"  Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" Click="Btn_Volver" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <Button Content="✔ Confirmar" Name="btn_Confirmar" Height="50" Margin="5" Background="#007ACC"  Visibility="Collapsed" Foreground="White" FontWeight="Bold" FontSize="16" Cursor="Hand" Click="Btn_Confirmar"  BorderBrush="#BDBDBD" BorderThickness="1"/>
+
                 </StackPanel>
             </Border>
         </Viewbox>
 
-        
-        <Viewbox Name="Vbx_FormularioDenuncia" Grid.Column="0" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="300" Visibility="Hidden">
+
+        <Viewbox Name="Vbx_FormularioDenuncia" Grid.Column="0" HorizontalAlignment="Center" Grid.Row="1" MaxHeight="400" Visibility="Hidden">
 
             <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" BorderBrush="White" BorderThickness="1" Width="250" >
                 <StackPanel Width="220">
+                    <Label Content="Numero Denuncia" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtNumeroDenuncia" Margin="5" Width="180"  IsReadOnly="True" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
                     <Label Content="DNI" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txtdniDen" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox x:Name="txtdniDenenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Nombre" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txtNombreDen" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox x:Name="txtNombreDenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Titulo" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txttituloDen" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox x:Name="txttituloDenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Descipcion" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txtdescripcionDen" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox x:Name="txtdescripcionDenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                     <Label Content="Categoria" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txtcategoriaDen" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox x:Name="txtcategoriaDen" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Direccion Comisaria" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox Name="txtDireccionDenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
+
+                    <Label Content="Codigo Postal" Foreground="White"  HorizontalAlignment="Center"/>
+                    <TextBox x:Name="txtCpDenuncia" Margin="5" Width="180"  Foreground="Black"  IsReadOnly="True" BorderBrush="#BDBDBD" BorderThickness="1"/>
 
                 </StackPanel>
             </Border>
@@ -513,13 +572,6 @@
                     <Label Content="Nombre" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtNomFunc" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
-
-                    <Label Content="1ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtPrimerApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True" />
-
-                    <Label Content="2ºApellido" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtSegunApellFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
-
                     <Label Content="Género" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtGeneroFuncionario" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
 
@@ -534,18 +586,19 @@
 
                     <Label Content="Turno" Foreground="White"  HorizontalAlignment="Center"/>
                     <TextBox Name="txtTurnoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush= "#BDBDBD" BorderThickness="1" IsReadOnly="True"/>
-                    <ComboBox Name="cmbx_TurnoFun" Width="180" IsReadOnly="True" Visibility="Collapsed" SelectionChanged="SeleccionTurno" >
+                    <ComboBox Name="cmbx_TurnoFuncionario" Width="180" IsReadOnly="True" Visibility="Collapsed" SelectionChanged="SeleccionTurno" >
                         <ComboBoxItem Content="Mañana" />
                         <ComboBoxItem Content="Tarde" />
                         <ComboBoxItem Content="Noche" />
                     </ComboBox>
 
                     <Label Content="Rango" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtRangoFun" Margin="5" Width="180" IsReadOnly="True"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
-          
+                    <TextBox Name="txtRangoFun" Margin="5" Width="180"   Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <ComboBox Name="cmbx_RangoFuncionario" Width="180" Visibility="Collapsed" IsReadOnly="True" SelectionChanged="SeleccionRango" />
 
                     <Label Content="Distrito" Foreground="White"  HorizontalAlignment="Center"/>
-                    <TextBox Name="txtDistritoFun" Margin="5" Width="180" IsReadOnly="True" Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <TextBox Name="txtDistritoFun" Margin="5" Width="180"  Foreground="Black" BorderBrush="#BDBDBD" BorderThickness="1"/>
+                    <ComboBox Name="cmbx_DistritoFuncionario" Width="180" Visibility="Collapsed" IsReadOnly="True" SelectionChanged ="SeleccionDistrito"></ComboBox>
                 </StackPanel>
             </Border>
         </Viewbox>

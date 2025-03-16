@@ -9,9 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Sonidos\**" />
+    <EmbeddedResource Remove="Sonidos\**" />
+    <None Remove="Sonidos\**" />
+    <Page Remove="Sonidos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="fotoperfil.png" />
     <None Remove="Imagenes\imagenfondo2.png" />
+    <None Remove="Imagenes\introWnXp.wav" />
     <None Remove="Imagenes\LogoPolicheck.png" />
+    <None Remove="Imagenes\placa.png" />
     <None Remove="Views\fotoperfil.png" />
   </ItemGroup>
 
@@ -28,6 +37,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Imagenes\LogoPolicheck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Imagenes\placa.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Views\fotoperfil.png" />

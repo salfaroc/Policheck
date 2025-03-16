@@ -2,6 +2,8 @@
 using Org.BouncyCastle.Utilities;
 using Policheck.Models;
 using Policheck.Views;
+using System.Data;
+using System.Media;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -45,8 +47,9 @@ namespace Policheck
         private async void Acceder()
         {
             string placaSTR = txtPlaca.Text;
-
+            lbl_MiNumeroPlaca.Content = placaSTR;
             string pass = pwdContraseña.Password;
+           
 
             if (string.IsNullOrWhiteSpace(placaSTR) || string.IsNullOrWhiteSpace(pass))
             {
@@ -56,18 +59,18 @@ namespace Policheck
 
             int placa = Convert.ToInt32(placaSTR);
             var response = await _apiService.LoginAsync(placa, pass); // Asumiendo que placa es int y password es string
-            switch (response.Resultado)
+            switch (response.Resultado) // usuarioTipo puede ser un valor que defines según el tipo de usuario
             {
                 case 1: // Éxito para usuario normal con rango autorizado
                     MessageBox.Show($"Bienvenido agente {placa}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                     funcionario.NumeroPlaca = placa.ToString();
-                    Vbx_InicioSesion.Visibility = Visibility.Hidden;
-                    mnu_Inicial.Visibility = Visibility.Visible;
-                    Img_Menu.Visibility = Visibility.Visible;
+
+                    // Llamar a la función para establecer la visibilidad para un usuario normal
+                    SetVisibilityForUserType(false); // En este caso, es un usuario sin rango de admin
+                    PlayLoginSound(true);
                     // Guardar el token si lo necesitas
                     if (response.Token != null)
                     {
-                        // Por ejemplo, almacenar el token en una variable global o propiedad
                         funcionario.Token = response.Token; // Asumiendo que tienes una clase App con una propiedad estática
                     }
                     break;
@@ -75,19 +78,13 @@ namespace Policheck
                 case 0: // Éxito para admin o usuario sin rango
                     MessageBox.Show("Bienvenido agente", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                     funcionario.NumeroPlaca = placa.ToString();
-                    Vbx_InicioSesion.Visibility = Visibility.Hidden;
-                    mnu_Inicial.Visibility = Visibility.Visible;
-                    MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
-                    SeparatorFunc.Visibility = Visibility.Collapsed;
-                    SeparatorVer.Visibility = Visibility.Collapsed;
-                    MnuItm_VerFunc.Visibility = Visibility.Collapsed;
-                    Img_Menu.Visibility = Visibility.Visible;
-                    // Guardar el token si es un admin (resultado 0 con token)
-                    if (response.Token != null)
-                    {
-                        funcionario.Token = response.Token; // Almacenar el token
-                    }
+                    PlayLoginSound(true);
+                    // Llamar a la función para establecer la visibilidad para un admin
+                    SetVisibilityForUserType(true); // En este caso, es un administrador
+
                     break;
+            
+
 
                 case -1: // Usuario no existe o admin inactivo
                     MessageBox.Show("Usuario o contraseña incorrecta", "ERROR!!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -110,12 +107,54 @@ namespace Policheck
 
         }
 
+        private void SetVisibilityForUserType(bool isAdmin)
+        {
+            // Ocultar o mostrar elementos comunes
+            Vbx_InicioSesion.Visibility = Visibility.Hidden;
+            mnu_Inicial.Visibility = Visibility.Visible;
+            Img_Menu.Visibility = Visibility.Visible;
+            Vbx_MenuBotones.Visibility = Visibility.Visible;
+
+            // Dependiendo del tipo de usuario (Admin o Usuario normal)
+            if (isAdmin)
+            {
+                grdMiPlaca.Visibility = Visibility.Visible;
+                MnuItm_AltaFunc.Visibility = Visibility.Collapsed;
+                SeparatorFunc.Visibility = Visibility.Collapsed;
+                SeparatorVer.Visibility = Visibility.Collapsed;
+                MnuItm_VerFunc.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                grdMiPlaca.Visibility = Visibility.Visible;
+            }
+        }
+
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBoxResult result = MessageBox.Show("¿Estás seguro de que quieres salir?", "Confirmar salida", MessageBoxButton.YesNo, MessageBoxImage.Question
+            );
+
+
+            if (result == MessageBoxResult.Yes)
+            {
+                
+                this.Close();
+
+            }
+
+        }
+
 
         //-----------------Botones de menu----------------
         private void BtnPerfil(object sender, RoutedEventArgs e)
         {
             Formulario_Perfil();
             Img_Menu.Visibility = Visibility.Collapsed;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
             RellenarDatos();
         }
         private void BtnAltaFuncionario(object sender, RoutedEventArgs e)
@@ -127,6 +166,8 @@ namespace Policheck
             CargarDistritos();
             CargarRangos();
             Img_Menu.Visibility = Visibility.Collapsed;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
 
 
         }
@@ -139,6 +180,8 @@ namespace Policheck
             Vbx_AccionesIncidencia.Visibility = Visibility.Visible;
             txtNumeroPlacaInc.Text = funcionario.NumeroPlaca;
             Img_Menu.Visibility = Visibility.Collapsed;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
         }
 
         private void BtnAltaCiudadano(object sender, RoutedEventArgs e)
@@ -149,7 +192,9 @@ namespace Policheck
             Vbx_AccionesCiudadano.Visibility = Visibility.Visible;
             txtNumeroPlacaCiu.Text = funcionario.NumeroPlaca;
             Img_Menu.Visibility = Visibility.Collapsed;
-           
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
+
             CargarEstadosJudiciales();
         }
 
@@ -162,12 +207,14 @@ namespace Policheck
             CargarCategoriaDenuncia();
             CargarDistritos();
             Img_Menu.Visibility = Visibility.Collapsed;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
         }
         private void Btn_Meritos(object sender, RoutedEventArgs e)
         {
             Meritos meritos = new Meritos(funcionario);
             meritos.Show();
-
+            
         }
 
         private void Btn_CerrarSesion(object sender, RoutedEventArgs e)
@@ -182,6 +229,9 @@ namespace Policheck
                 txtPlaca.Text = "";
                 pwdContraseña.Password = "";
                 Img_Menu.Visibility = Visibility.Collapsed;
+                grdMiPlaca.Visibility = Visibility.Collapsed;
+                Vbx_MenuBotones.Visibility = Visibility.Collapsed;
+                PlayLoginSound(false);
             }
         }
 
@@ -200,6 +250,8 @@ namespace Policheck
             cmbxCategoriaDatoDen.Visibility = Visibility.Collapsed;
             lblcategoria.Visibility = Visibility.Collapsed;
             btnModificardatos.Visibility = Visibility.Collapsed;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
         }
 
         private void Btn_VerFuncionarios(object sender, RoutedEventArgs e)
@@ -217,6 +269,8 @@ namespace Policheck
             cmbxCategoriaDatoDen.Visibility = Visibility.Collapsed;
             lblcategoria.Visibility = Visibility.Collapsed;
             btnModificardatos.Visibility = Visibility.Visible;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
         }
 
         private void Btn_VerDenuncias(object sender, RoutedEventArgs e)
@@ -235,6 +289,8 @@ namespace Policheck
             cmbxCategoriaDatoDen.Visibility = Visibility.Visible;
             lblcategoria.Visibility = Visibility.Visible;
             btnModificardatos.Visibility = Visibility.Visible;
+            grdMiPlaca.Visibility = Visibility.Collapsed;
+            Vbx_MenuBotones.Visibility = Visibility.Collapsed;
         }
 
         //---------------Botones de creacion----------------
@@ -563,6 +619,9 @@ namespace Policheck
             {
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Perfil.Visibility = Visibility.Hidden;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 2)
@@ -570,6 +629,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Funcionario.Visibility = Visibility.Hidden;
                 Vbx_AccionesFuncionario.Visibility = Visibility.Hidden;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 3)
@@ -577,6 +639,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Incidencias.Visibility = Visibility.Hidden;
                 Vbx_AccionesIncidencia.Visibility = Visibility.Hidden;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 4)
@@ -584,6 +649,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Ciudadano.Visibility = Visibility.Hidden;
                 Vbx_AccionesCiudadano.Visibility = Visibility.Hidden;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 5)
@@ -591,6 +659,9 @@ namespace Policheck
                 mnu_Inicial.Visibility = Visibility.Visible;
                 Vbx_Denuncia.Visibility = Visibility.Hidden;
                 Vbx_AccionesDenuncia.Visibility = Visibility.Hidden;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 6)
@@ -600,6 +671,9 @@ namespace Policheck
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
                 Vbx_FormularioCiudadano.Visibility = Visibility.Collapsed;
                 Img_Menu.Visibility = Visibility.Visible;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
 
                 ToggleBackground(true);
             }
@@ -610,7 +684,14 @@ namespace Policheck
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
                 Vbx_FormularioFuncionario.Visibility = Visibility.Collapsed;
                 Img_Menu.Visibility = Visibility.Visible;
-
+                btn_Confirmar.Visibility = Visibility.Collapsed;
+                cmbx_RangoFuncionario.Visibility = Visibility.Collapsed;
+                cmbx_TurnoFuncionario.Visibility = Visibility.Collapsed;
+                cmbx_DistritoFuncionario.Visibility = Visibility.Collapsed;
+                btnModificardatos.IsEnabled = true;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
                 ToggleBackground(true);
             }
             else if (pagina == 8)
@@ -620,6 +701,10 @@ namespace Policheck
                 Vbx_AccionesDatos.Visibility = Visibility.Collapsed;
                 Vbx_FormularioDenuncia.Visibility = Visibility.Collapsed;
                 Img_Menu.Visibility = Visibility.Visible;
+                btnModificardatos.IsEnabled = true;
+                grdMiPlaca.Visibility = Visibility.Visible;
+                Img_Menu.Visibility = Visibility.Visible;
+                Vbx_MenuBotones.Visibility = Visibility.Visible;
 
                 ToggleBackground(true);
             }
@@ -675,7 +760,9 @@ namespace Policheck
                     d.NombreCiudadano,
                     d.CategoriaDenuncia,
                     d.Titulo,
-                    d.Descripcion
+                    d.Descripcion,
+                    d.Direccion,
+                    d.CP,
                 }).ToList();
 
                 DtGrd_Datos.ItemsSource = denunciasFiltradas;
@@ -692,6 +779,8 @@ namespace Policheck
                 var rangos = await _apiService.GetRangoAsync();
                 cmbx_Rango.ItemsSource = rangos;
                 cmbx_Rango.DisplayMemberPath = "Nombre";
+                cmbx_RangoFuncionario.ItemsSource = rangos;
+                cmbx_RangoFuncionario.DisplayMemberPath = "Nombre";
             }
             catch (Exception ex)
             {
@@ -708,6 +797,8 @@ namespace Policheck
                 cmbx_Distrito.DisplayMemberPath = "Nombre";
                 cmbx_DistritoDen.ItemsSource = distritos;
                 cmbx_DistritoDen.DisplayMemberPath = "Nombre";
+                cmbx_DistritoFuncionario.ItemsSource = distritos;
+                cmbx_DistritoFuncionario.DisplayMemberPath = "Nombre";
             }
             catch (Exception ex)
             {
@@ -738,6 +829,8 @@ namespace Policheck
                 cmbxCategoriaDen.DisplayMemberPath = "Nombre";
                 cmbxCategoriaDatoDen.ItemsSource = categorias;
                 cmbxCategoriaDatoDen.DisplayMemberPath = "Nombre";
+
+
             }
             catch (Exception ex)
             {
@@ -776,12 +869,17 @@ namespace Policheck
 
         private void SeleccionTurno(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbx_Turno.SelectedItem is ComboBoxItem comboBoxItem)
+            if (cmbx_Turno.SelectedItem is ComboBoxItem turnoItem)
             {
-                string turno = comboBoxItem.Content.ToString();
-                txtTurno.Text = turno;
+                txtTurno.Text = turnoItem.Content.ToString();
+            }
+
+            if (cmbx_TurnoFuncionario.SelectedItem is ComboBoxItem turnoFunItem)
+            {
+                txtTurnoFun.Text = turnoFunItem.Content.ToString();
             }
         }
+
 
         private void SeleccionRango(object sender, SelectionChangedEventArgs e)
         {
@@ -789,7 +887,14 @@ namespace Policheck
             if (cmbx_Rango.SelectedItem is Rango rangoseleccionado)
             {
                 txtRango.Text = rangoseleccionado.Nombre;
+               
             }
+
+            if (cmbx_RangoFuncionario.SelectedItem is Rango rangoseleccionado2)
+            {
+                txtRangoFun.Text = rangoseleccionado2.Nombre;
+            }
+
 
 
         }
@@ -800,7 +905,14 @@ namespace Policheck
             if (cmbx_Distrito.SelectedItem is Distrito distritoseleccionado)
             {
                 txtDistrito.Text = distritoseleccionado.Nombre;
+                
             }
+
+            if (cmbx_DistritoFuncionario.SelectedItem is Distrito distritoseleccionado2)
+            {
+                txtDistritoFun.Text = distritoseleccionado2.Nombre;
+            }
+
         }
 
         private async void RellenarDatos()
@@ -816,7 +928,6 @@ namespace Policheck
 
                 // Ahora que tienes los datos del funcionario, rellena los campos
                 txtbx_Nombre.Text = funcionario.NombreCompleto;
-                pswd_contra.Password = funcionario.Contrasena;
                 txtbx_Dni.Text = funcionario.DNI;
                 txtbx_Genero.Text = funcionario.Genero;
                 txtbx_FechNac.Text = funcionario.EdadActual.ToString();
@@ -871,86 +982,173 @@ namespace Policheck
             mnu_Inicial.Visibility = Visibility.Hidden;
         }
 
-
-        // ----------------- Pestañana Ver Funcionarios ------------------
         
-        private void Btn_Modificar(object sender, RoutedEventArgs e)
+        private void  Btn_Modificar(object sender, RoutedEventArgs e)
         {
 
             if (pagina == 7)
             {
-                
+
+                CargarDistritos();
+                CargarRangos();
+
+                btn_Confirmar.Visibility = Visibility.Visible;
+                cmbx_DistritoFuncionario.Visibility = Visibility.Visible;
+                cmbx_RangoFuncionario.Visibility = Visibility.Visible;
+                cmbx_TurnoFuncionario.Visibility = Visibility.Visible;
+
+                Button button = sender as Button;
+
+
+                button.Click += Btn_Confirmar;
+
+                btnModificardatos.IsEnabled = false;
+
             }
             else if (pagina == 8)
             {
-                
+                btn_Confirmar.Visibility = Visibility.Visible;
+                txtDireccionDenuncia.IsReadOnly = false;
+                txtCpDenuncia.IsReadOnly = false;
+                txttituloDenuncia.IsReadOnly = false;
+                 txtdescripcionDenuncia.IsReadOnly = false;
+
+                Button button = sender as Button;
+                button.Click += Btn_Confirmar;
+                btnModificardatos.IsEnabled = false;
             }
             
          
             
         }
         
-        // ---------------------------------------------------------------------------------
+    
         private async void Btn_Confirmar(object sender, RoutedEventArgs e)
         {
-            string placa = txtNumeroPlaca.Text;
-            string Rango = txtRango.Text;
-            string Distrito = txtDistrito.Text;
-            string Turno = txtTurno.Text;
-            string Correo = txtCorreo.Text;
-            string Telefono = txtTelefono.Text;
-
-
-
-            try
+            if (pagina == 7)
             {
-                int resultado = await _apiService.ActualizarFuncionarioAsync(placa, Distrito, Turno, Rango, Correo, Telefono);
+                string placa = txtNumPlacaFun.Text;
+                string Rango = txtRangoFun.Text;
+                string Distrito = txtDistritoFun.Text;
+                string Turno = txtTurnoFun.Text;
+                string Correo = txtCorreoFun.Text;
+                string Telefono = txtTelefonoFun.Text;
 
-                if (resultado == 0)
+
+
+                try
                 {
-                    placa = null;
-                    MessageBox.Show("Datos actualizados correctamente", "Actualización exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CargarFuncionarios(placa);
+                    int resultado = await _apiService.ActualizarFuncionarioAsync(placa, Distrito, Turno, Rango, Correo, Telefono);
 
-                    // Encuentra el StackPanel
-                    StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
-                    if (stackPanel != null)
+                    if (resultado == 0)
                     {
-                        // Encuentra el botón de Confirmar y lo oculta
+                        placa = null;
+                        MessageBox.Show("Datos actualizados correctamente", "Actualización exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                        CargarFuncionarios(placa);
 
-                        var btnGuardar = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
-                        if (btnGuardar != null)
-                        {
-                            btnGuardar.Visibility = Visibility.Collapsed;
-                        }
+                        
+                        btn_Confirmar.Visibility = Visibility.Collapsed;
+
+                        // Oculta los ComboBox
+                        cmbx_DistritoFuncionario.SelectedIndex = -1;
+                        cmbx_RangoFuncionario.SelectedIndex = -1;
+                        cmbx_TurnoFuncionario.SelectedIndex = -1;
+                        cmbx_DistritoFuncionario.Visibility = Visibility.Collapsed;
+                        cmbx_RangoFuncionario.Visibility = Visibility.Collapsed;
+                        cmbx_TurnoFuncionario.Visibility = Visibility.Collapsed;
+
+                        VaciarCamposFuncionario();
+                        // Opcional: hacer los TextBox de solo lectura nuevamente
+                   
+                        txtRangoFun.IsReadOnly = true;
+                        txtDistritoFun.IsReadOnly = true;
+                        txtTurnoFun.IsReadOnly = true;
+                        btnModificardatos.IsEnabled = true;
                     }
 
-                    // Oculta los ComboBox
-                    cmbx_Distrito.SelectedIndex = -1;
-                    cmbx_Rango.SelectedIndex = -1;
-                    cmbx_Turno.SelectedIndex = -1;
-                    cmbx_Distrito.Visibility = Visibility.Collapsed;
-                    cmbx_Rango.Visibility = Visibility.Collapsed;
-                    cmbx_Turno.Visibility = Visibility.Collapsed;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+            else if (pagina == 8)
+            {
 
-                    VaciarCamposFuncionario();
-                    // Opcional: hacer los TextBox de solo lectura nuevamente
-                    txtCorreo.IsReadOnly = true;
-                    txtTelefono.IsReadOnly = true;
-                    txtRango.IsReadOnly = true;
-                    txtDistrito.IsReadOnly = true;
-                    txtTurno.IsReadOnly = true;
+                string IdDenuncia = txtNumeroDenuncia.Text;
+                string direccion = txtDireccionDenuncia.Text;
+                string CP = txtCpDenuncia.Text;
+                string titulo = txttituloDenuncia.Text;
+                string descripcion = txtdescripcionDenuncia.Text;
+
+                try
+                {
+                    int resultado = await _apiService.ModificarDenunciaAsync(IdDenuncia, direccion, CP, titulo, descripcion);
+                    if (resultado == 0)
+                    {
+                        IdDenuncia = null;
+                        MessageBox.Show("Datos actualizados correctamente", "Actualización exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                        CargarDenuncias(null, null);
+                        btn_Confirmar.Visibility = Visibility.Collapsed;
+                        btnModificardatos.IsEnabled = true;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
                 }
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
+
             }
         }
 
+
+        private void Dgv_SeleccionarDatos(object sender, SelectionChangedEventArgs e)
+        {
+            if (DtGrd_Datos.SelectedItem != null)
+            {
+
+
+
+                var row = DtGrd_Datos.SelectedItem;
+
+                if (pagina == 7)
+                {
+                    
+                    txtNumPlacaFun.Text = row.GetType().GetProperty("NumeroPlaca")?.GetValue(row, null)?.ToString() ?? "";
+                    txtDNIFun.Text = row.GetType().GetProperty("DNI")?.GetValue(row, null)?.ToString() ?? "";
+                    txtGeneroFuncionario.Text = row.GetType().GetProperty("Genero")?.GetValue(row, null)?.ToString() ?? "";
+                    txtNomFunc.Text = row.GetType().GetProperty("NombreCompleto")?.GetValue(row, null)?.ToString() ?? "";
+                    txtEdadFuncionario.Text = row.GetType().GetProperty("EdadActual")?.GetValue(row, null)?.ToString() ?? "";
+                    txtCorreoFun.Text = row.GetType().GetProperty("Correo")?.GetValue(row, null)?.ToString() ?? "";
+                    txtTelefonoFun.Text = row.GetType().GetProperty("Telefono")?.GetValue(row, null)?.ToString() ?? "";
+                    txtTurnoFun.Text = row.GetType().GetProperty("Turno")?.GetValue(row, null)?.ToString() ?? "";
+                    txtRangoFun.Text = row.GetType().GetProperty("Rango")?.GetValue(row, null)?.ToString() ?? "";
+                    txtDistritoFun.Text = row.GetType().GetProperty("Distrito")?.GetValue(row, null)?.ToString() ?? "";
+                }
+                else if (pagina == 8)
+                {
+
+                    
+                    txtNumeroDenuncia.Text = row.GetType().GetProperty("Id_Denuncia")?.GetValue(row, null)?.ToString() ?? "";
+                    txtdniDenenuncia.Text = row.GetType().GetProperty("DNICiudadano")?.GetValue(row, null)?.ToString() ?? "";
+                    txtNombreDenuncia.Text = row.GetType().GetProperty("NombreCiudadano")?.GetValue(row, null)?.ToString() ?? "";
+                    txttituloDenuncia.Text = row.GetType().GetProperty("Titulo")?.GetValue(row, null)?.ToString() ?? "";
+                    txtdescripcionDenuncia.Text = row.GetType().GetProperty("Descripcion")?.GetValue(row, null)?.ToString() ?? "";
+                    txtcategoriaDen.Text = row.GetType().GetProperty("CategoriaDenuncia")?.GetValue(row, null)?.ToString() ?? "";
+                    txtDireccionDenuncia.Text = row.GetType().GetProperty("Direccion")?.GetValue(row, null)?.ToString() ?? "";
+                    txtCpDenuncia.Text = row.GetType().GetProperty("CP")?.GetValue(row, null)?.ToString() ?? "";
+                }
+            }
+        }
+
+
+
+
         private void VaciarCamposFuncionario()
         {
+
             txtNombreFunc.Text = "";
             txtNumeroPlaca.Text = "";
             txtDNI.Text = "";
@@ -962,7 +1160,7 @@ namespace Policheck
             txtRango.Text = "";
             txtDistrito.Text = "";
         }
-        // ----------------- Pestaña Ver Cuidadanos ------------------------
+    
 
         
         private void FiltroGeneral(object sender, RoutedEventArgs e)
@@ -1013,7 +1211,8 @@ namespace Policheck
                 string dni = null;
                 string categoria = null;
                 txtbx_buscar.Text = "";
-                CargarDenuncias(dni, categoria);              }
+                CargarDenuncias(dni, categoria);     
+            }
             else if (pagina == 6)
             {
                 string dni = null;
@@ -1023,60 +1222,51 @@ namespace Policheck
             }
         }
 
-        private void Btn_ModificarCiu(object sender, RoutedEventArgs e)
+
+
+        private void Btn_MasDetalles(object sender, RoutedEventArgs e)
         {
-            txtNombreCiu.IsReadOnly = false;
-            txtPrimerApellCiu.IsReadOnly = false;
-            txtSegunApellCiu.IsReadOnly = false;
-            txtbx_Genero.IsReadOnly = false;
-            txtCorreo.IsReadOnly = false;
-            txtTelefono.IsReadOnly = false;
-            txtDireccionCiu.IsReadOnly = false;
-            //txtEstadoJudicial.IsReadOnly = false;
+            // Obtener el valor del campo de texto
+            string id = txtNumeroDenuncia.Text;
 
-
-            // Encuentra el StackPanel donde están los botones
-            StackPanel stackPanel = FindName("Stkpnl_Acciones") as StackPanel;
-
-            if (stackPanel != null)
+            // Comprobar si el valor es nulo o está vacío, y en ese caso asignar "0"
+            if (string.IsNullOrEmpty(id))
             {
-                // Verifica si el botón ya existe
-                var existingButton = stackPanel.Children.OfType<Button>().FirstOrDefault(b => (string)b.Content == "✔ Confirmar");
-
-                if (existingButton == null)
-                {
-                    // Crea un nuevo botón
-                    Button btnGuardar = new Button
-                    {
-                        Content = "✔ Confirmar",
-                        Height = 50,
-                        Margin = new Thickness(5),
-                        Background = new SolidColorBrush(Color.FromRgb(0, 122, 204)),
-                        Foreground = Brushes.White,
-                        FontWeight = FontWeights.Bold,
-                        BorderBrush = new SolidColorBrush(Color.FromRgb(189, 189, 189)),
-                        BorderThickness = new Thickness(1)
-                    };
-
-                    // Agregar evento si es necesario
-                    btnGuardar.Click += Btn_Confirmar;
-
-                    // Agregar el botón al StackPanel
-                    stackPanel.Children.Add(btnGuardar);
-                }
-                else
-                {
-                    // Si el botón ya existe pero está oculto, se vuelve a mostrar
-                    existingButton.Visibility = Visibility.Visible;
-                }
+                id = "0"; // Asigna "0" si está vacío o es null
             }
 
+            // Crear la ventana de detalles con el id
+            VentanaDatosDetallados ventanaDatosDetallados = new VentanaDatosDetallados(id);
 
+            // Mostrar la ventana
+            ventanaDatosDetallados.Show();
+        }
+
+
+        private void PlayLoginSound(bool entrar)
+        {
+            // Usar ruta relativa basada en la carpeta del proyecto
+            string soundPath;
+            if (entrar == true)
+            {
+                soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\introWnXp.wav");
+            }
+            else
+            {
+                soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\cierrewinXp.wav");
+            }
+                // Usando SoundPlayer para reproducir el sonido
+                SoundPlayer player = new SoundPlayer(soundPath);
+            player.Play();
 
         }
 
 
-        // ----------------- Pestaña Ver Denuncias -----------------------
-        
+
     }
+
+
+
+
+
 }

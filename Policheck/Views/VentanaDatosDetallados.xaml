@@ -7,22 +7,75 @@
         mc:Ignorable="d"
         Title="VentanaDatosDetallados" Height="450" Width="800">
     <Grid>
+        <!-- Definir Columnas y Filas -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Menú -->
+                <RowDefinition/>
+                <RowDefinition Height="Auto"></RowDefinition >
+                <RowDefinition Height="Auto"></RowDefinition>
 
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="780" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="200"/>
-                <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" Width="200"/>
-                <DataGridTextColumn Header="Edad" Binding="{Binding Edad}" Width="50"/>
-                <DataGridTextColumn Header="Sexo" Binding="{Binding Sexo}" Width="50"/>
-                <DataGridTextColumn Header="Fecha de Nacimiento" Binding="{Binding FechaNacimiento}" Width="150"/>
-                <DataGridTextColumn Header="Domicilio" Binding="{Binding Domicilio}" Width="200"/>
-                <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="100"/>
-                <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="200"/>
-                <DataGridTextColumn Header="Fecha de Registro" Binding="{Binding FechaRegistro}" Width="150"/>
-                <DataGridTextColumn Header="Fecha de Modificacion" Binding="{Binding FechaModificacion}" Width="150"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                <!-- Contenido principal -->
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  />
+                <!-- Izquierda (TextBox) -->
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <!-- Derecha (DataGrid) -->
+            </Grid.ColumnDefinitions>
+
+        <Viewbox x:Name="Vbx_Datos" Grid.Row="1" Grid.Column="0" Visibility="Visible" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="897">
+
+                <!-- Panel con efecto Glassmorphism -->
+                <Border Background="#AA1E1E1E" CornerRadius="15" Padding="15" Margin="10"
+             BorderBrush="White" BorderThickness="1" >
+
+                    <DataGrid x:Name="DtGrd_Datos" AutoGenerateColumns="True"
+                       Background="Transparent" 
+                       RowHeight="30"
+                       ColumnHeaderHeight="35"
+                       IsReadOnly="True"
+
+                       Width="833" Height="450"
+                       BorderBrush="Transparent"
+                       GridLinesVisibility="None">      
+
+                        <!-- Estilo para el encabezado -->
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding" Value="5"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <!-- Estilo de celdas -->
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Padding" Value="5"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <!-- Estilo de filas alternas -->
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </Border>
+            </StackPanel>
+        </Viewbox>
 
     </Grid>
 </Window>

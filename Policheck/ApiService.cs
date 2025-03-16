@@ -634,6 +634,68 @@ public class ApiService
         }
     }
 
+
+    public async Task<int>ModificarDenunciaAsync(string idDenuncia, string direccion,string cp, string titulo, string descripcion  )
+    {
+        try
+        {
+            string url = $"{_url}/modificarDenuncia";
+            var denunciaData = new
+            {
+                id = idDenuncia,
+                direccion = direccion,
+                cp = cp,
+                titulo = titulo,
+                descripcion = descripcion
+            };
+            string jsonContent = System.Text.Json.JsonSerializer.Serialize(denunciaData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                int resultado = jsonResponse?.resultado;
+                return resultado;
+            }
+            else
+            {
+                throw new Exception($"Error al modificar denuncia. Código de estado: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return -1;
+        }
+    }
+
+    public async Task<List<Denuncia>> GetDenunciaPorIdAsync(string idDenuncia)
+    {
+        try
+        {
+            string url = $"{_url}/verDenunciasDetallada/{idDenuncia}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                if (jsonResponse == null || jsonResponse.denuncias == null)
+                    throw new Exception("Respuesta de la API no válida.");
+                List<Denuncia> denuncias = jsonResponse.denuncias.ToObject<List<Denuncia>>();
+                return denuncias;
+            }
+            else
+            {
+                throw new Exception($"Error al obtener denuncias por ID. Código: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
     public string Encriptar(string _cadenaAencriptar)
     {
         string result = string.Empty;

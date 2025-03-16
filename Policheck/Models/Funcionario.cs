@@ -8,13 +8,10 @@ using System.Windows;
 
 namespace Policheck.Models
 {
-    public  class Funcionario
+    public class Funcionario
     {
         [JsonProperty("Numero_Placa")]
         public  string NumeroPlaca { get; set; }
-
-        [JsonProperty("Contrasena")]
-        public string Contrasena { get; set; }
 
         [JsonProperty("DNI")]
         public string DNI { get; set; }
@@ -43,6 +40,8 @@ namespace Policheck.Models
         [JsonProperty("Distrito")]
         public string Distrito { get; set; }
 
+        [JsonProperty("Contrasena")]
+        public string Contrasena { get; set; }
 
         public string PrimerApellido { get; set; }
 
