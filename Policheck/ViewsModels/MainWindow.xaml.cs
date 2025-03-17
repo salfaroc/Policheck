@@ -1,22 +1,15 @@
-﻿using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Utilities;
+﻿
 using Policheck.Models;
 using Policheck.Views;
 using System.Data;
 using System.Media;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
+using System;
+using System.IO;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Policheck
 {
@@ -1285,27 +1278,49 @@ namespace Policheck
         }
 
 
+        //private void PlayLoginSound(bool entrar)
+        //{
+        //    // Usar ruta relativa basada en la carpeta del proyecto
+        //    string soundPath;
+        //    if (entrar == true)
+        //    {
+        //        soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\introWnXp.wav");
+        //    }
+        //    else
+        //    {
+        //        soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\cierrewinXp.wav");
+        //    }
+        //        // Usando SoundPlayer para reproducir el sonido
+        //        SoundPlayer player = new SoundPlayer(soundPath);
+        //    player.Play();
+
+        //}
+
+
+
         private void PlayLoginSound(bool entrar)
         {
-            // Usar ruta relativa basada en la carpeta del proyecto
-            string soundPath;
-            if (entrar == true)
+            string soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                entrar ? @"Sonidos\introWnXp.wav" : @"Sonidos\cierrewinXp.wav");
+
+            Console.WriteLine($"Ruta del sonido: {soundPath}");
+
+            if (!File.Exists(soundPath))
             {
-                soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\introWnXp.wav");
+                Console.WriteLine("⚠️ Archivo de sonido no encontrado.");
+                return;
             }
-            else
+
+            try
             {
-                soundPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Sonidos\cierrewinXp.wav");
-            }
-                // Usando SoundPlayer para reproducir el sonido
                 SoundPlayer player = new SoundPlayer(soundPath);
-            player.Play();
-
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al reproducir sonido: {ex.Message}");
+            }
         }
-
-
-
-
 
 
 

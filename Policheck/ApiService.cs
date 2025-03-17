@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Net.Http;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Nodes;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Policheck.Models;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static Mysqlx.Crud.Order.Types;
-using System.Net;
 using Policheck;
 
 public class ApiService
